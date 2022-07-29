@@ -1,0 +1,5 @@
+// templating files
+*.ejs
+CHANGELOG.md
+generated
+.yarnrc.yml

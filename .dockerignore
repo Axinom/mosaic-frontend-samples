@@ -1,0 +1,17 @@
+# Git Files
+**/.git/
+
+# Node binaries
+**/node_modules/
+
+# Env files
+**/.env
+**/.env.*
+
+# Yarn files
+.yarn/*
+!.yarn/cache
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
