@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.2.5",
-    "@axinom/mosaic-fe-samples-host": "file:./libs/axinom-mosaic-fe-samples-host-0.0.1.tgz",
+    "@axinom/mosaic-fe-samples-host": "^0.1.0-rc.3",
     "@axinom/mosaic-user-auth": "^0.4.1-rc.0",
     "graphql": "^15.4.0",
     "graphql-tag": "^2.11.0",
