@@ -4,16 +4,33 @@
 # https://aka.ms/yaml
 
 pr:
-- main
+  - main
 
 pool:
   vmImage: ubuntu-latest
+  demands: project_navy
+
+variables:
+  yarnCacheFolder: /home/vsts/.yarn/berry/cache
+  NODE_OPTIONS: --max-old-space-size=8192
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '14.x'
+    displayName: 'Install Node.js'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  - task: Cache@2
+    inputs:
+      key: 'yarn | "$(Agent.OS)" | yarn.lock'
+      restoreKeys: |
+        yarn | "$(Agent.OS)"
+        yarn
+      path: $(yarnCacheFolder)
+    displayName: Cache Yarn packages
+
+  - script: yarn install --immutable
+    displayName: 'Install dependencies'
+
+  - script: yarn build
+    displayName: 'Build the App'
