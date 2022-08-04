@@ -9,7 +9,7 @@
 #
 # Inspired from https://gist.github.com/amacneil/60bf679f357bad9d62103cfdc86cbd74
 
-name: Dependabot
+name: 'Auto fix dependabot yarn.lock'
 on:
   - pull_request_target
 
@@ -63,5 +63,5 @@ jobs:
           git config user.name "dependabot-fix"
           git config user.email "dependabot-fix@example.com"
           git add yarn.lock
-          git commit -m '[dependabot skip] Fix yarn.lock'
+          git commit -m 'chore: fix yarn.lock [dependabot skip]'
           git push
