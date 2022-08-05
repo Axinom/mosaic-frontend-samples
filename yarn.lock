@@ -47,9 +47,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@axinom/mosaic-fe-samples-host@npm:^0.1.0-rc.3":
-  version: 0.1.0-rc.3
-  resolution: "@axinom/mosaic-fe-samples-host@npm:0.1.0-rc.3"
+"@axinom/mosaic-fe-samples-host@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "@axinom/mosaic-fe-samples-host@npm:0.1.0"
   dependencies:
     "@geoffcox/react-splitter": ^2.1.1
     react-error-boundary: ^3.1.4
@@ -59,7 +59,7 @@ __metadata:
     react-router-dom: ">=5.2.0"
     semantic-ui-css: ">=2.4.1"
     semantic-ui-react: ">=2.0.3"
-  checksum: 0b5cd2471e446f2816d636598cc6a074261da1cdde25c375d424d53a7a4129cb5e3282d8406108379889f296b8c3bd5409887ac638664b7a37cce6f3d0e7e314
+  checksum: ae83129a8ea32c719effbd5bad90e3cbf9f40201a20a783c8f791e0e2d8d223bf1c6c9a9917099268146d53eaba67fff5febb2e30576c8ad306a9cacbff366a2
   languageName: node
   linkType: hard
 
@@ -10783,7 +10783,7 @@ __metadata:
   resolution: "mosaic-frontend-samples@workspace:."
   dependencies:
     "@apollo/client": ^3.2.5
-    "@axinom/mosaic-fe-samples-host": ^0.1.0-rc.3
+    "@axinom/mosaic-fe-samples-host": ^0.1.0
     "@axinom/mosaic-user-auth": ^0.4.1-rc.0
     "@testing-library/jest-dom": ^5.14.1
     "@testing-library/react": ^12.1.4

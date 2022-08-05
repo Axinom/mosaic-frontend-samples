@@ -1,7 +1,4 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+trigger: none
 
 pr:
   - main
@@ -27,10 +24,13 @@ steps:
         yarn | "$(Agent.OS)"
         yarn
       path: $(yarnCacheFolder)
-    displayName: Cache Yarn packages
+    displayName: Cache yarn packages
 
   - script: yarn install --immutable
     displayName: 'Install dependencies'
 
   - script: yarn build
     displayName: 'Build the App'
+
+  - script: yarn test:ci
+    displayName: 'Run tests for the App'
