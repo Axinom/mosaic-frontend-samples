@@ -58,7 +58,7 @@ export const SignUpWithAxAuthContainer: React.FC = () => {
             you can initiate the sign-up process. This will generate a Sign-Up
             OTP and invoke the webhook that is configured under the AxAuth
             Service (as configured via the AdminPortal &gt; AxAuth Service
-            Configuration &gt; Consumer User Store Details).
+            Configuration &gt; End-User User Store Details).
           </p>
 
           <p>
