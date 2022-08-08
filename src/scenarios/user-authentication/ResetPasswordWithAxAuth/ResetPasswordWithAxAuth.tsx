@@ -55,7 +55,7 @@ export const ResetPasswordWithAxAuthContainer: React.FC = () => {
             you can initiate the reset password process. This will generate a
             Reset-Password OTP and invoke the webhook that is configured under
             the AxAuth Service (as configured via the AdminPortal &gt; AxAuth
-            Service Configuration &gt; Consumer User Store Details).
+            Service Configuration &gt; End-User User Store Details).
           </p>
 
           <p>
