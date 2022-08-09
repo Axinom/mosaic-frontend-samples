@@ -1,6 +1,6 @@
 trigger: none
 
-name: '$(Date:yyyyMMdd).$(additionalBuildNameSuffix)$(Rev:r)'
+name: '$(Date:yyyyMMdd).$(Rev:r)'
 
 pool:
   vmImage: ubuntu-latest
