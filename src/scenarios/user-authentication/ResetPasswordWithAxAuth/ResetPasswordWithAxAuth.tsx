@@ -5,7 +5,7 @@ import {
   UserServiceProvider,
   useUserService,
 } from '@axinom/mosaic-user-auth';
-import { ROPCPasswordResponseCode } from '@axinom/mosaic-user-auth-utils';
+import { ResetPasswordResponseCode } from '@axinom/mosaic-user-auth-utils';
 import { useState } from 'react';
 import {
   Button,
@@ -106,7 +106,7 @@ export const ResetPasswordWithAxauth: React.FC = () => {
     } else {
       const passwordResetResponse = await initiateResetPassword(email);
 
-      if (passwordResetResponse.code === ROPCPasswordResponseCode.SUCCESS) {
+      if (passwordResetResponse.code === ResetPasswordResponseCode.SUCCESS) {
         logger.log(
           `calling ['Forget Password']`,
           'output:',
@@ -144,7 +144,7 @@ export const ResetPasswordWithAxauth: React.FC = () => {
         resetOtp: resetOTP,
       });
 
-      if (completeResetPwResponse.code === ROPCPasswordResponseCode.SUCCESS) {
+      if (completeResetPwResponse.code === ResetPasswordResponseCode.SUCCESS) {
         logger.log(
           `calling ['Complete Forget Password']`,
           'output:',

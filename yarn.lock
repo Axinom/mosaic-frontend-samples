@@ -63,24 +63,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@axinom/mosaic-user-auth-utils@npm:^0.3.3":
-  version: 0.3.3
-  resolution: "@axinom/mosaic-user-auth-utils@npm:0.3.3"
-  checksum: 94f23cabf1b4f6600c2fca9a25d970083fe1d573bb11b761ca1829368db0402c7be73646b37b7ff2a5e6adb774a6de9eecc0620b0bff19737edda3cdc8b9b3bc
+"@axinom/mosaic-user-auth-utils@npm:^0.4.0-rc.7":
+  version: 0.4.0-rc.7
+  resolution: "@axinom/mosaic-user-auth-utils@npm:0.4.0-rc.7"
+  checksum: e1419157f2c197d2f852362760d522eefb3a074f92baab402baf20e78aecb599af66ae9e4a21969e3a847857c3e28cad89dd3c8c3750f03c4a38b596bdf224ce
   languageName: node
   linkType: hard
 
-"@axinom/mosaic-user-auth@npm:^0.4.3":
-  version: 0.4.3
-  resolution: "@axinom/mosaic-user-auth@npm:0.4.3"
+"@axinom/mosaic-user-auth@npm:^0.5.0-rc.7":
+  version: 0.5.0-rc.7
+  resolution: "@axinom/mosaic-user-auth@npm:0.5.0-rc.7"
   dependencies:
-    "@axinom/mosaic-user-auth-utils": ^0.3.3
+    "@axinom/mosaic-user-auth-utils": ^0.4.0-rc.7
     graphql-tag: ^2.11.0
   peerDependencies:
     react: ^16.13.1
     react-dom: ^16.13.1
     react-router-dom: ^5.1.2
-  checksum: 2f6758539e48c83e880e6b059a08b92edfe9c5c9956596a70cc71757cf7019d7ea46220fea8de38960c3a38792fdbf8ab48a34cdc4d557559ef369a695c6d699
+  checksum: 6309143abac239393be4b7e397572130179c4ea53518e158f0c7ffec18b2c8a8c55f0b10f6d7f9e87a55eda5655f2d0cc287770f5aad5b80f2d80b24e1283fcd
   languageName: node
   linkType: hard
 
@@ -10784,7 +10784,7 @@ __metadata:
   dependencies:
     "@apollo/client": ^3.2.5
     "@axinom/mosaic-fe-samples-host": ^0.1.0
-    "@axinom/mosaic-user-auth": ^0.4.3
+    "@axinom/mosaic-user-auth": ^0.5.0-rc.7
     "@testing-library/jest-dom": ^5.14.1
     "@testing-library/react": ^12.1.4
     "@testing-library/user-event": ^14.4.3
