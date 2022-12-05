@@ -6886,12 +6886,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql-ws@npm:^5.5.0":
-  version: 5.9.1
-  resolution: "graphql-ws@npm:5.9.1"
+"graphql-ws@npm:^5.11.2":
+  version: 5.11.2
+  resolution: "graphql-ws@npm:5.11.2"
   peerDependencies:
     graphql: ">=0.11 <=16"
-  checksum: 5fcb4da352f2273b8056f06e48fb4d5957304e85e593d65b509960f9344fe4ff32c4d1a067bb3f81704d3f552d826d79a606a8fde00d3af7822b9b25998ce8aa
+  checksum: 2c94b06c1919217dc15a0556474673de7aabcc7179a2982a87ded51856c105e4f4ee6d54a6c135a0a7f55d85a5997a6a15cff514959258885814adec6a61ff00
   languageName: node
   linkType: hard
 
@@ -9170,7 +9170,7 @@ __metadata:
     eslint-plugin-prettier: ^4.0.0
     graphql: ^16.6.0
     graphql-tag: ^2.11.0
-    graphql-ws: ^5.5.0
+    graphql-ws: ^5.11.2
     prettier: ^2.3.2
     react: ^17.0.1
     react-dom: ^17.0.1
