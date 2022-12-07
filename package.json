@@ -8,7 +8,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:ci": "react-scripts test --watchAll=false",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "util:update-mosaic-packages": "ts-node ./scripts/update-mosaic-packages.ts"
   },
   "dependencies": {
     "@apollo/client": "^3.2.5",
@@ -37,6 +38,8 @@
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "5.0.1",
+    "ts-node": "^10.9.1",
+    "tslib": "^1.14.1",
     "typescript": "^4.8.4",
     "web-vitals": "^3.0.4"
   },
