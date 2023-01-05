@@ -1,0 +1,92 @@
+trigger: none
+pr: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+  demands: project_navy
+
+resources:
+  pipelines:
+    - pipeline: packageRelease
+      source: 'Package release'
+      trigger:
+        branches:
+          include:
+            - master
+        stages:
+          - Prerelease
+
+variables:
+  - name: YARN_CACHE_FOLDER
+    value: /home/vsts/.yarn/berry/cache
+  - name: buildSourceBranch
+    value: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
+
+steps:
+  - checkout: self
+    persistCredentials: true
+
+  - script: |
+      if [ "$(buildSourceBranch)" == "master" ]; then
+        git checkout main
+      else
+        git checkout $(buildSourceBranch)
+      fi
+    displayName: 'Check out $(buildSourceBranch)'
+    condition:
+      and(succeeded(), not(eq(variables['Build.Reason'], 'PullRequest')))
+
+  - script: |
+      git config user.email "no-email@axinom.com"
+      git config user.name "Mosaic CI"
+    displayName: Set git identity
+
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '14.x'
+    displayName: 'Install Node.js'
+
+  - task: Cache@2
+    inputs:
+      key: 'yarn | "$(Agent.OS)" | yarn.lock'
+      restoreKeys: |
+        yarn | "$(Agent.OS)"
+        yarn
+      path: $(YARN_CACHE_FOLDER)
+    displayName: Cache Yarn packages
+
+  - script: yarn install --immutable
+    displayName: Install dependencies
+
+  - script: yarn util:update-mosaic-packages -- prerelease
+    displayName: Update Mosaic packages
+
+  - script: yarn build
+    displayName: Build
+
+  - script: |
+      cp .env.template .env
+    displayName: Add fake values to .env to keep config loader happy
+
+  - script: yarn test:ci
+    displayName: Run tests
+
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '**/junit.xml'
+      testRunTitle: 'Navy Unit Tests'
+    condition: always()
+    displayName: 'Publish test results'
+
+  - script: |
+      git add .
+      git commit -m "chore: bumped Mosaic packages [skip ci]"
+      git push
+    displayName: Commit and push updated packages
+
+  - script: |
+      git config --unset user.email
+      git config --unset user.name
+    displayName: Unset git identity
+    condition: always()
