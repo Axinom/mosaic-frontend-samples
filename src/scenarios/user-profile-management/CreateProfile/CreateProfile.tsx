@@ -130,32 +130,36 @@ export const CreateProfile: React.FC = () => {
 
   return (
     <Form onSubmit={createProfile}>
-      <Form.Input
-        width={4}
-        icon="id card outline"
-        iconPosition="left"
-        type="text"
-        placeholder="Display Name"
-        label="Display Name"
-        value={displayName}
-        required
-        onChange={(event) => {
-          setDisplayName(event.target.value);
-        }}
-      />
+      <Form.Group>
+        <Form.Input
+          width={4}
+          icon="id card outline"
+          iconPosition="left"
+          type="text"
+          placeholder="Display Name"
+          label="Display Name"
+          value={displayName}
+          required
+          onChange={(event) => {
+            setDisplayName(event.target.value);
+          }}
+        />
+      </Form.Group>
 
-      <Form.Input
-        width={4}
-        icon="image outline"
-        iconPosition="left"
-        type="text"
-        placeholder="Profile Picture URL"
-        label="Profile Picture URL"
-        value={profilePictureUrl}
-        onChange={(event) => {
-          setProfilePictureUrl(event.target.value);
-        }}
-      />
+      <Form.Group>
+        <Form.Input
+          width={4}
+          icon="image outline"
+          iconPosition="left"
+          type="text"
+          placeholder="Profile Picture URL"
+          label="Profile Picture URL"
+          value={profilePictureUrl}
+          onChange={(event) => {
+            setProfilePictureUrl(event.target.value);
+          }}
+        />
+      </Form.Group>
 
       <Button type="submit" primary>
         Create New Profile

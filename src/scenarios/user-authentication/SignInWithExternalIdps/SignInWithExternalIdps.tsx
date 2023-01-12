@@ -125,7 +125,7 @@ export const SignInWithExternalIdps: React.FC = () => {
             return (
               <React.Fragment key={idpConfig.idpConnectionId}>
                 <Grid.Row style={{ paddingBottom: 0 }}>
-                  <Grid.Column width={4}>
+                  <Grid.Column mobile={16} tablet={8} computer={4}>
                     <Button
                       fluid
                       color={

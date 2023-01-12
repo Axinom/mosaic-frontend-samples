@@ -314,137 +314,133 @@ export const PlayProtectedVideo: React.FC = () => {
       <Divider />
 
       <Grid divided>
-        <Grid.Column width={4}>
-          <Segment basic>
-            <Form>
-              <Form.Input
-                control={VariableSearch}
-                icon="id card outline"
-                label="Entity ID"
-                value={entityId}
-                setStateValue={setEntityId}
-              />
+        <Grid.Column mobile={16} tablet={8} computer={4}>
+          <Form>
+            <Form.Input
+              control={VariableSearch}
+              icon="id card outline"
+              label="Entity ID"
+              value={entityId}
+              setStateValue={setEntityId}
+            />
 
-              <Form.Button
-                primary
-                onClick={async () => {
-                  fetchVideosForEntityId();
-                }}
-              >
-                Fetch Videos for Entity ID
-              </Form.Button>
+            <Form.Button
+              primary
+              onClick={async () => {
+                fetchVideosForEntityId();
+              }}
+            >
+              Fetch Videos for Entity ID
+            </Form.Button>
 
-              <Divider />
+            <Divider />
 
-              <Form.Input
-                control={VariableSearch}
-                icon="id card outline"
-                label="Entity ID"
-                value={entityId}
-                setStateValue={setEntityId}
-              />
+            <Form.Input
+              control={VariableSearch}
+              icon="id card outline"
+              label="Entity ID"
+              value={entityId}
+              setStateValue={setEntityId}
+            />
 
-              <Form.Input
-                control={VariableSearch}
-                icon="key"
-                label="User Access Token"
-                value={userAccessToken}
-                setStateValue={setUserAccessToken}
-              />
+            <Form.Input
+              control={VariableSearch}
+              icon="key"
+              label="User Access Token"
+              value={userAccessToken}
+              setStateValue={setUserAccessToken}
+            />
 
-              <Form.Input
-                control={VariableSearch}
-                icon="id card outline"
-                label="Mock Client IP"
-                value={mockClientIp}
-                setStateValue={setMockClientIp}
-              />
+            <Form.Input
+              control={VariableSearch}
+              icon="id card outline"
+              label="Mock Client IP"
+              value={mockClientIp}
+              setStateValue={setMockClientIp}
+            />
 
-              <Form.Button
-                primary
-                onClick={async () => {
-                  getEntitlementMessage();
-                }}
-              >
-                Get Entitlement Message
-              </Form.Button>
+            <Form.Button
+              primary
+              onClick={async () => {
+                getEntitlementMessage();
+              }}
+            >
+              Get Entitlement Message
+            </Form.Button>
 
-              <Divider />
+            <Divider />
 
-              <Form.Dropdown
-                fluid
-                selection
-                label="Video"
-                placeholder="Select a video to play"
-                options={videos.map((video) => {
-                  return {
-                    text: `${video.title} (${video.type.toLocaleLowerCase()})`,
-                    value: video.id,
-                  };
-                })}
-                value={currentVideoId}
-                onChange={(event, { value }) => {
-                  setCurrentVideoId(value as string);
-                }}
-              ></Form.Dropdown>
+            <Form.Dropdown
+              fluid
+              selection
+              label="Video"
+              placeholder="Select a video to play"
+              options={videos.map((video) => {
+                return {
+                  text: `${video.title} (${video.type.toLocaleLowerCase()})`,
+                  value: video.id,
+                };
+              })}
+              value={currentVideoId}
+              onChange={(event, { value }) => {
+                setCurrentVideoId(value as string);
+              }}
+            ></Form.Dropdown>
 
-              <Form.Dropdown
-                search
-                selection
-                fluid
-                allowAdditions
-                label="DRM License Service URL"
-                placeholder="Select a DRM License Service URL"
-                additionLabel="Custom DRM License Service URL: "
-                options={drmLicenseServers.map((serverUrl) => {
-                  return { text: serverUrl, value: serverUrl };
-                })}
-                value={currentDrmLicenseServer}
-                onAddItem={(event, { value }) => {
-                  setDrmLicenseServers((prev) => [value as string, ...prev]);
-                }}
-                onChange={(event, { value }) => {
-                  const drmLicenseServer = value as string;
-                  setCurrentDrmLicenseServer(drmLicenseServer);
-                  setKeySystemForLicenseService(drmLicenseServer);
-                }}
-              ></Form.Dropdown>
+            <Form.Dropdown
+              search
+              selection
+              fluid
+              allowAdditions
+              label="DRM License Service URL"
+              placeholder="Select a DRM License Service URL"
+              additionLabel="Custom DRM License Service URL: "
+              options={drmLicenseServers.map((serverUrl) => {
+                return { text: serverUrl, value: serverUrl };
+              })}
+              value={currentDrmLicenseServer}
+              onAddItem={(event, { value }) => {
+                setDrmLicenseServers((prev) => [value as string, ...prev]);
+              }}
+              onChange={(event, { value }) => {
+                const drmLicenseServer = value as string;
+                setCurrentDrmLicenseServer(drmLicenseServer);
+                setKeySystemForLicenseService(drmLicenseServer);
+              }}
+            ></Form.Dropdown>
 
-              <Form.Dropdown
-                search
-                selection
-                fluid
-                allowAdditions
-                label="Key System"
-                placeholder="Select a Key System"
-                additionLabel="Custom Key System: "
-                options={keySystems.map((keySystem) => {
-                  return { text: keySystem, value: keySystem };
-                })}
-                value={currentKeySystem}
-                onAddItem={(event, { value }) => {
-                  setKeySystems((prev) => [value as string, ...prev]);
-                }}
-                onChange={(event, { value }) => {
-                  setCurrentKeySystem(value as string);
-                }}
-              ></Form.Dropdown>
+            <Form.Dropdown
+              search
+              selection
+              fluid
+              allowAdditions
+              label="Key System"
+              placeholder="Select a Key System"
+              additionLabel="Custom Key System: "
+              options={keySystems.map((keySystem) => {
+                return { text: keySystem, value: keySystem };
+              })}
+              value={currentKeySystem}
+              onAddItem={(event, { value }) => {
+                setKeySystems((prev) => [value as string, ...prev]);
+              }}
+              onChange={(event, { value }) => {
+                setCurrentKeySystem(value as string);
+              }}
+            ></Form.Dropdown>
 
-              <Form.Button
-                primary
-                onClick={async () => {
-                  playVideo();
-                }}
-              >
-                Play Video
-              </Form.Button>
-            </Form>
-          </Segment>
+            <Form.Button
+              primary
+              onClick={async () => {
+                playVideo();
+              }}
+            >
+              Play Video
+            </Form.Button>
+          </Form>
         </Grid.Column>
-        <Grid.Column width={12}>
-          <Segment basic>
-            <ShakaPlayer ref={shakaController} />
-          </Segment>
+        <Grid.Column mobile={16} tablet={8} computer={12}>
+          <ShakaPlayer ref={shakaController} />
         </Grid.Column>
       </Grid>
     </Segment>

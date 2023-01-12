@@ -74,14 +74,16 @@ export const GetSingleItem: React.FC = () => {
         <Divider />
 
         <Form>
-          <Form.Input
-            control={VariableSearch}
-            width={4}
-            icon="id card outline"
-            label="Entity ID"
-            value={entityId}
-            setStateValue={setEntityId}
-          />
+          <Form.Group>
+            <Form.Input
+              control={VariableSearch}
+              width={4}
+              icon="id card outline"
+              label="Entity ID"
+              value={entityId}
+              setStateValue={setEntityId}
+            />
+          </Form.Group>
 
           <Button
             primary
