@@ -181,54 +181,60 @@ export const EditProfile: React.FC = () => {
 
   return (
     <Form onSubmit={updateProfile}>
-      <Form.Dropdown
-        width={4}
-        fluid
-        selection
-        label="User Profile"
-        placeholder="Select a profile to update"
-        options={userProfiles.map((profile) => {
-          return {
-            image: {
-              avatar: true,
-              src: profile.profilePictureUrl
-                ? profile.profilePictureUrl
-                : MissingUserProfilePicture,
-            },
-            text: profile.displayName,
-            value: profile.id,
-          };
-        })}
-        value={selectedProfileId}
-        onChange={handleSelectedProfileChanged}
-      ></Form.Dropdown>
+      <Form.Group>
+        <Form.Dropdown
+          width={4}
+          fluid
+          selection
+          label="User Profile"
+          placeholder="Select a profile to update"
+          options={userProfiles.map((profile) => {
+            return {
+              image: {
+                avatar: true,
+                src: profile.profilePictureUrl
+                  ? profile.profilePictureUrl
+                  : MissingUserProfilePicture,
+              },
+              text: profile.displayName,
+              value: profile.id,
+            };
+          })}
+          value={selectedProfileId}
+          onChange={handleSelectedProfileChanged}
+        ></Form.Dropdown>
+      </Form.Group>
 
-      <Form.Input
-        width={4}
-        icon="id card outline"
-        iconPosition="left"
-        type="text"
-        placeholder="Display Name"
-        label="Display Name"
-        value={displayName}
-        required
-        onChange={(event) => {
-          setDisplayName(event.target.value);
-        }}
-      />
+      <Form.Group>
+        <Form.Input
+          width={4}
+          icon="id card outline"
+          iconPosition="left"
+          type="text"
+          placeholder="Display Name"
+          label="Display Name"
+          value={displayName}
+          required
+          onChange={(event) => {
+            setDisplayName(event.target.value);
+          }}
+        />
+      </Form.Group>
 
-      <Form.Input
-        width={4}
-        icon="image outline"
-        iconPosition="left"
-        type="text"
-        placeholder="Profile Picture URL"
-        label="Profile Picture URL"
-        value={profilePictureUrl}
-        onChange={(event) => {
-          setProfilePictureUrl(event.target.value);
-        }}
-      />
+      <Form.Group>
+        <Form.Input
+          width={4}
+          icon="image outline"
+          iconPosition="left"
+          type="text"
+          placeholder="Profile Picture URL"
+          label="Profile Picture URL"
+          value={profilePictureUrl}
+          onChange={(event) => {
+            setProfilePictureUrl(event.target.value);
+          }}
+        />
+      </Form.Group>
 
       <Button type="submit" primary disabled={selectedProfileId === ''}>
         Update Profile

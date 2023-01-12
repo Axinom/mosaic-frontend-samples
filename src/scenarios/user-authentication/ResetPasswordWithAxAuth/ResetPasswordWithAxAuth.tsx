@@ -163,7 +163,7 @@ export const ResetPasswordWithAxauth: React.FC = () => {
   return (
     <>
       <Form onSubmit={handleInitiateResetPassword}>
-        <Form.Input width={12}>
+        <Form.Group>
           <Form.Input
             width={4}
             icon="user"
@@ -174,7 +174,7 @@ export const ResetPasswordWithAxauth: React.FC = () => {
             onChange={(event) => setEmail(event.target.value)}
             value={email}
           />
-        </Form.Input>
+        </Form.Group>
 
         <Button type="submit" primary>
           Initiate Reset Password
@@ -184,25 +184,29 @@ export const ResetPasswordWithAxauth: React.FC = () => {
       <Divider />
 
       <Form onSubmit={handleCompleteResetPasswordClick}>
-        <Form.Input
-          width={4}
-          icon="lock"
-          iconPosition="left"
-          label="New password"
-          placeholder="New password"
-          type="password"
-          onChange={(event) => setNewPassword(event.target.value)}
-          value={newPassword}
-        />
-        <Form.Input
-          width={4}
-          icon="key"
-          iconPosition="left"
-          placeholder="Enter the Reset-Password OTP"
-          label="Reset-Password OTP"
-          onChange={(event) => setResetOTP(event.target.value)}
-          value={resetOTP}
-        />
+        <Form.Group>
+          <Form.Input
+            width={4}
+            icon="lock"
+            iconPosition="left"
+            label="New password"
+            placeholder="New password"
+            type="password"
+            onChange={(event) => setNewPassword(event.target.value)}
+            value={newPassword}
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Input
+            width={4}
+            icon="key"
+            iconPosition="left"
+            placeholder="Enter the Reset-Password OTP"
+            label="Reset-Password OTP"
+            onChange={(event) => setResetOTP(event.target.value)}
+            value={resetOTP}
+          />
+        </Form.Group>
 
         <Button type="submit" primary>
           Complete Reset Password

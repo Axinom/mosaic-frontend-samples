@@ -143,29 +143,31 @@ export const SwitchActiveProfile: React.FC = () => {
 
   return (
     <Form onSubmit={switchActiveProfile}>
-      <Form.Dropdown
-        width={4}
-        selection
-        fluid
-        label="User Profile"
-        placeholder="Select a profile to make active"
-        options={userProfiles.map((profile) => {
-          return {
-            image: {
-              avatar: true,
-              src: profile.profilePictureUrl
-                ? profile.profilePictureUrl
-                : MissingUserProfilePicture,
-            },
-            text: profile.displayName,
-            value: profile.id,
-          };
-        })}
-        value={selectedProfileId}
-        onChange={(event, { value }) => {
-          setSelectedProfileId(value as string);
-        }}
-      ></Form.Dropdown>
+      <Form.Group>
+        <Form.Dropdown
+          width={4}
+          selection
+          fluid
+          label="User Profile"
+          placeholder="Select a profile to make active"
+          options={userProfiles.map((profile) => {
+            return {
+              image: {
+                avatar: true,
+                src: profile.profilePictureUrl
+                  ? profile.profilePictureUrl
+                  : MissingUserProfilePicture,
+              },
+              text: profile.displayName,
+              value: profile.id,
+            };
+          })}
+          value={selectedProfileId}
+          onChange={(event, { value }) => {
+            setSelectedProfileId(value as string);
+          }}
+        ></Form.Dropdown>
+      </Form.Group>
 
       <Button type="submit" primary disabled={selectedProfileId === ''}>
         Activate Profile

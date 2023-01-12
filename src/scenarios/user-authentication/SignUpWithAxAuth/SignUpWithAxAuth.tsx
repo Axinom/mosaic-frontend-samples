@@ -257,15 +257,17 @@ export const SignUpWithAxAuth: React.FC = () => {
       <Divider />
 
       <Form onSubmit={completeSignUp}>
-        <Form.Input
-          width={4}
-          icon="key"
-          iconPosition="left"
-          placeholder="Enter the Sign-Up OTP"
-          label="Sign Up OTP"
-          onChange={(event) => setSignUpOtp(event.target.value)}
-          value={signUpOtp}
-        />
+        <Form.Group>
+          <Form.Input
+            width={4}
+            icon="key"
+            iconPosition="left"
+            placeholder="Enter the Sign-Up OTP"
+            label="Sign Up OTP"
+            onChange={(event) => setSignUpOtp(event.target.value)}
+            value={signUpOtp}
+          />
+        </Form.Group>
 
         <Button type="submit" primary>
           Complete Sign Up

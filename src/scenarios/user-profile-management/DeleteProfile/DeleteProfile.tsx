@@ -145,29 +145,31 @@ export const DeleteProfile: React.FC = () => {
 
   return (
     <Form onSubmit={deleteProfile}>
-      <Form.Dropdown
-        width={4}
-        selection
-        fluid
-        label="User Profile"
-        placeholder="Select a profile to delete"
-        options={userProfiles.map((profile) => {
-          return {
-            image: {
-              avatar: true,
-              src: profile.profilePictureUrl
-                ? profile.profilePictureUrl
-                : MissingUserProfilePicture,
-            },
-            text: profile.displayName,
-            value: profile.id,
-          };
-        })}
-        value={selectedProfileId}
-        onChange={(event, { value }) => {
-          setSelectedProfileId(value as string);
-        }}
-      ></Form.Dropdown>
+      <Form.Group>
+        <Form.Dropdown
+          width={4}
+          selection
+          fluid
+          label="User Profile"
+          placeholder="Select a profile to delete"
+          options={userProfiles.map((profile) => {
+            return {
+              image: {
+                avatar: true,
+                src: profile.profilePictureUrl
+                  ? profile.profilePictureUrl
+                  : MissingUserProfilePicture,
+              },
+              text: profile.displayName,
+              value: profile.id,
+            };
+          })}
+          value={selectedProfileId}
+          onChange={(event, { value }) => {
+            setSelectedProfileId(value as string);
+          }}
+        ></Form.Dropdown>
+      </Form.Group>
 
       <Button type="submit" primary disabled={selectedProfileId === ''}>
         Delete Profile

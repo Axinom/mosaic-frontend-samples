@@ -112,30 +112,38 @@ export const GetEntitlementMessage: React.FC = () => {
       <Divider />
 
       <Form>
-        <Form.Input
-          control={VariableSearch}
-          width={4}
-          icon="key"
-          label="User Access Token"
-          value={userAccessToken}
-          setStateValue={setUserAccessToken}
-        />
-        <Form.Input
-          control={VariableSearch}
-          width={4}
-          icon="id card outline"
-          label="Entity ID"
-          value={entityId}
-          setStateValue={setEntityId}
-        />
-        <Form.Input
-          control={VariableSearch}
-          width={4}
-          icon="id card outline"
-          label="Mock Client IP"
-          value={mockClientIp}
-          setStateValue={setMockClientIp}
-        />
+        <Form.Group>
+          <Form.Input
+            control={VariableSearch}
+            width={4}
+            icon="key"
+            label="User Access Token"
+            value={userAccessToken}
+            setStateValue={setUserAccessToken}
+          />
+        </Form.Group>
+
+        <Form.Group>
+          <Form.Input
+            control={VariableSearch}
+            width={4}
+            icon="id card outline"
+            label="Entity ID"
+            value={entityId}
+            setStateValue={setEntityId}
+          />
+        </Form.Group>
+
+        <Form.Group>
+          <Form.Input
+            control={VariableSearch}
+            width={4}
+            icon="id card outline"
+            label="Mock Client IP"
+            value={mockClientIp}
+            setStateValue={setMockClientIp}
+          />
+        </Form.Group>
         <Form.Button
           primary
           onClick={async () => {

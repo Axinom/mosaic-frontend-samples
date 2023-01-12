@@ -133,30 +133,34 @@ export const SignInWithAxAuth: React.FC = () => {
   return (
     <>
       <Form onSubmit={signIn}>
-        <Form.Input
-          width={4}
-          icon="user"
-          iconPosition="left"
-          placeholder="Email"
-          label="Email"
-          value={email}
-          onChange={(event) => {
-            setEmail(event.target.value);
-          }}
-        />
+        <Form.Group>
+          <Form.Input
+            width={4}
+            icon="user"
+            iconPosition="left"
+            placeholder="Email"
+            label="Email"
+            value={email}
+            onChange={(event) => {
+              setEmail(event.target.value);
+            }}
+          />
+        </Form.Group>
 
-        <Form.Input
-          width={4}
-          icon="lock"
-          iconPosition="left"
-          placeholder="Password"
-          type="password"
-          label="Password"
-          value={password}
-          onChange={(event) => {
-            setPassword(event.target.value);
-          }}
-        />
+        <Form.Group>
+          <Form.Input
+            width={4}
+            icon="lock"
+            iconPosition="left"
+            placeholder="Password"
+            type="password"
+            label="Password"
+            value={password}
+            onChange={(event) => {
+              setPassword(event.target.value);
+            }}
+          />
+        </Form.Group>
 
         <Button type="submit" primary>
           Sign In

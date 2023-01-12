@@ -178,55 +178,58 @@ export const PlayUnprotectedVideo: React.FC = () => {
       <Divider />
 
       <Grid divided>
-        <Grid.Column width={4}>
-          <Form>
-            <Form.Input
-              fluid
-              control={VariableSearch}
-              icon="id card outline"
-              label="Entity ID"
-              value={entityId}
-              setStateValue={setEntityId}
-            />
+        <Form.Group>
+          <Grid.Column width={4}>
+            <Form>
+              <Form.Input
+                fluid
+                control={VariableSearch}
+                icon="id card outline"
+                label="Entity ID"
+                value={entityId}
+                setStateValue={setEntityId}
+              />
 
-            <Form.Button
-              primary
-              onClick={async () => {
-                fetchVideosForEntityId();
-              }}
-            >
-              Fetch Videos for Entity ID
-            </Form.Button>
+              <Form.Button
+                primary
+                onClick={async () => {
+                  fetchVideosForEntityId();
+                }}
+              >
+                Fetch Videos for Entity ID
+              </Form.Button>
 
-            <Divider />
+              <Divider />
 
-            <Form.Dropdown
-              fluid
-              selection
-              label="Video"
-              placeholder="Select a video to play"
-              options={videos.map((video) => {
-                return {
-                  text: `${video.title} (${video.type.toLocaleLowerCase()})`,
-                  value: video.id,
-                };
-              })}
-              value={currentVideoId}
-              onChange={(event, { _options, value }) => {
-                setCurrentVideoId(value as string);
-              }}
-            ></Form.Dropdown>
+              <Form.Dropdown
+                fluid
+                selection
+                label="Video"
+                placeholder="Select a video to play"
+                options={videos.map((video) => {
+                  return {
+                    text: `${video.title} (${video.type.toLocaleLowerCase()})`,
+                    value: video.id,
+                  };
+                })}
+                value={currentVideoId}
+                onChange={(event, { _options, value }) => {
+                  setCurrentVideoId(value as string);
+                }}
+              ></Form.Dropdown>
 
-            <Form.Button
-              primary
-              onClick={async () => {
-                playVideo();
-              }}
-            >
-              Play Video
-            </Form.Button>
-          </Form>
-        </Grid.Column>
+              <Form.Button
+                primary
+                onClick={async () => {
+                  playVideo();
+                }}
+              >
+                Play Video
+              </Form.Button>
+            </Form>
+          </Grid.Column>
+        </Form.Group>
+
         <Grid.Column width={12}>
           <ShakaPlayer ref={shakaController} />
         </Grid.Column>
