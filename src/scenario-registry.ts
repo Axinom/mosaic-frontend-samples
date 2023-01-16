@@ -22,6 +22,7 @@ import {
   PlayProtectedVideo,
   PlayUnprotectedVideo,
 } from './scenarios/video-playback';
+import { ImagePreview } from './scenarios/image';
 
 export const scenarios = [
   /**
@@ -150,6 +151,17 @@ export const scenarios = [
     displayName: 'Play Protected Video',
     displayOrder: 3,
     rootComponent: PlayProtectedVideo,
+  },
+
+  /**
+   * Image Preview related scenarios
+   */
+  {
+    groupName: 'Image',
+    shortId: 'image-preview',
+    displayName: 'Image Preview',
+    displayOrder: 1,
+    rootComponent: ImagePreview,
   },
 ] as const;
 
