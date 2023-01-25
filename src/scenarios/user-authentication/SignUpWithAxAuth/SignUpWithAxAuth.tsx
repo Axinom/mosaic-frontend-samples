@@ -68,7 +68,7 @@ export const SignUpWithAxAuthContainer: React.FC = () => {
           </p>
 
           <p>
-            This will allow you to get hold-of the Sign-Up OTP and manually
+            This will allow you to get hold of the Sign-Up OTP and manually
             paste it into the <b>Sign-Up OTP</b> field of the second stage of
             the scenario to complete the Sign-Up process.
           </p>
