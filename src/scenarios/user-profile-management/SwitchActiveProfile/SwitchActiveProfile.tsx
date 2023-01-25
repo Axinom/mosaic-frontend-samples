@@ -46,7 +46,7 @@ export const SwitchActiveProfileContainer: React.FC = () => {
         <Container fluid>
           <p>
             This scenario demonstrates how to switch the active profile of the
-            signed-in user. After changing the active profile, the user-service
+            signed-in user. After changing the active profile, the User Service
             issued access-tokens will have the switched Profile ID embedded in
             the payload.
           </p>
