@@ -9,9 +9,9 @@ type PackageDistTags = {
   [tag in DistTagType]: string;
 };
 
-type PackageInfoT = {
+interface PackageInfoT {
   'dist-tags': PackageDistTags;
-};
+}
 
 function runYarnCommand(args: string[], wsPath?: string): string {
   const stdout = execFileSync(
@@ -19,7 +19,6 @@ function runYarnCommand(args: string[], wsPath?: string): string {
     args,
     { cwd: wsPath },
   );
-
   return stdout.toString();
 }
 
@@ -82,8 +81,8 @@ function main(): void {
   const argv = process.argv.slice(2);
   const tag: DistTagType = (argv[0] as DistTagType) ?? 'prerelease';
 
+  console.log(`Updating to ${tag} packages`);
   run(tag);
-
   console.log('Done.');
 }
 
