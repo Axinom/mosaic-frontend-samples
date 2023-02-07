@@ -20,16 +20,22 @@ variables:
     value: /home/vsts/.yarn/berry/cache
   - name: buildSourceBranch
     value: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
+  - name: temporaryPushBranch
+    value: 'chore/update-mosaic-libs-pipeline-branch-$(Build.BuildNumber)'
+  - name: permanentPushBranch
+    value: 'main'
 
 steps:
   - checkout: self
-    clean: 'true'
     persistCredentials: 'true'
 
   - script: |
+      git fetch
       git config user.email "no-email@axinom.com"
       git config user.name "Mosaic CI"
-    displayName: Set git identity
+      echo "Check out to target branch: $(permanentPushBranch)"
+      git checkout $(permanentPushBranch) && git pull origin $(permanentPushBranch)
+    displayName: Set git identity and checkout to target branch
 
   - task: NodeTool@0
     inputs:
@@ -85,13 +91,25 @@ steps:
     condition: always()
     displayName: 'Publish test results'
 
+#  - script: |
+#      git fetch
+#      git add .
+#      git commit -m "chore: bumped Mosaic packages [skip ci]"
+#
+#      echo "Pushing to temporary branch: $(temporaryPushBranch) to evaluate successful status check"
+#      git checkout -b $(temporaryPushBranch)
+#      git push origin $(temporaryPushBranch)
+#
+#      echo "Pushing to target branch: $(permanentPushBranch)"
+#      git push origin $(permanentPushBranch)
+#    displayName: Commit and push updated packages
   - script: |
       git fetch
-      git checkout $(buildSourceBranch)
-      git pull origin $(buildSourceBranch)
       git add .
       git commit -m "chore: bumped Mosaic packages [skip ci]"
-      git push origin $(buildSourceBranch)
+
+      echo "Pushing to target branch: $(permanentPushBranch)" 
+      git push origin $(permanentPushBranch)
     displayName: Commit and push updated packages
 
   - script: |
@@ -99,3 +117,13 @@ steps:
       git config --unset user.name
     displayName: Unset git identity
     condition: always()
+
+#  - script: |
+#      git checkout $(permanentPushBranch)
+#      if [ "$(temporaryPushBranch)" != "main" ]; then
+#        echo "Deleting temporary branch: $(temporaryPushBranch) locally and in origin"
+#        git branch -d $(temporaryPushBranch)
+#        git push origin --delete $(temporaryPushBranch)
+#      fi
+#    displayName: Delete temporary branch
+#    condition: always()
