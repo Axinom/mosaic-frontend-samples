@@ -1,0 +1,101 @@
+trigger: none
+pr: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+resources:
+  pipelines:
+    - pipeline: packageRelease
+      source: 'Package release'
+      trigger:
+        branches:
+          include:
+            - master
+        stages:
+          - Prerelease
+
+variables:
+  - name: YARN_CACHE_FOLDER
+    value: /home/vsts/.yarn/berry/cache
+  - name: buildSourceBranch
+    value: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
+
+steps:
+  - checkout: self
+    clean: 'true'
+    persistCredentials: 'true'
+
+  - script: |
+      git config user.email "no-email@axinom.com"
+      git config user.name "Mosaic CI"
+    displayName: Set git identity
+
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '14.19.1'
+    displayName: 'Install Node.js'
+
+  - task: Cache@2
+    inputs:
+      key: 'yarn | "$(Agent.OS)" | yarn.lock'
+      restoreKeys: |
+        yarn | "$(Agent.OS)"
+        yarn
+      path: $(YARN_CACHE_FOLDER)
+    displayName: Cache Yarn packages
+
+  - task: Bash@3
+    inputs:
+      targetType: inline
+      script: yarn install --immutable
+    displayName: Install dependencies
+
+  - task: Bash@3
+    inputs:
+      targetType: inline
+      script: yarn util:update-mosaic-packages latest
+    env:
+      YARN_ENABLE_IMMUTABLE_INSTALLS: 'false'
+    displayName: Update Mosaic libs
+
+  - task: Bash@3
+    inputs:
+      targetType: inline
+      script: cp .env.template .env
+    displayName: Add fake values to .env to keep config loader happy
+
+  - task: Bash@3
+    inputs:
+      targetType: inline
+      script: yarn build
+    displayName: Build
+
+  - task: Bash@3
+    inputs:
+      targetType: inline
+      script: yarn test:ci
+    displayName: Run tests
+
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '**/junit.xml'
+      testRunTitle: 'Navy Unit Tests'
+    condition: always()
+    displayName: 'Publish test results'
+
+  - script: |
+      git fetch
+      git checkout $(buildSourceBranch)
+      git pull origin $(buildSourceBranch)
+      git add .
+      git commit -m "chore: bumped Mosaic packages [skip ci]"
+      git push origin $(buildSourceBranch)
+    displayName: Commit and push updated packages
+
+  - script: |
+      git config --unset user.email
+      git config --unset user.name
+    displayName: Unset git identity
+    condition: always()

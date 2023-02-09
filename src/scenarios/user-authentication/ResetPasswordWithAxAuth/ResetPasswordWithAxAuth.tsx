@@ -65,7 +65,7 @@ export const ResetPasswordWithAxAuthContainer: React.FC = () => {
           </p>
 
           <p>
-            This will allow you to get hold-of the Reset-Password OTP and
+            This will allow you to get hold of the Reset-Password OTP and
             manually paste it into the <b>Reset-Password OTP</b> field of the
             second stage of the scenario to complete the Reset Password process.
           </p>

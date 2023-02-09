@@ -281,7 +281,7 @@ export const PlayProtectedVideo: React.FC = () => {
           with it. The videos will be populated under the <b>Video</b> dropdown.
           Generally, protected videos will contain an{' '}
           <b>&apos;isProtected&apos;</b> flag in the query results from the
-          catalog-service.
+          Catalog Service.
         </p>
 
         <p>

@@ -50,7 +50,7 @@ export const SignOutUserContainer: React.FC = () => {
           <p>
             Then you can click the <b>[Sign-Out]</b> button to remove the
             refresh-token associated with this Signed In user. After this is
-            done, it shall not be possible to use the <b>[Get Access Token]</b>{' '}
+            done, it will not be possible to use the <b>[Get Access Token]</b>{' '}
             button anymore to generate new access-tokens.
           </p>
           <p>
