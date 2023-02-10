@@ -23,6 +23,7 @@ import {
   PlayUnprotectedVideo,
 } from './scenarios/video-playback';
 import { ImagePreview } from './scenarios/image';
+import { SubscribeToSubscriptionPlan } from './scenarios/billing';
 
 export const scenarios = [
   /**
@@ -162,6 +163,17 @@ export const scenarios = [
     displayName: 'Image Preview',
     displayOrder: 1,
     rootComponent: ImagePreview,
+  },
+
+  /**
+   * Billing related scenarios
+   */
+  {
+    groupName: 'Billing & Monetization',
+    shortId: 'subscribe-to-subscription-plan',
+    displayName: 'Subscribe to a Subscription Plan (with PayPal)',
+    displayOrder: 1,
+    rootComponent: SubscribeToSubscriptionPlan,
   },
 ] as const;
 

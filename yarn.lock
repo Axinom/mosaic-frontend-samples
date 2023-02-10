@@ -71,9 +71,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@axinom/mosaic-fe-samples-host@npm:0.3.0":
-  version: 0.3.0
-  resolution: "@axinom/mosaic-fe-samples-host@npm:0.3.0"
+"@axinom/mosaic-fe-samples-host@npm:0.4.0-rc.14":
+  version: 0.4.0-rc.14
+  resolution: "@axinom/mosaic-fe-samples-host@npm:0.4.0-rc.14"
   dependencies:
     "@geoffcox/react-splitter": ^2.1.1
     react-error-boundary: ^3.1.4
@@ -83,28 +83,28 @@ __metadata:
     react-router-dom: ">=5.2.0"
     semantic-ui-css: ">=2.4.1"
     semantic-ui-react: ">=2.0.3"
-  checksum: cbc60c0b8bdc52666ed77b7898a1f217695346053aaaf3eba66e9e6ee9d6375a8e5ebd393efd9e212b1030742441bd0ad2b7dd5b141284bbdd8df3f1c7ba0fdd
+  checksum: 08a711087568aab6d1fa84487b5f9f195c57f70ab8644337b9a38a47882c668e673e07395e717bf52351b51ccc5da6993e0b653fc1f77cba517663bd576dc8ae
   languageName: node
   linkType: hard
 
-"@axinom/mosaic-user-auth-utils@npm:^0.4.1":
-  version: 0.4.1
-  resolution: "@axinom/mosaic-user-auth-utils@npm:0.4.1"
-  checksum: 6ff5edff4232803db1dab87e8c8c60b2b4a8c4f116f2752502ff0c524a33ac0cd9d30c9ceb7f99388286e0fb17a83f83c7887e2c5fe8ee63d0a10e5fd714d6b3
+"@axinom/mosaic-user-auth-utils@npm:^0.5.0-rc.14":
+  version: 0.5.0-rc.14
+  resolution: "@axinom/mosaic-user-auth-utils@npm:0.5.0-rc.14"
+  checksum: 7446a0f37cec16b4aea72932f0a08932edad3847f8cc13f7b85c8772ad27fbe6c08432cfa6444b1d48b7ebdfc66cd5b0fc13385c0b48f2d9022f759871dd734a
   languageName: node
   linkType: hard
 
-"@axinom/mosaic-user-auth@npm:0.5.1":
-  version: 0.5.1
-  resolution: "@axinom/mosaic-user-auth@npm:0.5.1"
+"@axinom/mosaic-user-auth@npm:0.5.2-rc.14":
+  version: 0.5.2-rc.14
+  resolution: "@axinom/mosaic-user-auth@npm:0.5.2-rc.14"
   dependencies:
-    "@axinom/mosaic-user-auth-utils": ^0.4.1
+    "@axinom/mosaic-user-auth-utils": ^0.5.0-rc.14
     graphql-tag: ^2.11.0
   peerDependencies:
     react: ^16.13.1
     react-dom: ^16.13.1
     react-router-dom: ^5.1.2
-  checksum: 24d1782d41e7d7e8ba7aecc91dd4282c5895e7d24f382b4201c2c1aad925910e94f859ff7c71fd9054c39b86ecd11f5a1a0757d1b0b038e1599319c85f84ebb8
+  checksum: 258d6d80bed0d54abc6f29a25ae74cc9323b7c380415d49cd7df14f58d090b7fb558245a1e895fdef823433ec64c96ae0c92f42d719a92fcfcb9164f4321a54a
   languageName: node
   linkType: hard
 
@@ -1530,12 +1530,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.10.4, @babel/runtime@npm:^7.10.5, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.18.9, @babel/runtime@npm:^7.2.0, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.10.4, @babel/runtime@npm:^7.10.5, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.18.9, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2":
   version: 7.20.6
   resolution: "@babel/runtime@npm:7.20.6"
   dependencies:
     regenerator-runtime: ^0.13.11
   checksum: 42a8504db21031b1859fbc0f52d698a3d2f5ada9519eb76c6f96a7e657d8d555732a18fe71ef428a67cc9fc81ca0d3562fb7afdc70549c5fec343190cbaa9b03
+  languageName: node
+  linkType: hard
+
+"@babel/runtime@npm:^7.2.0":
+  version: 7.20.13
+  resolution: "@babel/runtime@npm:7.20.13"
+  dependencies:
+    regenerator-runtime: ^0.13.11
+  checksum: 09b7a97a05c80540db6c9e4ddf8c5d2ebb06cae5caf3a87e33c33f27f8c4d49d9c67a2d72f1570e796045288fad569f98a26ceba0c4f5fad2af84b6ad855c4fb
   languageName: node
   linkType: hard
 
@@ -1819,14 +1828,14 @@ __metadata:
   linkType: hard
 
 "@geoffcox/react-splitter@npm:^2.1.1":
-  version: 2.1.1
-  resolution: "@geoffcox/react-splitter@npm:2.1.1"
+  version: 2.1.2
+  resolution: "@geoffcox/react-splitter@npm:2.1.2"
   dependencies:
     react-measure: ^2.5.2
   peerDependencies:
-    react: ^16.13.1
-    react-dom: ^16.13.1
-  checksum: 08f022c643b5220dfae72209be3c39cb1f780dc110be0d13c7648a23d66c8435758538e972d71c5834d8186fe0c3d9ca9ad17b4754bbddb10346c24e9338198b
+    react: ">=16.8.0 <19.0.0"
+    react-dom: ">=16.8.0 <19.0.0"
+  checksum: b1b2b841891c1182788ae5fbc7e774905889eb2d337793ca93436e41a553b5767e547efd5234ea1321026397aa2e14c0c91c2f1ceb13ac09337c4a017ec1634b
   languageName: node
   linkType: hard
 
@@ -2307,6 +2316,15 @@ __metadata:
     mkdirp: ^1.0.4
     rimraf: ^3.0.2
   checksum: 52dc02259d98da517fae4cb3a0a3850227bdae4939dda1980b788a7670636ca2b4a01b58df03dd5f65c1e3cb70c50fa8ce5762b582b3f499ec30ee5ce1fd9380
+  languageName: node
+  linkType: hard
+
+"@paypal/paypal-js@npm:^5.1.4":
+  version: 5.1.4
+  resolution: "@paypal/paypal-js@npm:5.1.4"
+  dependencies:
+    promise-polyfill: ^8.2.3
+  checksum: 8b86ca48c875011730957ea56b3a6847737ba270c448e151e03a8bfc4b8e51ae61bd5181ced7f17522b1efd38550584d40a1bcd71e06495b7aa2fb1026af3ec0
   languageName: node
   linkType: hard
 
@@ -9475,8 +9493,9 @@ __metadata:
   resolution: "mosaic-frontend-samples@workspace:."
   dependencies:
     "@apollo/client": ^3.2.5
-    "@axinom/mosaic-fe-samples-host": 0.3.0
-    "@axinom/mosaic-user-auth": 0.5.1
+    "@axinom/mosaic-fe-samples-host": 0.4.0-rc.14
+    "@axinom/mosaic-user-auth": 0.5.2-rc.14
+    "@paypal/paypal-js": ^5.1.4
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^12.1.4
     "@testing-library/user-event": ^14.4.3
@@ -11104,6 +11123,13 @@ __metadata:
   version: 1.0.1
   resolution: "promise-inflight@npm:1.0.1"
   checksum: 22749483091d2c594261517f4f80e05226d4d5ecc1fc917e1886929da56e22b5718b7f2a75f3807e7a7d471bc3be2907fe92e6e8f373ddf5c64bae35b5af3981
+  languageName: node
+  linkType: hard
+
+"promise-polyfill@npm:^8.2.3":
+  version: 8.3.0
+  resolution: "promise-polyfill@npm:8.3.0"
+  checksum: 206373802076c77def0805758d0a8ece64120dfa6603f092404a1004211f8f2f67f33cadbc35953fc2a8ed0b0d38c774e88bdf01e20ce7a920723a60df84b7a5
   languageName: node
   linkType: hard
 
