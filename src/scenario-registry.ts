@@ -23,8 +23,11 @@ import {
   PlayUnprotectedVideo,
 } from './scenarios/video-playback';
 import { ImagePreview } from './scenarios/image';
-import { SubscribeToSubscriptionPlan } from './scenarios/billing';
-import { ListSubscriptionPlansAnonymously } from './scenarios/billing';
+import {
+  ListUserSubscriptions,
+  SubscribeToSubscriptionPlan,
+  ListSubscriptionPlansAnonymously,
+} from './scenarios/billing';
 
 export const scenarios = [
   /**
@@ -167,7 +170,7 @@ export const scenarios = [
   },
 
   /**
-   * Billing & Monetization Services related scenarios
+   * Billing & Monetization related scenarios
    */
   {
     groupName: 'Billing & Monetization',
@@ -178,9 +181,16 @@ export const scenarios = [
   },
   {
     groupName: 'Billing & Monetization',
+    shortId: 'list-user-subscriptions',
+    displayName: 'List User Subscriptions',
+    displayOrder: 2,
+    rootComponent: ListUserSubscriptions,
+  },
+  {
+    groupName: 'Billing & Monetization',
     shortId: 'subscribe-to-subscription-plan',
     displayName: 'Subscribe to a Subscription Plan (with PayPal)',
-    displayOrder: 2,
+    displayOrder: 3,
     rootComponent: SubscribeToSubscriptionPlan,
   },
 ] as const;
