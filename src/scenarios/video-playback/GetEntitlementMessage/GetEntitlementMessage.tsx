@@ -102,6 +102,11 @@ export const GetEntitlementMessage: React.FC = () => {
           a <b>Mock Client IP</b> address which will then be used to determine
           the location.
         </p>
+        <p>
+          The Entitlement service will additionally check if the user has an
+          active subscription to a subscr.plan that allows the playback of the
+          entity.
+        </p>
       </Container>
 
       <Divider />
