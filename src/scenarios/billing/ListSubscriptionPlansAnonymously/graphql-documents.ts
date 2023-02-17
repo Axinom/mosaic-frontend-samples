@@ -2,17 +2,21 @@ import gql from 'graphql-tag';
 
 export const getSubscriptionPlansQuery = gql`
   query GetSubscriptionPlans(
-    $filter1: SubscriptionPlanFilter
-    $filter2: PaymentPlanPriceFilter
+    $subscriptionPlanFilter: SubscriptionPlanFilter
+    $paymentPlanPriceFilter: PaymentPlanPriceFilter
   ) {
-    subscriptionPlans(filter: $filter1) {
+    subscriptionPlans(
+      filter: $subscriptionPlanFilter
+      condition: { isActive: true }
+    ) {
       totalCount
       nodes {
         title
         description
         isActive
         coverImagePath
-        paymentPlans {
+        paymentPlans(condition: { isActive: true }) {
+          totalCount
           nodes {
             title
             description
@@ -26,7 +30,7 @@ export const getSubscriptionPlansQuery = gql`
                 }
               }
             }
-            prices(filter: $filter2) {
+            prices(filter: $paymentPlanPriceFilter) {
               nodes {
                 country
                 currency

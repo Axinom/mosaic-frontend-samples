@@ -22,6 +22,7 @@ export const ListSubscriptionPlansAnonymously: React.FC = () => {
   const [accessToken, setAccessToken] = useState<string>();
   const [selectedCountry, setSelectedCountry] = useState<string>('');
 
+  // Get all country names and country codes by ISO 3166-1 and stored in the array
   countries.registerLocale(en);
 
   const countryObj = countries.getNames('en', { select: 'official' });
@@ -62,7 +63,7 @@ export const ListSubscriptionPlansAnonymously: React.FC = () => {
       logger.log(
         'calling [fetchApplicationToken]',
         'output:',
-        applicationDta.data.authenticateEndUserApplication,
+        applicationDta.data.authenticateEndUserApplication.accessToken,
       );
     } catch (error) {
       if (error instanceof Error) {
@@ -81,26 +82,22 @@ export const ListSubscriptionPlansAnonymously: React.FC = () => {
         new URL('graphql', activeProfile.billingServiceBaseURL).href,
       );
 
-      let filter1;
-      let filter2;
+      let subscriptionPlanFilter;
+      let paymentPlanPriceFilter;
       if (selectedCountry !== '') {
-        filter1 = {
-          isActive: {
-            equalTo: true,
-          },
+        subscriptionPlanFilter = {
           paymentPlans: {
             every: {
-              isActive: { equalTo: true },
               prices: { some: { country: { equalTo: selectedCountry } } },
             },
           },
         };
-        filter2 = { country: { equalTo: selectedCountry } };
+        paymentPlanPriceFilter = { country: { equalTo: selectedCountry } };
       }
 
       const result = await apolloClient.query({
         query: getSubscriptionPlansQuery,
-        variables: { filter1, filter2 },
+        variables: { subscriptionPlanFilter, paymentPlanPriceFilter },
         context: {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -133,10 +130,11 @@ export const ListSubscriptionPlansAnonymously: React.FC = () => {
 
       <Container fluid>
         <p>
-          This scenario demonstrates how to get subscription plans without user
-          being logged in. It uses the Application Key value (defined in the
-          selected profile settings) for generating the application token. With
-          the help of the token the list of subscription plans can be received.
+          This scenario demonstrates how to get subscription plans without a
+          user being logged in. It uses the Application Key value (defined in
+          the selected profile settings) for generating the application token.
+          With the help of the token the list of subscription plans can be
+          retrieved.
         </p>
       </Container>
 
@@ -158,9 +156,9 @@ export const ListSubscriptionPlansAnonymously: React.FC = () => {
               <Form.Input
                 icon="id card outline"
                 iconPosition="left"
-                placeholder="Access Token"
+                placeholder="Application Token"
                 type="text"
-                label="Access Token"
+                label="Application Token"
                 value={accessToken}
                 onChange={(event) => {
                   setAccessToken(event.target.value);
@@ -170,6 +168,8 @@ export const ListSubscriptionPlansAnonymously: React.FC = () => {
               <Divider />
 
               <Form.Dropdown
+                clearable
+                search
                 fluid
                 selection
                 label="Country"
@@ -186,12 +186,7 @@ export const ListSubscriptionPlansAnonymously: React.FC = () => {
                 }}
               ></Form.Dropdown>
 
-              <Form.Button
-                primary
-                onClick={async () => {
-                  getSubscriptionPlans();
-                }}
-              >
+              <Form.Button primary onClick={getSubscriptionPlans}>
                 List Subscription Plans
               </Form.Button>
             </Form>

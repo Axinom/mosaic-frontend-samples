@@ -104,8 +104,8 @@ export const GetEntitlementMessage: React.FC = () => {
         </p>
         <p>
           The Entitlement service will additionally check if the user has an
-          active subscription to a subscr.plan that allows the playback of the
-          entity.
+          active subscription to a subscription plan that allows the playback of
+          the entity.
         </p>
       </Container>
 
