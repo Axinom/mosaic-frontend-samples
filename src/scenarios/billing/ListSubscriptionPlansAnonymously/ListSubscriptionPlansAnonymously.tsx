@@ -19,15 +19,15 @@ import en from 'i18n-iso-countries/langs/en.json';
 
 export const ListSubscriptionPlansAnonymously: React.FC = () => {
   const { activeProfile, logger } = useScenarioHost();
-  const [accessToken, setAccessToken] = useState<string>();
+  const [accessToken, setAccessToken] = useState<string>('');
   const [selectedCountry, setSelectedCountry] = useState<string>('');
 
   // Get all country names and country codes by ISO 3166-1 and stored in the array
   countries.registerLocale(en);
 
-  const countryObj = countries.getNames('en', { select: 'official' });
-
-  const countryArr = Object.entries(countryObj).map(([key, value]) => {
+  const countryArr = Object.entries(
+    countries.getNames('en', { select: 'official' }),
+  ).map(([key, value]) => {
     return {
       label: value,
       value: key,
@@ -36,10 +36,10 @@ export const ListSubscriptionPlansAnonymously: React.FC = () => {
 
   const fetchApplicationToken = async (): Promise<void> => {
     try {
-      const apolloClientUser = getApolloClient(
+      const apolloClient = getApolloClient(
         new URL('graphql-management', activeProfile.userServiceBaseURL).href,
       );
-      const applicationDta = await apolloClientUser.query({
+      const appTokenResult = await apolloClient.query({
         query: authenticateEndUserApplication,
         variables: {
           input: {
@@ -58,12 +58,12 @@ export const ListSubscriptionPlansAnonymously: React.FC = () => {
       });
 
       setAccessToken(
-        applicationDta.data.authenticateEndUserApplication.accessToken,
+        appTokenResult.data.authenticateEndUserApplication.accessToken,
       );
       logger.log(
         'calling [fetchApplicationToken]',
         'output:',
-        applicationDta.data.authenticateEndUserApplication.accessToken,
+        appTokenResult.data.authenticateEndUserApplication.accessToken,
       );
     } catch (error) {
       if (error instanceof Error) {
@@ -71,6 +71,12 @@ export const ListSubscriptionPlansAnonymously: React.FC = () => {
           'method [fetchApplicationToken]',
           'output:',
           error.message,
+        );
+      } else {
+        logger.error(
+          'method [fetchApplicationToken]',
+          'output:',
+          JSON.stringify(error),
         );
       }
     }
@@ -113,6 +119,12 @@ export const ListSubscriptionPlansAnonymously: React.FC = () => {
           'method [listSubscriptionPlans]',
           'output:',
           error.message,
+        );
+      } else {
+        logger.error(
+          'method [listSubscriptionPlans]',
+          'output:',
+          JSON.stringify(error),
         );
       }
     }
