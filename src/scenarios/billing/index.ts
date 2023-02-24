@@ -3,3 +3,4 @@ export * from './ListSubscriptionPlansAnonymously/ListSubscriptionPlansAnonymous
 export * from './ListUserSubscriptions/ListUserSubscriptions';
 export * from './ListSubscriptionPlansForUser/ListSubscriptionPlansForUser';
 export * from './UnsubscribeFromSubscriptionPlan/UnsubscribeFromSubscriptionPlan';
+export * from './ListUserPaymentHistory/ListUserPaymentHistory';

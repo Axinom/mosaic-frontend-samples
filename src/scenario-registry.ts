@@ -29,6 +29,7 @@ import {
   ListSubscriptionPlansAnonymously,
   ListUserSubscriptions,
   UnsubscribeFromSubscriptionPlan,
+  ListUserPaymentHistory,
 } from './scenarios/billing';
 
 export const scenarios = [
@@ -208,6 +209,12 @@ export const scenarios = [
     displayName: 'Unsubscribe from a Subscription Plan',
     displayOrder: 5,
     rootComponent: UnsubscribeFromSubscriptionPlan,
+  },
+  {
+    shortId: 'list-user-payment-history',
+    displayName: 'List User Payment History',
+    displayOrder: 6,
+    rootComponent: ListUserPaymentHistory,
   },
 ] as const;
 
