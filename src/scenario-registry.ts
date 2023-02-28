@@ -28,6 +28,7 @@ import {
   SubscribeToSubscriptionPlan,
   ListSubscriptionPlansAnonymously,
   ListUserSubscriptions,
+  UnsubscribeFromSubscriptionPlan,
 } from './scenarios/billing';
 
 export const scenarios = [
@@ -200,6 +201,13 @@ export const scenarios = [
     displayName: 'Subscribe to a Subscription Plan (with PayPal)',
     displayOrder: 4,
     rootComponent: SubscribeToSubscriptionPlan,
+  },
+  {
+    groupName: 'Billing & Monetization',
+    shortId: 'unsubscribe-from-subscription-plan',
+    displayName: 'Unsubscribe from a Subscription Plan',
+    displayOrder: 5,
+    rootComponent: UnsubscribeFromSubscriptionPlan,
   },
 ] as const;
 
