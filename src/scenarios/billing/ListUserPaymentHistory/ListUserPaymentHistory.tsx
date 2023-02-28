@@ -36,20 +36,20 @@ export const ListUserPaymentHistory: React.FC = () => {
       });
 
       logger.log(
-        'method [fetchPaymentPlansAndPaypalSettings]',
+        `method [${fetchTransactionHistory.name}]`,
         'output:',
         result.data,
       );
     } catch (error) {
       if (error instanceof Error) {
         logger.error(
-          'method [fetchPaymentPlansAndPaypalSettings]',
+          `method [${fetchTransactionHistory.name}]`,
           'output:',
           error.message,
         );
       } else {
         logger.error(
-          'method [fetchApplicationToken]',
+          `method [${fetchTransactionHistory.name}]`,
           'output:',
           JSON.stringify(error),
         );
@@ -63,13 +63,16 @@ export const ListUserPaymentHistory: React.FC = () => {
       <Header size="small">
         Required Services:
         <Label>user-service</Label>
-        <Label>billing-service</Label>
+        <Label>billing-service & monetization-service</Label>
       </Header>
 
       <Divider />
 
       <Container fluid>
-        <p>This scenario demonstrates all user payment history.</p>
+        <p>
+          This scenario demonstrates how to fetch and display user payment
+          history.
+        </p>
       </Container>
 
       <Divider />

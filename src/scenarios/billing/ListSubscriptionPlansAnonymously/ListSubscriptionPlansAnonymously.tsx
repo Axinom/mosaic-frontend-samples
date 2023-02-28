@@ -135,7 +135,7 @@ export const ListSubscriptionPlansAnonymously: React.FC = () => {
       <Header size="huge">List Subscription Plans Anonymously</Header>
       <Header size="small">
         Required Services:
-        <Label>billing-service</Label>
+        <Label>billing-service & monetization-service</Label>
       </Header>
 
       <Divider />
