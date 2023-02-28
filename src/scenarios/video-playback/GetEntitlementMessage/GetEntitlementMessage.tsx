@@ -82,7 +82,7 @@ export const GetEntitlementMessage: React.FC = () => {
       <Header size="small">
         Required Services:
         <Label>user-service</Label>
-        <Label>billing-service</Label>
+        <Label>billing-service & monetization-service</Label>
         <Label>entitlement-service</Label>
       </Header>
 
