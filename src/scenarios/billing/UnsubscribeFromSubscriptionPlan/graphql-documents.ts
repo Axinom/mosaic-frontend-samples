@@ -21,6 +21,7 @@ export const CancelSubscriptionMutation = gql`
   mutation CancelSubscription($input: PaypalCancelSubscriptionInput!) {
     paypalCancelSubscription(input: $input) {
       subscription {
+        id
         lifecycleStatus
       }
     }

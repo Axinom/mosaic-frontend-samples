@@ -37,8 +37,8 @@ export const setupPaypal = async (
         },
         createSubscription: async (data, actions) => {
           try {
-            const result = await apolloClient.query({
-              query: subscribePopupMutation,
+            const result = await apolloClient.mutate({
+              mutation: subscribePopupMutation,
               variables: {
                 input: {
                   paymentPlanId: billingServiceConfig.paymentPlanId,
@@ -84,8 +84,8 @@ export const setupPaypal = async (
         },
         onApprove: async (data, _actions) => {
           try {
-            const result = await apolloClient.query({
-              query: activateSubscriptionMutation,
+            const result = await apolloClient.mutate({
+              mutation: activateSubscriptionMutation,
               variables: {
                 input: {
                   paypalSubscriptionId: data.subscriptionID,
