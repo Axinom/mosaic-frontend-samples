@@ -200,8 +200,8 @@ export const SubscribeToSubscriptionPlan: React.FC = () => {
   const subscribeToPaymentPlan = async (): Promise<void> => {
     if (purchaseFlow === 'REDIRECT') {
       try {
-        const result = await apolloClient.query({
-          query: subscribeRedirectMutation,
+        const result = await apolloClient.mutate({
+          mutation: subscribeRedirectMutation,
           variables: {
             input: {
               paymentPlanId,
