@@ -211,6 +211,7 @@ export const scenarios = [
     rootComponent: UnsubscribeFromSubscriptionPlan,
   },
   {
+    groupName: 'Billing & Monetization',
     shortId: 'list-user-payment-history',
     displayName: 'List User Payment History',
     displayOrder: 6,
