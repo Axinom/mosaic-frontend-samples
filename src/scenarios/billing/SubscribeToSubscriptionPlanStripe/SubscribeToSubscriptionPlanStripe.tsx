@@ -15,11 +15,9 @@ import {
 import { getApolloClient } from '../../../apollo-client';
 import {
   getPaymentPlanPricesQuery,
-  subscribeRedirectMutation,
   getPaymentPlansQuery,
 } from './graphql-documents';
 import { ScenarioKey } from '../../../scenario-registry';
-import { setupPaypal } from './paypal-utils';
 
 interface PaymentPlan {
   id: string;
@@ -37,46 +35,41 @@ interface PaymentPlanPrice {
   price: string;
 }
 
-type PurchaseFlow = 'POPUP' | 'REDIRECT';
-
-export const SubscribeToSubscriptionPlan: React.FC = () => {
+export const SubscribeToSubscriptionPlanStripe: React.FC = () => {
   const { activeProfile, logger } = useScenarioHost();
   const [userAccessToken, setUserAccessToken] = useState<string>();
-  const [paypalClientId, setPaypalClientId] = useState<string | null>(null);
   const [paymentPlans, setPaymentPlans] = useState<PaymentPlan[] | null>(null);
   const [paymentPlanId, setPaymentPlanId] = useState<string>('');
   const [paymentPlanPrices, setPaymentPlanPrices] = useState<
     PaymentPlanPrice[] | null
   >(null);
-  const [countryCode, setCountryCode] = useState<string>('');
-  const [purchaseFlow, setPurchaseFlow] = useState<PurchaseFlow | null>(null);
-  const [paypalInitializing, setPaypalInitializing] = useState<boolean>(false);
+  const [currencyCode, setCurrencyCode] = useState<string>('');
 
   const apolloClient = getApolloClient(
     new URL('graphql', activeProfile.billingServiceBaseURL).href,
   );
-  const scenarioId: ScenarioKey = 'subscribe-to-subscription-plan';
+  const scenarioId: ScenarioKey = 'subscribe-to-subscription-plan-stripe';
 
   useEffect(() => {
     const pathname = window.location.pathname;
 
     if (pathname.endsWith('subscribe-success')) {
       const urlParams = new URLSearchParams(window.location.search);
-      const subscriptionId = urlParams.get('subscriptionId');
-      logger.log('Redirection from PayPal detected.');
+      const subscriptionId = urlParams.get('subscription_id');
+      logger.log('Redirection from Stripe detected.');
       logger.log(
-        `Subscription with ID ${subscriptionId} should be active now. You can verify it by using the 'List Subscription Plans' scenario.`,
+        `Subscription with ID ${subscriptionId} should be active now. You can verify it by using the 'List User Subscriptions' scenario.`,
       );
     } else if (pathname.endsWith('subscribe-cancelled')) {
-      logger.log('Redirection from PayPal detected.');
+      logger.log('Redirection from Stripe detected.');
       logger.log('The subscription is cancelled by the user.');
     } else if (pathname.endsWith('subscribe-error')) {
-      logger.log('Redirection from PayPal detected.');
+      logger.log('Redirection from Stripe detected.');
       logger.log('An error occurred in the subscription.');
     }
   }, [logger]);
 
-  const fetchPaymentPlansAndPaypalSettings = async (): Promise<void> => {
+  const fetchPaymentPlans = async (): Promise<void> => {
     try {
       const result = await apolloClient.query({
         query: getPaymentPlansQuery,
@@ -88,34 +81,20 @@ export const SubscribeToSubscriptionPlan: React.FC = () => {
         fetchPolicy: 'no-cache',
       });
 
-      logger.log(
-        'method [fetchPaymentPlansAndPaypalSettings]',
-        'output:',
-        result.data,
-      );
+      logger.log(`method [${fetchPaymentPlans.name}]`, 'output:', result.data);
       if (result.errors) {
         logger.error(result.errors);
       } else {
         setPaymentPlans(result.data.paymentPlans.nodes);
         setPaymentPlanId('');
-
-        const paypalSettings = result.data.paypalSettings.nodes;
-        if (Array.isArray(paypalSettings) && paypalSettings.length > 0) {
-          setPaypalClientId(paypalSettings[0].clientId);
-          setPurchaseFlow(null);
-        } else {
-          logger.error('Unable to fetch PayPal settings.');
-        }
       }
     } catch (error) {
       setPaymentPlans(null);
       setPaymentPlanId('');
-      setPaypalClientId(null);
-      setPurchaseFlow(null);
 
       if (error instanceof Error) {
         logger.error(
-          'method [fetchPaymentPlansAndPaypalSettings]',
+          `method [${fetchPaymentPlans.name}]`,
           'output:',
           error.message,
         );
@@ -140,19 +119,23 @@ export const SubscribeToSubscriptionPlan: React.FC = () => {
         fetchPolicy: 'no-cache',
       });
 
-      logger.log('method [fetchPaymentPlanPrices]', 'output:', result.data);
+      logger.log(
+        `method [${fetchPaymentPlanPrices.name}]`,
+        'output:',
+        result.data,
+      );
       if (result.errors) {
         logger.error(result.errors);
       } else {
         setPaymentPlanPrices(result.data.paymentPlan.prices.nodes);
-        setCountryCode('');
+        setCurrencyCode('');
       }
     } catch (error) {
       setPaymentPlanPrices(null);
-      setCountryCode('');
+      setCurrencyCode('');
       if (error instanceof Error) {
         logger.error(
-          'method [fetchPaymentPlanPrices]',
+          `method [${fetchPaymentPlanPrices.name}]`,
           'output:',
           error.message,
         );
@@ -160,78 +143,30 @@ export const SubscribeToSubscriptionPlan: React.FC = () => {
     }
   };
 
-  const changePurchaseFlow = async (
-    newPurchaseFlow: PurchaseFlow,
-  ): Promise<void> => {
-    if (newPurchaseFlow === 'POPUP') {
-      if (userAccessToken && paypalClientId && paymentPlanId && countryCode) {
-        setPurchaseFlow(newPurchaseFlow);
-        setPaypalInitializing(true);
-        try {
-          await setupPaypal(
-            {
-              clientId: paypalClientId,
-              buttonContainerId: 'paypal-btn-container',
-            },
-            {
-              paymentPlanId,
-              countryCode,
-              userAccessToken,
-            },
-            logger,
-            apolloClient,
-          );
-        } catch (error) {
-          if (error instanceof Error) {
-            logger.error(
-              'method [changePurchaseFlow]',
-              'output:',
-              'failed to load the PayPal JS SDK script. ' + error.message,
-            );
-          }
-        }
-        setPaypalInitializing(false);
-      }
-    } else {
-      setPurchaseFlow(newPurchaseFlow);
-    }
-  };
-
   const subscribeToPaymentPlan = async (): Promise<void> => {
-    if (purchaseFlow === 'REDIRECT') {
-      try {
-        const result = await apolloClient.mutate({
-          mutation: subscribeRedirectMutation,
-          variables: {
-            input: {
-              paymentPlanId,
-              purchaseFlow: 'REDIRECT',
-              country: countryCode,
-            },
-          },
-          context: {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${userAccessToken}`,
-            },
-          },
-          fetchPolicy: 'no-cache',
-        });
-
-        logger.log('method [subscribeToPaymentPlan]', 'output:', result.data);
-        if (result.errors) {
-          logger.error(result.errors);
-        } else {
-          window.location.href = result.data.paypalSubscribe.approveUrl;
-        }
-      } catch (error) {
-        if (error instanceof Error) {
-          logger.error(
-            'method [subscribeToPaymentPlan]',
-            'output:',
-            error.message,
-          );
-        }
+    try {
+      const startCheckoutUrl = new URL(
+        'start-checkout',
+        activeProfile.stripePaymentConnectorBaseURL,
+      ).href;
+      const result = await fetch(startCheckoutUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + userAccessToken,
+        },
+        body: JSON.stringify({ paymentPlanId, currency: currencyCode }),
+      });
+      const data = await result.json();
+      logger.log(`method [${subscribeToPaymentPlan.name}]`, 'output:', data);
+      window.location.href = data.redirectUrl;
+    } catch (error) {
+      if (error instanceof Error) {
+        logger.error(
+          `method [${subscribeToPaymentPlan.name}]`,
+          'output:',
+          error.message,
+        );
       }
     }
   };
@@ -240,12 +175,13 @@ export const SubscribeToSubscriptionPlan: React.FC = () => {
     <>
       <Segment basic>
         <Header size="huge">
-          Subscribe to a Subscription Plan (with PayPal)
+          Subscribe to a Subscription Plan (with Stripe)
         </Header>
         <Header size="small">
           Required Services:
           <Label>user-service</Label>
           <Label>billing-service & monetization-service</Label>
+          <Label>stripe-payment-connector</Label>
         </Header>
 
         <Divider />
@@ -253,7 +189,7 @@ export const SubscribeToSubscriptionPlan: React.FC = () => {
         <Container fluid>
           <p>
             This scenario demonstrates the sequence of actions a user would take
-            to Subscribe to a Subscription Plan using PayPal as the Payment
+            to Subscribe to a Subscription Plan using Stripe as the Payment
             Provider.
           </p>
 
@@ -302,20 +238,20 @@ export const SubscribeToSubscriptionPlan: React.FC = () => {
           <Button
             primary
             onClick={async () => {
-              fetchPaymentPlansAndPaypalSettings();
+              fetchPaymentPlans();
             }}
           >
-            Fetch Payment Plans & PayPal Settings
+            Fetch Payment Plans
           </Button>
 
           <Divider />
 
           <Form.Dropdown
-            disabled={!paymentPlans || !paypalClientId}
+            disabled={!paymentPlans}
             fluid
             selection
             width={4}
-            label="Subscription Plans with PayPal Purchase"
+            label="Subscription Plans with Stripe Purchase"
             placeholder="Select a subscription plan"
             options={
               paymentPlans?.map((plan) => {
@@ -331,13 +267,12 @@ export const SubscribeToSubscriptionPlan: React.FC = () => {
             onChange={async (event, { value }) => {
               const paymentPlanId = value as string;
               setPaymentPlanId(paymentPlanId);
-              setPurchaseFlow(null);
               await fetchPaymentPlanPrices(paymentPlanId);
             }}
           ></Form.Dropdown>
 
           <Form.Dropdown
-            disabled={!paymentPlanPrices || !paypalClientId}
+            disabled={!paymentPlanPrices}
             fluid
             selection
             width={4}
@@ -351,65 +286,26 @@ export const SubscribeToSubscriptionPlan: React.FC = () => {
                 };
               }) ?? []
             }
-            value={countryCode}
             onChange={(event, { value }) => {
-              setCountryCode(value as string);
-              setPurchaseFlow(null);
+              const currency = paymentPlanPrices?.find(
+                (option) => option.country === value,
+              )?.currency;
+              if (currency !== undefined) {
+                setCurrencyCode(currency);
+              }
             }}
           ></Form.Dropdown>
 
-          <Form.Field
-            label="Purchase Flow"
-            disabled={
-              paypalInitializing ||
-              !paymentPlanId ||
-              !paypalClientId ||
-              !countryCode
-            }
-          ></Form.Field>
-          <Form.Radio
-            disabled={
-              paypalInitializing ||
-              !paymentPlanId ||
-              !paypalClientId ||
-              !countryCode
-            }
-            label="Popup"
-            name="purchaseFlow"
-            checked={purchaseFlow === 'POPUP'}
-            onChange={() => changePurchaseFlow('POPUP')}
-          ></Form.Radio>
-          <Form.Radio
-            disabled={
-              paypalInitializing ||
-              !paymentPlanId ||
-              !paypalClientId ||
-              !countryCode
-            }
-            label="Redirect"
-            name="purchaseFlow"
-            checked={purchaseFlow === 'REDIRECT'}
-            onChange={() => changePurchaseFlow('REDIRECT')}
-          ></Form.Radio>
-          {purchaseFlow === 'POPUP' ? (
-            <div id="paypal-btn-container" style={{ width: '300px' }}></div>
-          ) : (
-            <Button
-              disabled={
-                !paymentPlanId ||
-                !paypalClientId ||
-                !countryCode ||
-                !purchaseFlow
-              }
-              style={{ width: '300px' }}
-              primary
-              onClick={async () => {
-                subscribeToPaymentPlan();
-              }}
-            >
-              Subscribe
-            </Button>
-          )}
+          <Button
+            disabled={!paymentPlanId || !currencyCode}
+            style={{ width: '170px' }}
+            primary
+            onClick={async () => {
+              subscribeToPaymentPlan();
+            }}
+          >
+            Subscribe
+          </Button>
         </Form>
       </Segment>
     </>

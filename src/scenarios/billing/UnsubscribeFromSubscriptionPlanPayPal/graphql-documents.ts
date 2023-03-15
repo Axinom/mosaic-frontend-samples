@@ -2,7 +2,10 @@ import gql from 'graphql-tag';
 
 export const getAllSubscriptionsQuery = gql`
   query GetSubscriptions {
-    subscriptions(orderBy: LIFECYCLE_STATUS_ASC) {
+    subscriptions(
+      orderBy: LIFECYCLE_STATUS_ASC
+      condition: { paymentProviderKey: "PAYPAL" }
+    ) {
       nodes {
         id
         lifecycleStatus

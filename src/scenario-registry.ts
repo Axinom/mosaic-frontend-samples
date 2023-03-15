@@ -25,11 +25,12 @@ import {
 import { ImagePreview } from './scenarios/image';
 import {
   ListSubscriptionPlansForUser,
-  SubscribeToSubscriptionPlan,
+  SubscribeToSubscriptionPlanPayPal,
   ListSubscriptionPlansAnonymously,
   ListUserSubscriptions,
-  UnsubscribeFromSubscriptionPlan,
+  UnsubscribeFromSubscriptionPlanPayPal,
   ListUserPaymentHistory,
+  SubscribeToSubscriptionPlanStripe,
 } from './scenarios/billing';
 
 export const scenarios = [
@@ -198,23 +199,30 @@ export const scenarios = [
   },
   {
     groupName: 'Billing & Monetization',
-    shortId: 'subscribe-to-subscription-plan',
+    shortId: 'subscribe-to-subscription-plan-paypal',
     displayName: 'Subscribe to a Subscription Plan (with PayPal)',
     displayOrder: 4,
-    rootComponent: SubscribeToSubscriptionPlan,
+    rootComponent: SubscribeToSubscriptionPlanPayPal,
   },
   {
     groupName: 'Billing & Monetization',
-    shortId: 'unsubscribe-from-subscription-plan',
-    displayName: 'Unsubscribe from a Subscription Plan',
+    shortId: 'subscribe-to-subscription-plan-stripe',
+    displayName: 'Subscribe to a Subscription Plan (with Stripe)',
     displayOrder: 5,
-    rootComponent: UnsubscribeFromSubscriptionPlan,
+    rootComponent: SubscribeToSubscriptionPlanStripe,
+  },
+  {
+    groupName: 'Billing & Monetization',
+    shortId: 'unsubscribe-from-subscription-plan-paypal',
+    displayName: 'Unsubscribe from a Subscription Plan (with PayPal)',
+    displayOrder: 6,
+    rootComponent: UnsubscribeFromSubscriptionPlanPayPal,
   },
   {
     groupName: 'Billing & Monetization',
     shortId: 'list-user-payment-history',
     displayName: 'List User Payment History',
-    displayOrder: 6,
+    displayOrder: 7,
     rootComponent: ListUserPaymentHistory,
   },
 ] as const;
