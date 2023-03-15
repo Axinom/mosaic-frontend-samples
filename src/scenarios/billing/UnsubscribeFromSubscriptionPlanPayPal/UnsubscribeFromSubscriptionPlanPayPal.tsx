@@ -29,7 +29,7 @@ interface Subscription {
   };
 }
 
-export const UnsubscribeFromSubscriptionPlan: React.FC = () => {
+export const UnsubscribeFromSubscriptionPlanPayPal: React.FC = () => {
   const { activeProfile, logger } = useScenarioHost();
   const [userAccessToken, setUserAccessToken] = useState<string>();
   const [subscriptions, setSubscriptions] = useState<Subscription[] | null>(
