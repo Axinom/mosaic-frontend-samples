@@ -123,7 +123,9 @@ export const UnsubscribeFromSubscriptionPlanPayPal: React.FC = () => {
   return (
     <>
       <Segment basic>
-        <Header size="huge">Unsubscribe from a Subscription Plan</Header>
+        <Header size="huge">
+          Unsubscribe from a Subscription Plan (with PayPal)
+        </Header>
         <Header size="small">
           Required Services:
           <Label>user-service</Label>

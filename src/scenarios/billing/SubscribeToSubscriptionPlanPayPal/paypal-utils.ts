@@ -116,7 +116,7 @@ export const setupPaypal = async (
                   .lifecycleStatus;
               if (subscriptionStatus === 'ACTIVE') {
                 logger.log(
-                  `Subscription with ID ${result.data.paypalActivateSubscription.subscription.id} should be active now. You can verify it by using the 'List Subscription Plans' scenario.`,
+                  `Subscription with ID ${result.data.paypalActivateSubscription.subscription.id} should be active now. You can verify it by using the 'List User Subscriptions' scenario.`,
                 );
               } else {
                 logger.log(
@@ -131,7 +131,9 @@ export const setupPaypal = async (
           }
         },
         onCancel: async () => {
-          logger.log('The subscription is cancelled by the user.');
+          logger.log(
+            "The operation was cancelled by the user. The Billing Service subscription status will be changed to 'CANCELLED' eventually.",
+          );
         },
         onError: async () => {
           logger.log('An error occurred in the subscription.');
