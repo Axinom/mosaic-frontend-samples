@@ -5,3 +5,4 @@ export * from './ListSubscriptionPlansForUser/ListSubscriptionPlansForUser';
 export * from './UnsubscribeFromSubscriptionPlanPayPal/UnsubscribeFromSubscriptionPlanPayPal';
 export * from './ListUserPaymentHistory/ListUserPaymentHistory';
 export * from './SubscribeToSubscriptionPlanStripe/SubscribeToSubscriptionPlanStripe';
+export * from './UnsubscribeFromSubscriptionPlanStripe/UnsubscribeFromSubscriptionPlanStripe';

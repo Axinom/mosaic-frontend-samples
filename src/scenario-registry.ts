@@ -31,6 +31,7 @@ import {
   UnsubscribeFromSubscriptionPlanPayPal,
   ListUserPaymentHistory,
   SubscribeToSubscriptionPlanStripe,
+  UnsubscribeFromSubscriptionPlanStripe,
 } from './scenarios/billing';
 
 export const scenarios = [
@@ -220,9 +221,16 @@ export const scenarios = [
   },
   {
     groupName: 'Billing & Monetization',
+    shortId: 'unsubscribe-from-subscription-plan-stripe',
+    displayName: 'Unsubscribe from a Subscription Plan (with Stripe)',
+    displayOrder: 7,
+    rootComponent: UnsubscribeFromSubscriptionPlanStripe,
+  },
+  {
+    groupName: 'Billing & Monetization',
     shortId: 'list-user-payment-history',
     displayName: 'List User Payment History',
-    displayOrder: 7,
+    displayOrder: 8,
     rootComponent: ListUserPaymentHistory,
   },
 ] as const;

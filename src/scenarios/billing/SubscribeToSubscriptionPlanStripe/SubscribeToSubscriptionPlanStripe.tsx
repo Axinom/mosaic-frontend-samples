@@ -62,7 +62,9 @@ export const SubscribeToSubscriptionPlanStripe: React.FC = () => {
       );
     } else if (pathname.endsWith('subscribe-cancelled')) {
       logger.log('Redirection from Stripe detected.');
-      logger.log('The subscription is cancelled by the user.');
+      logger.log(
+        "The operation was cancelled by the user. The Billing Service subscription status will be changed to 'CANCELLED' eventually.",
+      );
     } else if (pathname.endsWith('subscribe-error')) {
       logger.log('Redirection from Stripe detected.');
       logger.log('An error occurred in the subscription.');
