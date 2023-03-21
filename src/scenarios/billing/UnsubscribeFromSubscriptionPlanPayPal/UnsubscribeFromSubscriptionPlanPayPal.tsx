@@ -29,7 +29,7 @@ interface Subscription {
   };
 }
 
-export const UnsubscribeFromSubscriptionPlan: React.FC = () => {
+export const UnsubscribeFromSubscriptionPlanPayPal: React.FC = () => {
   const { activeProfile, logger } = useScenarioHost();
   const [userAccessToken, setUserAccessToken] = useState<string>();
   const [subscriptions, setSubscriptions] = useState<Subscription[] | null>(
@@ -123,7 +123,9 @@ export const UnsubscribeFromSubscriptionPlan: React.FC = () => {
   return (
     <>
       <Segment basic>
-        <Header size="huge">Unsubscribe from a Subscription Plan</Header>
+        <Header size="huge">
+          Unsubscribe from a Subscription Plan (with PayPal)
+        </Header>
         <Header size="small">
           Required Services:
           <Label>user-service</Label>
