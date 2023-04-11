@@ -33,6 +33,7 @@ import {
   SubscribeToSubscriptionPlanStripe,
   UnsubscribeFromSubscriptionPlanStripe,
 } from './scenarios/billing';
+import { ProgressGet, ProgressSet } from './scenarios/personalization';
 
 export const scenarios = [
   /**
@@ -232,6 +233,24 @@ export const scenarios = [
     displayName: 'List User Payment History',
     displayOrder: 8,
     rootComponent: ListUserPaymentHistory,
+  },
+
+  /**
+   * Personalization related scenarios
+   */
+  {
+    groupName: 'Personalization',
+    shortId: 'progress-get',
+    displayName: 'Progress: Get',
+    displayOrder: 1,
+    rootComponent: ProgressGet,
+  },
+  {
+    groupName: 'Personalization',
+    shortId: 'progress-set',
+    displayName: 'Progress: Set',
+    displayOrder: 2,
+    rootComponent: ProgressSet,
   },
 ] as const;
 
