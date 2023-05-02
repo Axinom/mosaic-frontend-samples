@@ -43,17 +43,15 @@ export const ProgressGet: React.FC = () => {
       });
 
       logger.log(`method [${getProgressValue.name}]`, 'output:', result.data);
-
-      if (result.errors) {
-        logger.error(result.errors);
-      }
     } catch (error) {
-      if (error instanceof Error) {
+      if ((error as any).networkError.result.errors[0]) {
         logger.error(
           `method [${getProgressValue.name}]`,
           'output:',
-          error.message,
+          (error as any).networkError.result.errors[0].message,
         );
+      } else if (error instanceof Error) {
+        logger.error(`method [${getProgressValue.name}]`, 'output:', error);
       }
     }
   };
@@ -61,7 +59,7 @@ export const ProgressGet: React.FC = () => {
   return (
     <>
       <Segment basic>
-        <Header size="huge">Progress</Header>
+        <Header size="huge">Progress: Get</Header>
         <Header size="small">
           Required Services:
           <Label>user-service</Label>
@@ -72,10 +70,15 @@ export const ProgressGet: React.FC = () => {
 
         <Container fluid>
           <p>
-            This scenario demonstrates the main use case for saving the
-            user&apos;s progress of the video playback.
+            The scenario demonstrates how to retrieve the time earlier recorded
+            on the timer for the specified key (could be any identifier, like
+            movieID, episodeID, etc).
           </p>
-
+          <p>
+            In a real-life scenario it could be used for getting the last viewed
+            position of video playback, allowing user seamlessly continue
+            watching his/her content.
+          </p>
           <p>
             If the user is not already signed-in, you can use one of the Sign-In
             scenarios.
