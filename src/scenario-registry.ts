@@ -35,6 +35,10 @@ import {
 } from './scenarios/billing';
 import { ProgressGet, ProgressSet } from './scenarios/personalization';
 
+import { DataAdd } from './scenarios/personalization';
+import { DataGet } from './scenarios/personalization';
+import { DataRemove } from './scenarios/personalization';
+
 export const scenarios = [
   /**
    * User Authentication related scenarios
@@ -251,6 +255,27 @@ export const scenarios = [
     displayName: 'Progress: Set',
     displayOrder: 2,
     rootComponent: ProgressSet,
+  },
+  {
+    groupName: 'Personalization',
+    shortId: 'data-get',
+    displayName: 'Data: Get',
+    displayOrder: 6,
+    rootComponent: DataGet,
+  },
+  {
+    groupName: 'Personalization',
+    shortId: 'data-add',
+    displayName: 'Data: Add',
+    displayOrder: 7,
+    rootComponent: DataAdd,
+  },
+  {
+    groupName: 'Personalization',
+    shortId: 'data-remove',
+    displayName: 'Data: Remove',
+    displayOrder: 8,
+    rootComponent: DataRemove,
   },
 ] as const;
 
