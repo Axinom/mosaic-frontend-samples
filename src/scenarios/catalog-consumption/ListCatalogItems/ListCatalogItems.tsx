@@ -64,8 +64,8 @@ export const ListCatalogItems: React.FC = () => {
         <Container fluid>
           <p>
             This scenario demonstrates how to retrieve and show a list of
-            published media entities from the Catalog Service, such as movies
-            or TV shows.
+            published media entities from the Catalog Service, such as movies or
+            TV shows.
           </p>
         </Container>
 

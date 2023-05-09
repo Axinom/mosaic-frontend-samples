@@ -60,8 +60,8 @@ export const ShowUserInfoContainer: React.FC = () => {
           <p>
             If no user has already signed in, the scenario will show a
             corresponding message. However in real-life applications, it would
-            be more common to offer a Sign-In experience in such instances. Please
-            see other scenarios showcasing the Sign-In behavior.
+            be more common to offer a Sign-In experience in such instances.
+            Please see other scenarios showcasing the Sign-In behavior.
           </p>
         </Container>
 
