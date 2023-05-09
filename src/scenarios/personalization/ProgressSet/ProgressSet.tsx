@@ -134,8 +134,7 @@ interface StopwatchProps {
 
 export const Stopwatch: React.FC<StopwatchProps> = (props) => {
   const { activeProfile, logger } = useScenarioHost();
-  const [intervalMutationCall, setIntervalMutationCall] =
-    useState<NodeJS.Timer>();
+
   const [time, setTime] = useState(0);
   const timeRef = useRef(time);
 
@@ -144,6 +143,8 @@ export const Stopwatch: React.FC<StopwatchProps> = (props) => {
   const apolloClient = getApolloClient(
     new URL('graphql', activeProfile.personalizationServiceBaseURL).href,
   );
+
+  let intervalMutationCall: ReturnType<typeof setInterval> | undefined;
 
   // 'callMutationWithInterval' and 'intervalMutationCall' will not add to dependency array, because it create the infinite loop.
   useEffect(() => {
@@ -160,16 +161,21 @@ export const Stopwatch: React.FC<StopwatchProps> = (props) => {
 
       callMutationWithInterval();
     } else {
+      if (time !== 0) {
+        callMutationWithPauseButtonClick();
+      }
+
       clearInterval(intervalMutationCall);
     }
 
     return () => {
       clearInterval(intervalStopWatch);
+      clearInterval(intervalMutationCall);
     };
   }, [isRunning]);
 
   const callMutationWithInterval = async (): Promise<void> => {
-    const handler = setInterval(async () => {
+    intervalMutationCall = setInterval(async () => {
       // Call mutation
       try {
         const result = await apolloClient.mutate({
@@ -196,13 +202,56 @@ export const Stopwatch: React.FC<StopwatchProps> = (props) => {
           logger.error(result.errors);
         }
       } catch (error) {
-        if (error instanceof Error) {
+        if ((error as any).networkError.result.errors[0]) {
+          logger.error(
+            `method [setProgress]`,
+            'output:',
+            (error as any).networkError.result.errors[0].message,
+          );
+        } else if (error instanceof Error) {
           logger.error(`method [setProgress]`, 'output:', error.message);
         }
       }
     }, props.parentFrequencyOfProgressSaving);
+  };
 
-    setIntervalMutationCall(handler);
+  const callMutationWithPauseButtonClick = async (): Promise<void> => {
+    // Call mutation
+    try {
+      const result = await apolloClient.mutate({
+        mutation: SetProgressMutation,
+        variables: {
+          input: {
+            key: props.parentKey,
+            scope: 'PROFILE',
+            value: timeRef.current,
+          },
+        },
+        context: {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${props.parentUserAccessToken}`,
+          },
+        },
+        fetchPolicy: 'no-cache',
+      });
+
+      logger.log(`method [setProgress]`, 'output:', result.data);
+
+      if (result.errors) {
+        logger.error(result.errors);
+      }
+    } catch (error) {
+      if ((error as any).networkError.result.errors[0]) {
+        logger.error(
+          `method [setProgress]`,
+          'output:',
+          (error as any).networkError.result.errors[0].message,
+        );
+      } else if (error instanceof Error) {
+        logger.error(`method [setProgress]`, 'output:', error.message);
+      }
+    }
   };
 
   return (
