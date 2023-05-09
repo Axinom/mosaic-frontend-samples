@@ -132,9 +132,9 @@ export const ImagePreview: React.FC = () => {
       <Container fluid>
         <p>
           This scenario demonstrates how to query the Mosaic Image Service. It
-          uses the Catalog Service first to retrieve the published image(s)
-          for a given entity. Then it will allow you to fine-tune the width &
-          height properties and get the URL that shall be queried from the Image
+          uses the Catalog Service first to retrieve the published image(s) for
+          a given entity. Then it will allow you to fine-tune the width & height
+          properties and get the URL that shall be queried from the Image
           Service to retrieve the transformed image. The focal-point defined for
           the image in the Management System will be already applied.
         </p>

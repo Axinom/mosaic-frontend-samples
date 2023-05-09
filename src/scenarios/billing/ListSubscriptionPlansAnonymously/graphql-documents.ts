@@ -41,7 +41,7 @@ export const getSubscriptionPlansQuery = gql`
         }
       }
     }
-   }
+  }
 `;
 
 export const getPaymentPlanPricesQuery = gql`
