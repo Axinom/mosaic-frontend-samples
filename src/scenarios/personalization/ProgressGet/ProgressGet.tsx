@@ -76,7 +76,7 @@ export const ProgressGet: React.FC = () => {
           </p>
           <p>
             In a real-life scenario it could be used for getting the last viewed
-            position of video playback, allowing user seamlessly continue
+            position of video playback, allowing user to seamlessly continue
             watching his/her content.
           </p>
           <p>
