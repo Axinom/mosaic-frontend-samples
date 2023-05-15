@@ -9471,7 +9471,7 @@ __metadata:
     ts-node: ^10.9.1
     tslib: ^2.5.0
     typescript: ^5.0.4
-    web-vitals: ^3.0.4
+    web-vitals: ^3.3.1
   languageName: unknown
   linkType: soft
 
@@ -13535,10 +13535,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web-vitals@npm:^3.0.4":
-  version: 3.1.0
-  resolution: "web-vitals@npm:3.1.0"
-  checksum: 867161fd16e22b39720c8da3a5976ab08f414490123d94543b427832354bcdd36c64ff589a2c8de636cbe9593c5121e4a9a804d40b34a6e2b1c4cf275c5ba8e2
+"web-vitals@npm:^3.3.1":
+  version: 3.3.1
+  resolution: "web-vitals@npm:3.3.1"
+  checksum: ff417dec2d77f57bc5130767f47aad6f93173e5d0e24a179082c7dca423850106ba1d66c737f91400a6bed6585a7295531d9e54354d1cb31d1a3e68596bb2000
   languageName: node
   linkType: hard
 
