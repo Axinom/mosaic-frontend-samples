@@ -32,11 +32,16 @@ import {
   UnsubscribeFromSubscriptionPlanStripe,
   SubscribeToSubscriptionPlan,
 } from './scenarios/billing';
-import { ProgressGet, ProgressSet } from './scenarios/personalization';
-
-import { DataAdd } from './scenarios/personalization';
-import { DataGet } from './scenarios/personalization';
-import { DataRemove } from './scenarios/personalization';
+import {
+  ArrayGetFavorites,
+  ArrayAddFavorites,
+  ArrayRemoveFavorites,
+  ProgressGet,
+  ProgressSet,
+  DataAdd,
+  DataGet,
+  DataRemove,
+} from './scenarios/personalization';
 
 export const scenarios = [
   /**
@@ -268,6 +273,26 @@ export const scenarios = [
     displayName: 'Data: Remove',
     displayOrder: 8,
     rootComponent: DataRemove,
+  },
+  {
+    shortId: 'array-get-favorites',
+    displayName: 'Array: Get Favorites',
+    displayOrder: 3,
+    rootComponent: ArrayGetFavorites,
+  },
+  {
+    groupName: 'Personalization',
+    shortId: 'array-add-favorites',
+    displayName: 'Array: Add Favorite(s)',
+    displayOrder: 4,
+    rootComponent: ArrayAddFavorites,
+  },
+  {
+    groupName: 'Personalization',
+    shortId: 'array-remove-favorites',
+    displayName: 'Array: Remove Favorite(s)',
+    displayOrder: 5,
+    rootComponent: ArrayRemoveFavorites,
   },
 ] as const;
 
