@@ -25,13 +25,12 @@ import {
 import { ImagePreview } from './scenarios/image';
 import {
   ListSubscriptionPlansForUser,
-  SubscribeToSubscriptionPlanPayPal,
   ListSubscriptionPlansAnonymously,
   ListUserSubscriptions,
   UnsubscribeFromSubscriptionPlanPayPal,
   ListUserPaymentHistory,
-  SubscribeToSubscriptionPlanStripe,
   UnsubscribeFromSubscriptionPlanStripe,
+  SubscribeToSubscriptionPlan,
 } from './scenarios/billing';
 import { ProgressGet, ProgressSet } from './scenarios/personalization';
 
@@ -205,37 +204,30 @@ export const scenarios = [
   },
   {
     groupName: 'Billing & Monetization',
-    shortId: 'subscribe-to-subscription-plan-paypal',
-    displayName: 'Subscribe to a Subscription Plan (with PayPal)',
+    shortId: 'subscribe-to-subscription-plan',
+    displayName: 'Subscribe to a Subscription Plan',
     displayOrder: 4,
-    rootComponent: SubscribeToSubscriptionPlanPayPal,
-  },
-  {
-    groupName: 'Billing & Monetization',
-    shortId: 'subscribe-to-subscription-plan-stripe',
-    displayName: 'Subscribe to a Subscription Plan (with Stripe)',
-    displayOrder: 5,
-    rootComponent: SubscribeToSubscriptionPlanStripe,
+    rootComponent: SubscribeToSubscriptionPlan,
   },
   {
     groupName: 'Billing & Monetization',
     shortId: 'unsubscribe-from-subscription-plan-paypal',
     displayName: 'Unsubscribe from a Subscription Plan (with PayPal)',
-    displayOrder: 6,
+    displayOrder: 5,
     rootComponent: UnsubscribeFromSubscriptionPlanPayPal,
   },
   {
     groupName: 'Billing & Monetization',
     shortId: 'unsubscribe-from-subscription-plan-stripe',
     displayName: 'Unsubscribe from a Subscription Plan (with Stripe)',
-    displayOrder: 7,
+    displayOrder: 6,
     rootComponent: UnsubscribeFromSubscriptionPlanStripe,
   },
   {
     groupName: 'Billing & Monetization',
     shortId: 'list-user-payment-history',
     displayName: 'List User Payment History',
-    displayOrder: 8,
+    displayOrder: 7,
     rootComponent: ListUserPaymentHistory,
   },
 
