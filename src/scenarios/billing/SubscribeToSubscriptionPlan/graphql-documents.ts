@@ -2,13 +2,7 @@ import gql from 'graphql-tag';
 
 export const getPaymentPlansQuery = gql`
   query GetPaymentPlans {
-    paymentPlans(
-      filter: {
-        providerConfigs: {
-          some: { paymentProviderKey: { equalTo: "CPC_STRIPE" } }
-        }
-      }
-    ) {
+    paymentPlans {
       nodes {
         id
         subscriptionPlan {
@@ -22,14 +16,19 @@ export const getPaymentPlansQuery = gql`
   }
 `;
 
-export const getPaymentPlanPricesQuery = gql`
-  query GetPaymentPlanPrices($id: UUID!) {
+export const getPaymentPlanDetailsQuery = gql`
+  query GetPaymentPlanDetails($id: UUID!) {
     paymentPlan(id: $id) {
       prices {
         nodes {
           country
           currency
           price
+        }
+      }
+      providerConfigs {
+        nodes {
+          paymentProviderKey
         }
       }
     }

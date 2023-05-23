@@ -14,10 +14,12 @@ import {
 } from 'semantic-ui-react';
 import { getApolloClient } from '../../../apollo-client';
 import {
-  getPaymentPlanPricesQuery,
+  getPaymentPlanDetailsQuery,
   getPaymentPlansQuery,
 } from './graphql-documents';
 import { ScenarioKey } from '../../../scenario-registry';
+import { PaypalPaymentProvider } from './PaypalPaymentProvider/PaypalPaymentProvider';
+import { StripePaymentProvider } from './StripePaymentProvider/StripePaymentProvider';
 
 interface PaymentPlan {
   id: string;
@@ -35,38 +37,63 @@ interface PaymentPlanPrice {
   price: string;
 }
 
-export const SubscribeToSubscriptionPlanStripe: React.FC = () => {
+type PaymentProviderKey = 'PAYPAL' | 'CPC_STRIPE';
+
+interface PaymentProvider {
+  key: PaymentProviderKey;
+  title: string;
+}
+
+const allPaymentProviders: PaymentProvider[] = [
+  {
+    key: 'PAYPAL',
+    title: 'PayPal',
+  },
+  {
+    key: 'CPC_STRIPE',
+    title: 'Stripe',
+  },
+];
+
+export const SubscribeToSubscriptionPlan: React.FC = () => {
   const { activeProfile, logger } = useScenarioHost();
-  const [userAccessToken, setUserAccessToken] = useState<string>();
+  const [userAccessToken, setUserAccessToken] = useState<string>('');
   const [paymentPlans, setPaymentPlans] = useState<PaymentPlan[] | null>(null);
   const [paymentPlanId, setPaymentPlanId] = useState<string>('');
   const [paymentPlanPrices, setPaymentPlanPrices] = useState<
     PaymentPlanPrice[] | null
   >(null);
-  const [currencyCode, setCurrencyCode] = useState<string>('');
+  const [paymentProviders, setPaymentProviders] = useState<
+    PaymentProvider[] | null
+  >(null);
+  const [countryCode, setCountryCode] = useState<string>('');
+  const [paymentProviderKey, setPaymentProviderKey] = useState<
+    PaymentProviderKey | ''
+  >('');
 
   const apolloClient = getApolloClient(
     new URL('graphql', activeProfile.billingServiceBaseURL).href,
   );
-  const scenarioId: ScenarioKey = 'subscribe-to-subscription-plan-stripe';
+  const scenarioId: ScenarioKey = 'subscribe-to-subscription-plan';
 
   useEffect(() => {
     const pathname = window.location.pathname;
 
     if (pathname.endsWith('subscribe-success')) {
       const urlParams = new URLSearchParams(window.location.search);
-      const subscriptionId = urlParams.get('subscription_id');
-      logger.log('Redirection from Stripe detected.');
+      const subscriptionId =
+        urlParams.get('subscriptionId') ?? urlParams.get('subscription_id');
+      logger.log('Redirection from payment provider detected.');
       logger.log(
         `Subscription with ID ${subscriptionId} should be active now. You can verify it by using the 'List User Subscriptions' scenario.`,
       );
     } else if (pathname.endsWith('subscribe-cancelled')) {
-      logger.log('Redirection from Stripe detected.');
+      logger.log('Redirection from payment provider detected.');
       logger.log(
         "The operation was cancelled by the user. The Billing Service subscription status will be changed to 'CANCELLED' eventually.",
       );
     } else if (pathname.endsWith('subscribe-error')) {
-      logger.log('Redirection from Stripe detected.');
+      logger.log('Redirection from payment provider detected.');
       logger.log('An error occurred in the subscription.');
     }
   }, [logger]);
@@ -89,10 +116,18 @@ export const SubscribeToSubscriptionPlanStripe: React.FC = () => {
       } else {
         setPaymentPlans(result.data.paymentPlans.nodes);
         setPaymentPlanId('');
+        setPaymentPlanPrices(null);
+        setCountryCode('');
+        setPaymentProviders(null);
+        setPaymentProviderKey('');
       }
     } catch (error) {
       setPaymentPlans(null);
       setPaymentPlanId('');
+      setPaymentPlanPrices(null);
+      setCountryCode('');
+      setPaymentProviders(null);
+      setPaymentProviderKey('');
 
       if (error instanceof Error) {
         logger.error(
@@ -104,12 +139,12 @@ export const SubscribeToSubscriptionPlanStripe: React.FC = () => {
     }
   };
 
-  const fetchPaymentPlanPrices = async (
+  const fetchPaymentPlanDetails = async (
     paymentPlanId: string,
   ): Promise<void> => {
     try {
       const result = await apolloClient.query({
-        query: getPaymentPlanPricesQuery,
+        query: getPaymentPlanDetailsQuery,
         variables: {
           id: paymentPlanId,
         },
@@ -122,7 +157,7 @@ export const SubscribeToSubscriptionPlanStripe: React.FC = () => {
       });
 
       logger.log(
-        `method [${fetchPaymentPlanPrices.name}]`,
+        `method [${fetchPaymentPlanDetails.name}]`,
         'output:',
         result.data,
       );
@@ -130,42 +165,32 @@ export const SubscribeToSubscriptionPlanStripe: React.FC = () => {
         logger.error(result.errors);
       } else {
         setPaymentPlanPrices(result.data.paymentPlan.prices.nodes);
-        setCurrencyCode('');
+        setCountryCode('');
+
+        const providerConfigs = result.data.paymentPlan.providerConfigs.nodes;
+        if (Array.isArray(providerConfigs) && providerConfigs.length > 0) {
+          const providerConfigKeys = providerConfigs.map(
+            (config) => config.paymentProviderKey,
+          );
+
+          setPaymentProviders(
+            allPaymentProviders.filter((provider) =>
+              providerConfigKeys.includes(provider.key),
+            ),
+          );
+        }
+
+        setPaymentProviderKey('');
       }
     } catch (error) {
       setPaymentPlanPrices(null);
-      setCurrencyCode('');
-      if (error instanceof Error) {
-        logger.error(
-          `method [${fetchPaymentPlanPrices.name}]`,
-          'output:',
-          error.message,
-        );
-      }
-    }
-  };
+      setCountryCode('');
+      setPaymentProviders(null);
+      setPaymentProviderKey('');
 
-  const subscribeToPaymentPlan = async (): Promise<void> => {
-    try {
-      const startCheckoutUrl = new URL(
-        'start-checkout',
-        activeProfile.stripePaymentConnectorBaseURL,
-      ).href;
-      const result = await fetch(startCheckoutUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + userAccessToken,
-        },
-        body: JSON.stringify({ paymentPlanId, currency: currencyCode }),
-      });
-      const data = await result.json();
-      logger.log(`method [${subscribeToPaymentPlan.name}]`, 'output:', data);
-      window.location.href = data.redirectUrl;
-    } catch (error) {
       if (error instanceof Error) {
         logger.error(
-          `method [${subscribeToPaymentPlan.name}]`,
+          `method [${fetchPaymentPlanDetails.name}]`,
           'output:',
           error.message,
         );
@@ -176,14 +201,11 @@ export const SubscribeToSubscriptionPlanStripe: React.FC = () => {
   return (
     <>
       <Segment basic>
-        <Header size="huge">
-          Subscribe to a Subscription Plan (with Stripe)
-        </Header>
+        <Header size="huge">Subscribe to a Subscription Plan</Header>
         <Header size="small">
           Required Services:
           <Label>user-service</Label>
           <Label>billing-service & monetization-service</Label>
-          <Label>stripe-payment-connector</Label>
         </Header>
 
         <Divider />
@@ -191,8 +213,8 @@ export const SubscribeToSubscriptionPlanStripe: React.FC = () => {
         <Container fluid>
           <p>
             This scenario demonstrates the sequence of actions a user would take
-            to Subscribe to a Subscription Plan using Stripe as the Payment
-            Provider.
+            to Subscribe to a Subscription Plan using PayPal or Stripe as the
+            Payment Provider.
           </p>
 
           <p>
@@ -253,7 +275,7 @@ export const SubscribeToSubscriptionPlanStripe: React.FC = () => {
             fluid
             selection
             width={4}
-            label="Subscription Plans with Stripe Purchase"
+            label="Subscription Plans"
             placeholder="Select a subscription plan"
             options={
               paymentPlans?.map((plan) => {
@@ -269,7 +291,7 @@ export const SubscribeToSubscriptionPlanStripe: React.FC = () => {
             onChange={async (event, { value }) => {
               const paymentPlanId = value as string;
               setPaymentPlanId(paymentPlanId);
-              await fetchPaymentPlanPrices(paymentPlanId);
+              await fetchPaymentPlanDetails(paymentPlanId);
             }}
           ></Form.Dropdown>
 
@@ -288,26 +310,52 @@ export const SubscribeToSubscriptionPlanStripe: React.FC = () => {
                 };
               }) ?? []
             }
+            value={countryCode}
             onChange={(event, { value }) => {
-              const currency = paymentPlanPrices?.find(
-                (option) => option.country === value,
-              )?.currency;
-              if (currency !== undefined) {
-                setCurrencyCode(currency);
-              }
+              setCountryCode(value as string);
             }}
           ></Form.Dropdown>
 
-          <Button
-            disabled={!paymentPlanId || !currencyCode}
-            style={{ width: '170px' }}
-            primary
-            onClick={async () => {
-              subscribeToPaymentPlan();
+          <Form.Dropdown
+            disabled={!paymentProviders}
+            fluid
+            selection
+            width={4}
+            label="Payment Provider"
+            placeholder="Select an option"
+            options={
+              paymentProviders?.map((provider) => {
+                return {
+                  text: provider.title,
+                  value: provider.key,
+                };
+              }) ?? []
+            }
+            value={paymentProviderKey}
+            onChange={(event, { value }) => {
+              setPaymentProviderKey(value as PaymentProviderKey);
             }}
-          >
-            Subscribe
-          </Button>
+          ></Form.Dropdown>
+
+          {paymentProviderKey === 'PAYPAL' && (
+            <PaypalPaymentProvider
+              userAccessToken={userAccessToken}
+              paymentPlanId={paymentPlanId}
+              countryCode={countryCode}
+              apolloClient={apolloClient}
+            />
+          )}
+          {paymentProviderKey === 'CPC_STRIPE' && (
+            <StripePaymentProvider
+              userAccessToken={userAccessToken}
+              paymentPlanId={paymentPlanId}
+              currencyCode={
+                paymentPlanPrices?.find(
+                  (option) => option.country === countryCode,
+                )?.currency ?? ''
+              }
+            />
+          )}
         </Form>
       </Segment>
     </>
