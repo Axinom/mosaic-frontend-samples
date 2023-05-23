@@ -25,8 +25,8 @@ export const ArrayGetFavorites: React.FC = () => {
         new URL('graphql', activeProfile.personalizationServiceBaseURL).href,
       );
 
-      const result = await apolloClient.mutate({
-        mutation: getArrayQuery,
+      const result = await apolloClient.query({
+        query: getArrayQuery,
         variables: {
           input: {
             scope: 'PROFILE',
@@ -51,7 +51,13 @@ export const ArrayGetFavorites: React.FC = () => {
         logger.log(`method [${fetchFavorites.name}]`, 'output:', result.data);
       }
     } catch (error) {
-      if (error instanceof Error) {
+      if ((error as any).networkError.result.errors[0]) {
+        logger.error(
+          `method [${fetchFavorites.name}]`,
+          'output:',
+          (error as any).networkError.result.errors[0].message,
+        );
+      } else if (error instanceof Error) {
         logger.error(
           `method [${fetchFavorites.name}]`,
           'output:',

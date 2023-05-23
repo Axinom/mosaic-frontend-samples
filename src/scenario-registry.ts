@@ -263,26 +263,6 @@ export const scenarios = [
   },
   {
     groupName: 'Personalization',
-    shortId: 'data-get',
-    displayName: 'Data: Get',
-    displayOrder: 6,
-    rootComponent: DataGet,
-  },
-  {
-    groupName: 'Personalization',
-    shortId: 'data-add',
-    displayName: 'Data: Add',
-    displayOrder: 7,
-    rootComponent: DataAdd,
-  },
-  {
-    groupName: 'Personalization',
-    shortId: 'data-remove',
-    displayName: 'Data: Remove',
-    displayOrder: 8,
-    rootComponent: DataRemove,
-  },
-  {
     shortId: 'array-get-favorites',
     displayName: 'Array: Get Favorites',
     displayOrder: 3,
@@ -302,6 +282,28 @@ export const scenarios = [
     displayOrder: 5,
     rootComponent: ArrayRemoveFavorites,
   },
+  {
+    groupName: 'Personalization',
+    shortId: 'data-get',
+    displayName: 'Data: Get',
+    displayOrder: 6,
+    rootComponent: DataGet,
+  },
+  {
+    groupName: 'Personalization',
+    shortId: 'data-add',
+    displayName: 'Data: Add',
+    displayOrder: 7,
+    rootComponent: DataAdd,
+  },
+  {
+    groupName: 'Personalization',
+    shortId: 'data-remove',
+    displayName: 'Data: Remove',
+    displayOrder: 8,
+    rootComponent: DataRemove,
+  },
+
 ] as const;
 
 export type ScenarioKey = typeof scenarios[number]['shortId'];

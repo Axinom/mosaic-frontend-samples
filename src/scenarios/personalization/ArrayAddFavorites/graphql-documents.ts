@@ -1,8 +1,14 @@
 import gql from 'graphql-tag';
 
-export const getMoviesQuery = gql`
-  query GetMovies {
+export const getCatalogItemsQuery = gql`
+  query GetCatalogItems {
     movies {
+      nodes {
+        id
+        title
+      }
+    }
+    tvshows {
       nodes {
         id
         title
@@ -11,12 +17,15 @@ export const getMoviesQuery = gql`
   }
 `;
 
-export const getTvShowsQuery = gql`
-  query GetTvShows {
-    tvshows {
-      nodes {
+export const getArrayQuery = gql`
+  query GetArray($input: GetArrayInput!) {
+    getArray(input: $input) {
+      key
+      totalCount
+      data {
+        key
+        value
         id
-        title
       }
     }
   }

@@ -14,77 +14,111 @@ import {
 } from 'semantic-ui-react';
 import { getApolloClient } from '../../../apollo-client';
 import {
-  getMoviesQuery,
-  getTvShowsQuery,
+  getArrayQuery,
+  getCatalogItemsQuery,
   setArrayItemMutation,
 } from './graphql-documents';
 
-interface entity {
+interface Entity {
   id: string;
   title: string;
-  type: string;
+  type: 'Movie' | 'TV Show';
+}
+
+interface Favorite {
+  key: string;
+  value: string;
+  id: string;
 }
 
 export const ArrayAddFavorites: React.FC = () => {
   const { activeProfile, logger } = useScenarioHost();
   const [userAccessToken, setUserAccessToken] = useState<string>();
 
-  const [entityArray, setEntityArray] = useState<entity[]>([]);
-  const [entityId, setSelectedEntity] = useState<string>('');
+  const [entityArray, setEntityArray] = useState<Entity[]>([]);
+  const [selectedEntityId, setSelectedEntityId] = useState<string>('');
+
+  const apolloClientCatalog = getApolloClient(
+    new URL('graphql', activeProfile.catalogServiceBaseURL).href,
+  );
+  const apolloClientPersonalization = getApolloClient(
+    new URL('graphql', activeProfile.personalizationServiceBaseURL).href,
+  );
 
   const fetchAllCatalogItems = async (): Promise<void> => {
     try {
-      const apolloClient = getApolloClient(
-        new URL('graphql', activeProfile.catalogServiceBaseURL).href,
+      // Get all catalog items
+      const resultCatalogItems = await apolloClientCatalog.query({
+        query: getCatalogItemsQuery,
+        context: {
+          headers: {
+            Authorization: `Bearer ${userAccessToken}`,
+          },
+        },
+        fetchPolicy: 'no-cache',
+      });
+
+      const moviesArray: Entity[] = resultCatalogItems.data.movies.nodes.map(
+        (movie: Entity) => ({ ...movie, type: 'Movie' }),
+      );
+      const tvShowsArray: Entity[] = resultCatalogItems.data.tvshows.nodes.map(
+        (tvShow: Entity) => ({ ...tvShow, type: 'TV Show' }),
       );
 
-      const resultMovies = await apolloClient.query({
-        query: getMoviesQuery,
-        context: {
-          headers: {
-            Authorization: `Bearer ${userAccessToken}`,
-          },
-        },
-        fetchPolicy: 'no-cache',
-      });
-
-      const resultTvShows = await apolloClient.query({
-        query: getTvShowsQuery,
-        context: {
-          headers: {
-            Authorization: `Bearer ${userAccessToken}`,
-          },
-        },
-        fetchPolicy: 'no-cache',
-      });
-
-      const moviesArray = resultMovies.data.movies.nodes;
-      const tvShowsArray = resultTvShows.data.tvshows.nodes;
-
-      // Add Entity Type
-      for (let i = 0; i < moviesArray.length; i++) {
-        moviesArray[i] = Object.assign(moviesArray[i], {
-          type: 'Movie',
-        });
-      }
-
-      for (let i = 0; i < tvShowsArray.length; i++) {
-        tvShowsArray[i] = Object.assign(tvShowsArray[i], {
-          type: 'TV Show',
-        });
-      }
-
       // Concat Entity Arrays
-      const result = moviesArray.concat(tvShowsArray);
-      setEntityArray(result);
+      const catalogItemsArray = moviesArray.concat(tvShowsArray);
 
-      logger.log(`calling [${fetchAllCatalogItems.name}]`, 'output:', result);
+      // Get all favorites
+      const resultFavorites = await apolloClientPersonalization.query({
+        query: getArrayQuery,
+        variables: {
+          input: {
+            scope: 'PROFILE',
+            key: 'user_profile:favorites',
+          },
+        },
+        context: {
+          headers: {
+            Authorization: `Bearer ${userAccessToken}`,
+          },
+        },
+        fetchPolicy: 'no-cache',
+      });
 
-      if (result.errors) {
-        logger.error(result.errors);
+      const resultFiltered = filterExistingItems(
+        catalogItemsArray,
+        resultFavorites.data.getArray.data as Favorite[],
+      );
+
+      setEntityArray(resultFiltered);
+
+      if (resultCatalogItems.errors) {
+        logger.error(
+          `calling [${fetchAllCatalogItems.name}]`,
+          'output:',
+          resultCatalogItems.errors,
+        );
+      } else if (resultFavorites.errors) {
+        logger.error(
+          `calling [${fetchAllCatalogItems.name}]`,
+          'output:',
+          resultFavorites.errors,
+        );
+      } else {
+        logger.log(
+          `method [${fetchAllCatalogItems.name}]`,
+          'output:',
+          resultCatalogItems.data,
+        );
       }
     } catch (error) {
-      if (error instanceof Error) {
+      if ((error as any).networkError.result.errors[0]) {
+        logger.error(
+          `method [${fetchAllCatalogItems.name}]`,
+          'output:',
+          (error as any).networkError.result.errors[0].message,
+        );
+      } else if (error instanceof Error) {
         logger.error(
           `calling [${fetchAllCatalogItems.name}]`,
           'output:',
@@ -94,33 +128,38 @@ export const ArrayAddFavorites: React.FC = () => {
     }
   };
 
+  function filterExistingItems(
+    catalogItemsArray: Entity[],
+    favoritesArray: Favorite[],
+  ): Entity[] {
+    const favoriteArrayIds = favoritesArray.map((favorite) => {
+      const entityValue: any = favorite?.value;
+      return entityValue['id'];
+    });
+
+    const filteredArray = catalogItemsArray.filter(
+      (item) => !favoriteArrayIds.includes(item.id),
+    );
+
+    return filteredArray;
+  }
+
   const addToFavorites = async (): Promise<void> => {
     try {
-      const apolloClient = getApolloClient(
-        new URL('graphql', activeProfile.personalizationServiceBaseURL).href,
+      const selectedEntityData = entityArray.find(
+        (entity) => entity.id === selectedEntityId,
       );
 
-      const index = entityId.indexOf(':'); // Gets the first index where a colon occurs.
-      const id = entityId.substring(0, index); // Gets the id part
-      const title = entityId.substring(index + 1); // Gets the title part
-
-      interface EntityObject {
-        id: string;
-        title: string;
-      }
-
-      const entityObject: EntityObject = {
-        id: id,
-        title: title,
-      };
-
-      const result = await apolloClient.mutate({
+      const result = await apolloClientPersonalization.mutate({
         mutation: setArrayItemMutation,
         variables: {
           input: {
             scope: 'PROFILE',
             key: 'user_profile:favorites',
-            value: entityObject,
+            value: {
+              id: selectedEntityId,
+              title: selectedEntityData?.title,
+            },
           },
         },
         context: {
@@ -139,6 +178,8 @@ export const ArrayAddFavorites: React.FC = () => {
         );
       } else {
         logger.log(`method [${addToFavorites.name}]`, 'output:', result.data);
+        logger.log(`Updating entity IDs dropdown after adding favorites.`);
+        await fetchAllCatalogItems();
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -218,12 +259,12 @@ export const ArrayAddFavorites: React.FC = () => {
                 options={entityArray.map((entity) => {
                   return {
                     text: `${entity.type}: ${entity.title}`,
-                    value: `${entity.id}: ${entity.title}`,
+                    value: `${entity.id}`,
                   };
                 })}
-                value={entityId}
+                value={selectedEntityId}
                 onChange={(event, { value }) => {
-                  setSelectedEntity(value as string);
+                  setSelectedEntityId(value as string);
                 }}
               ></Form.Dropdown>
 
@@ -232,7 +273,7 @@ export const ArrayAddFavorites: React.FC = () => {
                 onClick={async () => {
                   addToFavorites();
                 }}
-                disabled={entityId === ''}
+                disabled={selectedEntityId === ''}
               >
                 Add to Favorites
               </Form.Button>
