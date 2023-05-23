@@ -15,7 +15,7 @@ import {
 import { getApolloClient } from '../../../apollo-client';
 import { getArrayQuery, deleteArrayItemMutation } from './graphql-documents';
 
-interface favorite {
+interface Favorite {
   key: string;
   value: string;
   id: string;
@@ -25,7 +25,7 @@ export const ArrayRemoveFavorites: React.FC = () => {
   const { activeProfile, logger } = useScenarioHost();
   const [userAccessToken, setUserAccessToken] = useState<string>();
 
-  const [favoriteArray, setFavoriteArray] = useState<favorite[]>([]);
+  const [favoriteArray, setFavoriteArray] = useState<Favorite[]>([]);
   const [entityId, setSelectedEntity] = useState<string>('');
 
   const fetchFavoritesByAccessToken = async (): Promise<void> => {
@@ -34,8 +34,8 @@ export const ArrayRemoveFavorites: React.FC = () => {
         new URL('graphql', activeProfile.personalizationServiceBaseURL).href,
       );
 
-      const result = await apolloClient.mutate({
-        mutation: getArrayQuery,
+      const result = await apolloClient.query({
+        query: getArrayQuery,
         variables: {
           input: {
             scope: 'PROFILE',
@@ -52,17 +52,27 @@ export const ArrayRemoveFavorites: React.FC = () => {
 
       setFavoriteArray(result.data.getArray.data);
 
-      logger.log(
-        `calling [${fetchFavoritesByAccessToken.name}]`,
-        'output:',
-        result,
-      );
-
       if (result.errors) {
-        logger.error(result.errors);
+        logger.error(
+          `calling [${fetchFavoritesByAccessToken.name}]`,
+          'output:',
+          result.errors,
+        );
+      } else {
+        logger.log(
+          `method [${fetchFavoritesByAccessToken.name}]`,
+          'output:',
+          result.data,
+        );
       }
     } catch (error) {
-      if (error instanceof Error) {
+      if ((error as any).networkError.result.errors[0]) {
+        logger.error(
+          `method [${fetchFavoritesByAccessToken.name}]`,
+          'output:',
+          (error as any).networkError.result.errors[0].message,
+        );
+      } else if (error instanceof Error) {
         logger.error(
           `calling [${fetchFavoritesByAccessToken.name}]`,
           'output:',
