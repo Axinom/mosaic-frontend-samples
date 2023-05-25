@@ -45,7 +45,9 @@ export const ArrayAddFavorites: React.FC = () => {
     new URL('graphql', activeProfile.personalizationServiceBaseURL).href,
   );
 
-  const fetchAllCatalogItems = async (): Promise<void> => {
+  let displayLog = true;
+
+  const fetchAllCatalogItems = async (displayLog: boolean): Promise<void> => {
     try {
       // Get all catalog items
       const resultCatalogItems = await apolloClientCatalog.query({
@@ -105,11 +107,13 @@ export const ArrayAddFavorites: React.FC = () => {
           resultFavorites.errors,
         );
       } else {
-        logger.log(
-          `method [${fetchAllCatalogItems.name}]`,
-          'output:',
-          resultCatalogItems.data,
-        );
+        if (displayLog === true) {
+          logger.log(
+            `method [${fetchAllCatalogItems.name}]`,
+            'output:',
+            resultFiltered,
+          );
+        }
       }
     } catch (error) {
       if ((error as any).networkError.result.errors[0]) {
@@ -179,7 +183,8 @@ export const ArrayAddFavorites: React.FC = () => {
       } else {
         logger.log(`method [${addToFavorites.name}]`, 'output:', result.data);
         logger.log(`Updating entity IDs dropdown after adding favorites.`);
-        await fetchAllCatalogItems();
+        displayLog = false;
+        await fetchAllCatalogItems(displayLog);
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -243,7 +248,7 @@ export const ArrayAddFavorites: React.FC = () => {
               <Form.Button
                 primary
                 onClick={async () => {
-                  fetchAllCatalogItems();
+                  fetchAllCatalogItems(displayLog);
                 }}
               >
                 Fetch All Catalog Items
