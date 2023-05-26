@@ -45,8 +45,6 @@ export const ArrayAddFavorites: React.FC = () => {
     new URL('graphql', activeProfile.personalizationServiceBaseURL).href,
   );
 
-  let displayLog = true;
-
   const fetchAllCatalogItems = async (displayLog: boolean): Promise<void> => {
     try {
       // Get all catalog items
@@ -183,8 +181,7 @@ export const ArrayAddFavorites: React.FC = () => {
       } else {
         logger.log(`method [${addToFavorites.name}]`, 'output:', result.data);
         logger.log(`Updating entity IDs dropdown after adding favorites.`);
-        displayLog = false;
-        await fetchAllCatalogItems(displayLog);
+        await fetchAllCatalogItems(false);
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -248,7 +245,7 @@ export const ArrayAddFavorites: React.FC = () => {
               <Form.Button
                 primary
                 onClick={async () => {
-                  fetchAllCatalogItems(displayLog);
+                  fetchAllCatalogItems(true);
                 }}
               >
                 Fetch All Catalog Items
