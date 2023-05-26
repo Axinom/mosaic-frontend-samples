@@ -63,14 +63,14 @@ export const DataAdd: React.FC = () => {
         logger.log(`method [${saveData.name}]`, 'output:', result.data);
       }
     } catch (error) {
-      if (error instanceof Error) {
-        logger.error(`method [${saveData.name}]`, 'output:', error.message);
-      } else {
+      if ((error as any).networkError.result.errors[0]) {
         logger.error(
           `method [${saveData.name}]`,
           'output:',
-          JSON.stringify(error),
+          (error as any).networkError.result.errors[0].message,
         );
+      } else if (error instanceof Error) {
+        logger.error(`method [${saveData.name}]`, 'output:', error.message);
       }
     }
   };

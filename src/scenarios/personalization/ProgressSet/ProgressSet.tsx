@@ -150,19 +150,19 @@ export const ProgressSet: React.FC = () => {
           <Grid.Column width={5}>
             <Form>
               <Form.Input
-                type="number"
-                control={VariableSearch}
-                label="Frequency of progress saving (ms)"
-                value={frequencyOfProgressSaving}
-                setStateValue={setFrequencyOfProgressSaving}
-              />
-
-              <Form.Input
                 control={VariableSearch}
                 icon="key"
                 label="User Access Token"
                 value={userAccessToken}
                 setStateValue={setUserAccessToken}
+              />
+
+              <Form.Input
+                type="number"
+                control={VariableSearch}
+                label="Frequency of progress saving (ms)"
+                value={frequencyOfProgressSaving}
+                setStateValue={setFrequencyOfProgressSaving}
               />
 
               <Form.Input
