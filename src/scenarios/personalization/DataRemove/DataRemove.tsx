@@ -69,17 +69,17 @@ export const DataRemove: React.FC = () => {
         );
       }
     } catch (error) {
-      if (error instanceof Error) {
+      if ((error as any).networkError.result.errors[0]) {
+        logger.error(
+          `method [${removeSelectedKey.name}]`,
+          'output:',
+          (error as any).networkError.result.errors[0].message,
+        );
+      } else if (error instanceof Error) {
         logger.error(
           `method [${removeSelectedKey.name}]`,
           'output:',
           error.message,
-        );
-      } else {
-        logger.error(
-          `method [${removeSelectedKey.name}]`,
-          'output:',
-          JSON.stringify(error),
         );
       }
     }

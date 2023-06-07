@@ -14,8 +14,8 @@ variables:
 steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: '14.x'
-    displayName: 'Install Node.js'
+      versionSpec: "18.x"
+    displayName: "Install Node.js"
 
   - task: Cache@2
     inputs:
@@ -27,10 +27,10 @@ steps:
     displayName: Cache yarn packages
 
   - script: yarn install --immutable
-    displayName: 'Install dependencies'
+    displayName: "Install dependencies"
 
   - script: yarn build
-    displayName: 'Build the App'
+    displayName: "Build the App"
 
   - script: yarn test:ci
-    displayName: 'Run tests for the App'
+    displayName: "Run tests for the App"
