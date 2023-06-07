@@ -19,7 +19,7 @@
     "graphql": "^16.6.0",
     "graphql-tag": "^2.11.0",
     "graphql-ws": "^5.5.0",
-    "i18n-iso-countries": "^7.5.0",
+    "i18n-iso-countries": "^7.6.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3",
     "shaka-player-react": "^1.1.5",
