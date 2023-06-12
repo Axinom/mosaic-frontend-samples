@@ -2,7 +2,12 @@ import gql from 'graphql-tag';
 
 export const getPaymentPlansQuery = gql`
   query GetPaymentPlans {
-    paymentPlans {
+    paymentPlans(
+      filter: {
+        subscriptionPlan: { isActive: { equalTo: true } }
+        isActive: { equalTo: true }
+      }
+    ) {
       nodes {
         id
         subscriptionPlan {
