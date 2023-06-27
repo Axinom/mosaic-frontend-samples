@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.2.5",
-    "@axinom/mosaic-fe-samples-host": "0.8.1",
+    "@axinom/mosaic-fe-samples-host": "0.8.2",
     "@axinom/mosaic-user-auth": "0.6.1",
     "@paypal/paypal-js": "^5.1.4",
     "graphql": "^16.6.0",
