@@ -2,6 +2,14 @@
 
 FROM nginx:stable-alpine
 
+# With SDU/Hosting, we expect the containers to have `1000` as the user's ID and GID.
+# While we use the inbuilt `nginx` user to run the server, its id and gid are 101, so we change it here.
+RUN echo http://dl-2.alpinelinux.org/alpine/edge/community/ >> /etc/apk/repositories && \
+    apk --no-cache add shadow && \
+    groupmod -g 1000 nginx && \
+    usermod -u 1000 -g 1000 nginx && \
+    apk del shadow
+
 RUN rm /etc/nginx/conf.d/default.conf
 
 # Copy Nginx configuration files
