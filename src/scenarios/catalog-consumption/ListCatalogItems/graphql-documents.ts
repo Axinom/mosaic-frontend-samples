@@ -28,6 +28,15 @@ export const getAllItemsQuery = gql`
         }
       }
     }
+    channels {
+      nodes {
+        id
+        title
+        description
+        dashStreamUrl
+        hlsStreamUrl
+      }
+    }
   }
 `;
 
@@ -62,6 +71,20 @@ export const getAllTvShowsQuery = gql`
             }
           }
         }
+      }
+    }
+  }
+`;
+
+export const getAllChannelsQuery = gql`
+  query GetAllChannels {
+    channels {
+      nodes {
+        id
+        title
+        description
+        dashStreamUrl
+        hlsStreamUrl
       }
     }
   }
