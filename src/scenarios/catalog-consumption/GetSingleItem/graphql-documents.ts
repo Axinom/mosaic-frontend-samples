@@ -16,6 +16,28 @@ export const getAllItemsQuery = gql`
       cast
       released
       tags
+      images {
+        nodes {
+          id
+          type
+          path
+        }
+      }
+      videos {
+        nodes {
+          id
+          dashManifest
+          hlsManifest
+          cuePoints {
+            nodes {
+              id
+              cuePointTypeKey
+              timeInSeconds
+              value
+            }
+          }
+        }
+      }
     }
     tvshow(id: $id) {
       id
@@ -31,6 +53,13 @@ export const getAllItemsQuery = gql`
       cast
       released
       tags
+      images {
+        nodes {
+          id
+          type
+          path
+        }
+      }
       seasons {
         nodes {
           id
@@ -61,6 +90,13 @@ export const getAllItemsQuery = gql`
       cast
       released
       tags
+      images {
+        nodes {
+          id
+          type
+          path
+        }
+      }
     }
     episode(id: $id) {
       id
@@ -76,6 +112,35 @@ export const getAllItemsQuery = gql`
       cast
       released
       tags
+      images {
+        nodes {
+          id
+          type
+          path
+        }
+      }
+      videos {
+        nodes {
+          id
+          dashManifest
+          hlsManifest
+          cuePoints {
+            nodes {
+              id
+              cuePointTypeKey
+              timeInSeconds
+              value
+            }
+          }
+        }
+      }
+    }
+    channel(id: $id) {
+      id
+      title
+      hlsStreamUrl
+      description
+      dashStreamUrl
     }
   }
 `;

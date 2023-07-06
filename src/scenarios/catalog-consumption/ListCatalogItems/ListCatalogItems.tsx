@@ -10,6 +10,7 @@ import {
 } from 'semantic-ui-react';
 import { getApolloClient } from '../../../apollo-client';
 import {
+  getAllChannelsQuery,
   getAllItemsQuery,
   getAllMoviesQuery,
   getAllTvShowsQuery,
@@ -100,6 +101,17 @@ export const ListCatalogItems: React.FC = () => {
           }}
         >
           List All TV Shows
+        </Button>
+
+        <Divider />
+
+        <Button
+          primary
+          onClick={async () => {
+            fetchAndLogCatalogItems(getAllChannelsQuery);
+          }}
+        >
+          List All Channels
         </Button>
       </Segment>
     </>
