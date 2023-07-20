@@ -58,8 +58,12 @@ libraries shall be used.
 # Running the Project
 
 - Run `yarn` to install dependencies
-- Copy `.env.template` into `.env`, and change the PORT number as needed
+- Copy `.env.template` into `.env`, and change the values if needed
 - Run `yarn dev` to start running the project in watch mode
+- Run `yarn util:start-proxy` to start a `localhost` proxy to the
+  `Mosaic User Service` upstream
+  - Ensure to set/update the URL for `User Auth Base URL` in your
+    `Mosaic Frontend Samples` profile to use the proxy endpoint for requests
 
 # Building for Production
 
