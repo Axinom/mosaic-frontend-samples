@@ -71,9 +71,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@axinom/mosaic-fe-samples-host@npm:0.8.1":
-  version: 0.8.1
-  resolution: "@axinom/mosaic-fe-samples-host@npm:0.8.1"
+"@axinom/mosaic-fe-samples-host@npm:0.8.3":
+  version: 0.8.3
+  resolution: "@axinom/mosaic-fe-samples-host@npm:0.8.3"
   dependencies:
     "@geoffcox/react-splitter": ^2.1.1
     react-error-boundary: ^3.1.4
@@ -83,7 +83,7 @@ __metadata:
     react-router-dom: ">=5.2.0"
     semantic-ui-css: ">=2.4.1"
     semantic-ui-react: ">=2.0.3"
-  checksum: 2eb692486968b777d95364a421f686897a95696f3177486df950f8b68a03ae585be0c935993fcdd95dcc97fd04c36f083f4fc4547708d787cdb4c2f467588634
+  checksum: ed92a0b7d2e521a68e1cdc1b4ef12f6b6dc9cff2dc8e1b3501c48b3feba6c5826d71792147e7b72e8043cfb9e7fa57aa1bb2454cce7dfce2957dfb6cfebf9907
   languageName: node
   linkType: hard
 
@@ -9522,7 +9522,7 @@ __metadata:
   resolution: "mosaic-frontend-samples@workspace:."
   dependencies:
     "@apollo/client": ^3.2.5
-    "@axinom/mosaic-fe-samples-host": 0.8.1
+    "@axinom/mosaic-fe-samples-host": 0.8.3
     "@axinom/mosaic-user-auth": 0.6.1
     "@paypal/paypal-js": ^5.1.4
     "@testing-library/jest-dom": ^5.16.5
