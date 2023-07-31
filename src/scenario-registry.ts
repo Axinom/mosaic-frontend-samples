@@ -295,7 +295,6 @@ export const scenarios = [
     displayOrder: 8,
     rootComponent: DataRemove,
   },
-
 ] as const;
 
 export type ScenarioKey = typeof scenarios[number]['shortId'];
