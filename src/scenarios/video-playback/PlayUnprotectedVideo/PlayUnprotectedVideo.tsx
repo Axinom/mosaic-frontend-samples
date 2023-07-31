@@ -4,7 +4,7 @@ import {
   VariableSearch,
 } from '@axinom/mosaic-fe-samples-host';
 import { DocumentNode } from 'graphql';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Container,
   Divider,
@@ -19,6 +19,7 @@ import 'shaka-player-react/dist/controls.css';
 import { getApolloClient } from '../../../apollo-client';
 import { ScenarioKey } from '../../../scenario-registry';
 import {
+  getChannelVideosQuery,
   getEpisodeVideosQuery,
   getMovieVideosQuery,
   getSeasonVideosQuery,
@@ -44,6 +45,49 @@ export const PlayUnprotectedVideo: React.FC = () => {
   // TODO: Define types for ShakaPlayer or use a different player.
   const shakaController = useRef<any>();
 
+  useEffect(() => {
+    const player = shakaController.current?.videoElement;
+
+    if (player) {
+      // Listen for error events.
+      const errorHandler = (event: { detail: any }): void => {
+        logger.error(
+          'An error occurred while attempting to play the video.',
+          'Please refer the error code displayed below in Shaka Player error documentation at: https://shaka-player-demo.appspot.com/docs/api/shaka.util.Error.html',
+          event.detail,
+        );
+      };
+      player.addEventListener('error', errorHandler);
+
+      // Listen to possible SCTE events.
+      const timelineregionenterHandler = (event: any): void => {
+        logger.log('timelineregionenter event detected', event.detail);
+      };
+      player.addEventListener(
+        'timelineregionenter',
+        timelineregionenterHandler,
+      );
+
+      const timelineregionexitHandler = (event: any): void => {
+        logger.log('timelineregionexit event detected', event.detail);
+      };
+      player.addEventListener('timelineregionexit', timelineregionexitHandler);
+
+      return () => {
+        // Remove event listeners.
+        player.removeEventListener('error', errorHandler);
+        player.removeEventListener(
+          'timelineregionenter',
+          timelineregionenterHandler,
+        );
+        player.removeEventListener(
+          'timelineregionexit',
+          timelineregionexitHandler,
+        );
+      };
+    }
+  }, [logger, shakaController]);
+
   const resetVideoPlayback = async (): Promise<void> => {
     const { player } = shakaController.current;
     await player.unload();
@@ -53,14 +97,34 @@ export const PlayUnprotectedVideo: React.FC = () => {
     await resetVideoPlayback();
 
     let query: DocumentNode | undefined = undefined;
+    let resultTransformer: (result: any) => Video[] = (r) => r;
+
     if (entityId.startsWith('movie-')) {
       query = getMovieVideosQuery;
+      resultTransformer = (result: any) => result.data.movie?.videos?.nodes;
     } else if (entityId.startsWith('tvshow-')) {
       query = getTvShowVideosQuery;
+      resultTransformer = (result: any) => result.data.tvshow?.videos?.nodes;
     } else if (entityId.startsWith('season-')) {
       query = getSeasonVideosQuery;
+      resultTransformer = (result: any) => result.data.season?.videos?.nodes;
     } else if (entityId.startsWith('episode-')) {
       query = getEpisodeVideosQuery;
+      resultTransformer = (result: any) => result.data.episode?.videos?.nodes;
+    } else if (entityId.startsWith('channel-')) {
+      query = getChannelVideosQuery;
+      resultTransformer = (result: any) =>
+        !result.data?.channel
+          ? []
+          : [
+              {
+                id: entityId,
+                title: result.data.channel.title,
+                type: 'channel',
+                dashManifest: result.data.channel.dashStreamUrl,
+                hlsManifest: result.data.channel.hlsStreamUrl,
+              },
+            ];
     }
 
     if (query !== undefined) {
@@ -82,11 +146,10 @@ export const PlayUnprotectedVideo: React.FC = () => {
         if (result.errors) {
           logger.error(result.errors);
         } else {
-          const mediaEntity = result.data[Object.keys(result.data)[0]];
-          if (mediaEntity !== null) {
-            setVideos(mediaEntity.videos.nodes);
-          } else {
-            setVideos([]);
+          const videos = resultTransformer(result);
+          setVideos(videos ?? []);
+
+          if (videos.length === 0) {
             logger.error('Invalid entity ID.');
           }
         }
@@ -111,18 +174,9 @@ export const PlayUnprotectedVideo: React.FC = () => {
 
     if (currentVideoId !== undefined) {
       const currentVideo = videos.find((video) => video.id === currentVideoId);
+
       if (currentVideo !== undefined) {
         const { player, videoElement } = shakaController.current;
-
-        // Listen for error events.
-        // TODO: this should be done only once instead on every time 'Play Video' button is pressed.
-        player.addEventListener('error', (event: { detail: any }) =>
-          logger.error(
-            'An error occurred while attempting to play the video.',
-            'Please refer the error code displayed below in Shaka Player error documentation at: https://shaka-player-demo.appspot.com/docs/api/shaka.util.Error.html',
-            event.detail,
-          ),
-        );
 
         try {
           await player.load(

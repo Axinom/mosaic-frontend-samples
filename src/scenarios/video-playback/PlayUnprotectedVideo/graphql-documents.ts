@@ -75,3 +75,13 @@ export const getEpisodeVideosQuery = gql`
     }
   }
 `;
+
+export const getChannelVideosQuery = gql`
+  query GetChannelVideos($id: String!) {
+    channel(id: $id) {
+      title
+      hlsStreamUrl
+      dashStreamUrl
+    }
+  }
+`;

@@ -76,6 +76,16 @@ export const getEpisodeVideosQuery = gql`
   }
 `;
 
+export const getChannelVideosQuery = gql`
+  query GetChannelVideos($id: String!) {
+    channel(id: $id) {
+      title
+      hlsStreamUrl
+      dashStreamUrl
+    }
+  }
+`;
+
 export const getEntitlementMessageQuery = gql`
   query GetEntitlementMessage($input: EntitlementInput!) {
     entitlement(input: $input) {
