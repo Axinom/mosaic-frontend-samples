@@ -46,7 +46,7 @@
     "react-scripts": "5.0.1",
     "ts-node": "^10.9.1",
     "tslib": "^2.5.0",
-    "typescript": "^5.0.4",
+    "typescript": "^5.1.6",
     "web-vitals": "^3.3.2"
   },
   "browserslist": {
