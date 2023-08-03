@@ -67,3 +67,20 @@ export const getEpisodeImagesQuery = gql`
     }
   }
 `;
+
+export const getChannelImagesQuery = gql`
+  query GetChannelImages($id: String!) {
+    channel(id: $id) {
+      title
+      images {
+        nodes {
+          id
+          width
+          height
+          path
+          type
+        }
+      }
+    }
+  }
+`;

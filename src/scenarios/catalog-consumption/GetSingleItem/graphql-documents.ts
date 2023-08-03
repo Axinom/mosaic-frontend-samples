@@ -141,6 +141,13 @@ export const getAllItemsQuery = gql`
       hlsStreamUrl
       description
       dashStreamUrl
+      images {
+        nodes {
+          id
+          path
+          type
+        }
+      }
     }
   }
 `;
