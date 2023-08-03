@@ -16,6 +16,7 @@ import {
 } from 'semantic-ui-react';
 import { getApolloClient } from '../../../apollo-client';
 import {
+  getChannelImagesQuery,
   getEpisodeImagesQuery,
   getMovieImagesQuery,
   getSeasonImagesQuery,
@@ -56,6 +57,8 @@ export const ImagePreview: React.FC = () => {
       query = getSeasonImagesQuery;
     } else if (entityId.startsWith('episode-')) {
       query = getEpisodeImagesQuery;
+    } else if (entityId.startsWith('channel-')) {
+      query = getChannelImagesQuery;
     }
 
     if (query !== undefined) {
