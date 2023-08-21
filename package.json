@@ -17,7 +17,7 @@
     "@apollo/client": "^3.2.5",
     "@axinom/mosaic-fe-samples-host": "0.9.0",
     "@axinom/mosaic-user-auth": "0.6.4",
-    "@paypal/paypal-js": "^5.1.4",
+    "@paypal/paypal-js": "^7.0.0",
     "graphql": "^16.6.0",
     "graphql-tag": "^2.11.0",
     "graphql-ws": "^5.5.0",
