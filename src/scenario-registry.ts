@@ -25,7 +25,7 @@ import {
 import { ImagePreview } from './scenarios/image';
 import {
   ListSubscriptionPlansForUser,
-  ListSubscriptionPlansAnonymously,
+  ListSubscriptionPlansAnonymouslyContainer,
   ListUserSubscriptions,
   UnsubscribeFromSubscriptionPlanPayPal,
   ListUserPaymentHistory,
@@ -191,7 +191,7 @@ export const scenarios = [
     shortId: 'list-subscription-plans-anonymously',
     displayName: 'List Subscription Plans Anonymously',
     displayOrder: 1,
-    rootComponent: ListSubscriptionPlansAnonymously,
+    rootComponent: ListSubscriptionPlansAnonymouslyContainer,
   },
   {
     groupName: 'Billing & Monetization',
