@@ -10,17 +10,73 @@ import {
   Segment,
 } from 'semantic-ui-react';
 import { getApolloClient } from '../../../apollo-client';
-import {
-  getSubscriptionPlansQuery,
-  authenticateEndUserApplication,
-} from './graphql-documents';
+import { getSubscriptionPlansQuery } from './graphql-documents';
 import * as countries from 'i18n-iso-countries';
 import en from 'i18n-iso-countries/langs/en.json';
+import {
+  UserAuthConfig,
+  UserServiceConfig,
+  UserServiceProvider,
+  useUserService,
+} from '@axinom/mosaic-user-auth';
+
+export const ListSubscriptionPlansAnonymouslyContainer: React.FC = () => {
+  const { activeProfile } = useScenarioHost();
+
+  const userAuthConfig: UserAuthConfig = {
+    userAuthBaseUrl: activeProfile.userAuthBaseURL,
+    tenantId: activeProfile.tenantId,
+    environmentId: activeProfile.environmentId,
+    applicationId: activeProfile.applicationId,
+  };
+
+  const userServiceConfig: UserServiceConfig = {
+    userServiceBaseUrl: activeProfile.userServiceBaseURL,
+  };
+
+  return (
+    <Segment basic>
+      <Header size="huge">List Subscription Plans Anonymously</Header>
+      <Header size="small">
+        Required Services:
+        <Label>billing-service & monetization-service & ax-user-service</Label>
+      </Header>
+
+      <Divider />
+
+      <Container fluid>
+        <p>
+          This scenario demonstrates how to get subscription plans without a
+          user being logged in. It uses the Application Key value (defined in
+          the selected profile settings) for generating the application token.
+          With the help of the token the list of subscription plans can be
+          retrieved.
+        </p>
+      </Container>
+
+      <Divider />
+      <UserServiceProvider
+        userAuthConfig={userAuthConfig}
+        userServiceConfig={userServiceConfig}
+      >
+        <ListSubscriptionPlansAnonymously></ListSubscriptionPlansAnonymously>
+      </UserServiceProvider>
+    </Segment>
+  );
+};
 
 export const ListSubscriptionPlansAnonymously: React.FC = () => {
   const { activeProfile, logger } = useScenarioHost();
-  const [accessToken, setAccessToken] = useState<string>('');
+  const [accessToken, setAccessToken] = useState<string | undefined>();
   const [selectedCountry, setSelectedCountry] = useState<string>('');
+  const { authenticateEndUserApplication } = useUserService();
+
+  const authenticateEndUserApplicationRequest = {
+    tenantId: activeProfile.tenantId,
+    environmentId: activeProfile.environmentId,
+    applicationId: activeProfile.applicationId,
+    applicationKey: activeProfile.applicationKey,
+  };
 
   // Get all country names and country codes by ISO 3166-1 and stored in the array
   countries.registerLocale(en);
@@ -36,34 +92,15 @@ export const ListSubscriptionPlansAnonymously: React.FC = () => {
 
   const fetchApplicationToken = async (): Promise<void> => {
     try {
-      const apolloClient = getApolloClient(
-        new URL('graphql-management', activeProfile.userServiceBaseURL).href,
+      const appTokenResult = await authenticateEndUserApplication(
+        authenticateEndUserApplicationRequest,
       );
-      const appTokenResult = await apolloClient.query({
-        query: authenticateEndUserApplication,
-        variables: {
-          input: {
-            tenantId: activeProfile.tenantId,
-            environmentId: activeProfile.environmentId,
-            applicationId: activeProfile.applicationId,
-            applicationKey: activeProfile.applicationKey,
-          },
-        },
-        context: {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-        fetchPolicy: 'no-cache',
-      });
 
-      setAccessToken(
-        appTokenResult.data.authenticateEndUserApplication.accessToken,
-      );
+      setAccessToken(appTokenResult.endUserApplicationToken?.accessToken);
       logger.log(
         'calling [fetchApplicationToken]',
         'output:',
-        appTokenResult.data.authenticateEndUserApplication.accessToken,
+        JSON.stringify(appTokenResult.endUserApplicationToken?.accessToken),
       );
     } catch (error) {
       if (error instanceof Error) {
@@ -131,27 +168,7 @@ export const ListSubscriptionPlansAnonymously: React.FC = () => {
   };
 
   return (
-    <Segment basic>
-      <Header size="huge">List Subscription Plans Anonymously</Header>
-      <Header size="small">
-        Required Services:
-        <Label>billing-service & monetization-service</Label>
-      </Header>
-
-      <Divider />
-
-      <Container fluid>
-        <p>
-          This scenario demonstrates how to get subscription plans without a
-          user being logged in. It uses the Application Key value (defined in
-          the selected profile settings) for generating the application token.
-          With the help of the token the list of subscription plans can be
-          retrieved.
-        </p>
-      </Container>
-
-      <Divider />
-
+    <>
       <Grid divided>
         <Grid.Column width={8}>
           <Segment basic>
@@ -205,6 +222,6 @@ export const ListSubscriptionPlansAnonymously: React.FC = () => {
           </Segment>
         </Grid.Column>
       </Grid>
-    </Segment>
+    </>
   );
 };
