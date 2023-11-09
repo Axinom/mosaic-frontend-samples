@@ -71,13 +71,6 @@ export const ListSubscriptionPlansAnonymously: React.FC = () => {
   const [selectedCountry, setSelectedCountry] = useState<string>('');
   const { authenticateEndUserApplication } = useUserService();
 
-  const authenticateEndUserApplicationRequest = {
-    tenantId: activeProfile.tenantId,
-    environmentId: activeProfile.environmentId,
-    applicationId: activeProfile.applicationId,
-    applicationKey: activeProfile.applicationKey,
-  };
-
   // Get all country names and country codes by ISO 3166-1 and stored in the array
   countries.registerLocale(en);
 
@@ -92,6 +85,13 @@ export const ListSubscriptionPlansAnonymously: React.FC = () => {
 
   const fetchApplicationToken = async (): Promise<void> => {
     try {
+      const authenticateEndUserApplicationRequest = {
+        tenantId: activeProfile.tenantId,
+        environmentId: activeProfile.environmentId,
+        applicationId: activeProfile.applicationId,
+        applicationKey: activeProfile.applicationKey,
+      };
+
       const appTokenResult = await authenticateEndUserApplication(
         authenticateEndUserApplicationRequest,
       );
