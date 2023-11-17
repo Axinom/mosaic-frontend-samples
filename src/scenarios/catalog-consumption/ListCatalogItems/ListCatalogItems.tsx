@@ -4,6 +4,7 @@ import {
   Button,
   Container,
   Divider,
+  Form,
   Header,
   Label,
   Segment,
@@ -15,9 +16,11 @@ import {
   getAllMoviesQuery,
   getAllTvShowsQuery,
 } from './graphql-documents';
+import { useState } from 'react';
 
 export const ListCatalogItems: React.FC = () => {
   const { activeProfile, logger } = useScenarioHost();
+  const [language, setLanguage] = useState<string>('');
 
   const fetchAndLogCatalogItems = async (
     gqlDocument: DocumentNode,
@@ -28,6 +31,14 @@ export const ListCatalogItems: React.FC = () => {
       );
 
       const result = await apolloClient.query({
+        context: {
+          headers:
+            language !== ''
+              ? {
+                  'mosaic-locale': language,
+                }
+              : undefined,
+        },
         query: gqlDocument,
         fetchPolicy: 'no-cache',
       });
@@ -69,6 +80,23 @@ export const ListCatalogItems: React.FC = () => {
             TV shows.
           </p>
         </Container>
+
+        <Divider />
+
+        <Form>
+          <Form.Group>
+            <Form.Input
+              width={4}
+              icon="globe"
+              iconPosition="left"
+              label="Language"
+              value={language}
+              onChange={(event) => {
+                setLanguage(event.target.value);
+              }}
+            />
+          </Form.Group>
+        </Form>
 
         <Divider />
 

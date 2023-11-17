@@ -18,6 +18,7 @@ import { getAllItemsQuery } from './graphql-documents';
 export const GetSingleItem: React.FC = () => {
   const { activeProfile, logger } = useScenarioHost();
   const [entityId, setEntityId] = useState<string>('');
+  const [language, setLanguage] = useState<string>('');
 
   const fetchAndLogCatalogItems = async (): Promise<void> => {
     try {
@@ -26,6 +27,15 @@ export const GetSingleItem: React.FC = () => {
       );
 
       const result = await apolloClient.query({
+        // set the language header for the request
+        context: {
+          headers:
+            language !== ''
+              ? {
+                  'mosaic-locale': language,
+                }
+              : undefined,
+        },
         query: getAllItemsQuery,
         variables: {
           id: entityId,
@@ -73,7 +83,7 @@ export const GetSingleItem: React.FC = () => {
 
         <Divider />
 
-        <Form>
+        <Form onSubmit={fetchAndLogCatalogItems}>
           <Form.Group>
             <Form.Input
               control={VariableSearch}
@@ -81,16 +91,24 @@ export const GetSingleItem: React.FC = () => {
               icon="id card outline"
               label="Entity ID"
               value={entityId}
+              required
               setStateValue={setEntityId}
             />
           </Form.Group>
+          <Form.Group>
+            <Form.Input
+              width={4}
+              icon="globe"
+              iconPosition="left"
+              label="Language"
+              value={language}
+              onChange={(event) => {
+                setLanguage(event.target.value);
+              }}
+            />
+          </Form.Group>
 
-          <Button
-            primary
-            onClick={async () => {
-              fetchAndLogCatalogItems();
-            }}
-          >
+          <Button type="submit" primary>
             Get Entity Details
           </Button>
         </Form>
