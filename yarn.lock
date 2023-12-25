@@ -2320,12 +2320,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@paypal/paypal-js@npm:^5.1.4":
-  version: 5.1.4
-  resolution: "@paypal/paypal-js@npm:5.1.4"
+"@paypal/paypal-js@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "@paypal/paypal-js@npm:8.0.0"
   dependencies:
-    promise-polyfill: ^8.2.3
-  checksum: 8b86ca48c875011730957ea56b3a6847737ba270c448e151e03a8bfc4b8e51ae61bd5181ced7f17522b1efd38550584d40a1bcd71e06495b7aa2fb1026af3ec0
+    promise-polyfill: ^8.3.0
+  checksum: 7c207da5f6098775d7ec1b29f621db354e8344e8289b83967d44fee9c509759b341815acf2c23e033dc3335dc5f7181e4f265dffb9ef001e5a83d82103743341
   languageName: node
   linkType: hard
 
@@ -9524,7 +9524,7 @@ __metadata:
     "@apollo/client": ^3.2.5
     "@axinom/mosaic-fe-samples-host": 0.14.0
     "@axinom/mosaic-user-auth": 0.6.9
-    "@paypal/paypal-js": ^5.1.4
+    "@paypal/paypal-js": ^8.0.0
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^12.1.4
     "@testing-library/user-event": ^14.4.3
@@ -11158,7 +11158,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"promise-polyfill@npm:^8.2.3":
+"promise-polyfill@npm:^8.3.0":
   version: 8.3.0
   resolution: "promise-polyfill@npm:8.3.0"
   checksum: 206373802076c77def0805758d0a8ece64120dfa6603f092404a1004211f8f2f67f33cadbc35953fc2a8ed0b0d38c774e88bdf01e20ce7a920723a60df84b7a5
