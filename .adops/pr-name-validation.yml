@@ -16,9 +16,12 @@ jobs:
           prDetailsFile=$(Agent.TempDirectory)/prDetails.json
           dependabotUser="dependabot[bot]"
 
-          echo "Pull Request Number: $prNumber"
-
           repoUrl=$(System.PullRequest.SourceRepositoryURI)
+          # remove .git from repoUrl if present (when raising PRs from vscode, this can happen)
+          repoUrl="${repoUrl%.git}"
+
+          echo "repoUrl: $repoUrl"
+          echo "prNumber: $prNumber"
 
           # extract org and repo name from repoUrl
           orgRepo=$(echo "$repoUrl" | sed -e 's/.*github.com\/\(.*\)/\1/')
@@ -29,6 +32,7 @@ jobs:
           # load pull request title from Github API
           url="https://api.github.com/repos/$orgRepo/pulls/$prNumber"
           curl -s -H "Authorization: token $GITHUB_TOKEN" $url > $prDetailsFile
+          cat $prDetailsFile
           prTitle=$(cat $prDetailsFile | jq -r '.title')
           prUser=$(cat $prDetailsFile | jq -r '.user.login')
 
