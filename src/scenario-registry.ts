@@ -297,4 +297,4 @@ export const scenarios = [
   },
 ] as const;
 
-export type ScenarioKey = typeof scenarios[number]['shortId'];
+export type ScenarioKey = (typeof scenarios)[number]['shortId'];

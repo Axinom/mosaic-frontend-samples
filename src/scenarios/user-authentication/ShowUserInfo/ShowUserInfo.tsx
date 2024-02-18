@@ -106,7 +106,7 @@ export const ShowUserInfo: React.FC = () => {
             src={
               // if the profile does not have a picture set, we use a sample avatar here for demonstration purposes
               tokenResponse.userProfile?.profilePictureUrl ??
-              `https://avatars.dicebear.com/api/bottts/${tokenResponse.userToken?.userId}-${tokenResponse.userProfile?.displayName}.svg`
+              `https://api.dicebear.com/7.x/bottts/svg?seed=${tokenResponse.userToken?.userId}-${tokenResponse.userProfile?.displayName}`
             }
           />
           <Card.Content>
