@@ -71,9 +71,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@axinom/mosaic-fe-samples-host@npm:0.20.0":
-  version: 0.20.0
-  resolution: "@axinom/mosaic-fe-samples-host@npm:0.20.0"
+"@axinom/mosaic-fe-samples-host@npm:0.24.0":
+  version: 0.24.0
+  resolution: "@axinom/mosaic-fe-samples-host@npm:0.24.0"
   dependencies:
     "@geoffcox/react-splitter": ^2.1.1
     react-error-boundary: ^3.1.4
@@ -83,28 +83,28 @@ __metadata:
     react-router-dom: ">=5.2.0"
     semantic-ui-css: ">=2.4.1"
     semantic-ui-react: ">=2.0.3"
-  checksum: a1a5081d0e1aa4cb7a28659e9cb50b6671ab36c051352ddec2fec227fffbd57809f9562f031ec9770deea3980fe69af3653106a4065bea3741b96244a7cba373
+  checksum: 7e93b421b72ff68fb4565e5e1be043e0210737cac8cd2ab3c80ddc1028b8bf92599ba2491af6da14438a375f87949c4a74ad10abe623ae2ba89e2ef49e85b6b3
   languageName: node
   linkType: hard
 
-"@axinom/mosaic-user-auth-utils@npm:^0.8.15":
-  version: 0.8.15
-  resolution: "@axinom/mosaic-user-auth-utils@npm:0.8.15"
-  checksum: 835f5604319c4ed6a92113ac2db9b06b579ca6fc56cc566dcab48f274066cba930f2b181daeab9032b8061a4f74a1b9b7c34c7c1cfb688823a9f2661d5b67b8a
+"@axinom/mosaic-user-auth-utils@npm:^0.8.19":
+  version: 0.8.19
+  resolution: "@axinom/mosaic-user-auth-utils@npm:0.8.19"
+  checksum: 011bb6e6b136dcce73725c8b38ba422f51d043179c06000f2ab59bd21762b766185fd4060336c04d6bd1318ae9b1b086142f7573306c1401c110671f59600e4e
   languageName: node
   linkType: hard
 
-"@axinom/mosaic-user-auth@npm:0.11.0":
-  version: 0.11.0
-  resolution: "@axinom/mosaic-user-auth@npm:0.11.0"
+"@axinom/mosaic-user-auth@npm:0.15.0":
+  version: 0.15.0
+  resolution: "@axinom/mosaic-user-auth@npm:0.15.0"
   dependencies:
-    "@axinom/mosaic-user-auth-utils": ^0.8.15
+    "@axinom/mosaic-user-auth-utils": ^0.8.19
     graphql-tag: ^2.11.0
   peerDependencies:
     react: ^17.0.2
     react-dom: ^17.0.2
     react-router-dom: ^5.1.2
-  checksum: e8b569bf7dd1e75daa513002b956fba5a12343b451de3d279cee145f47e3bb08ee9bf9301274bc8746c282cb5d5b3e98998e083f39fa4ef2d3b86f989b5a56c3
+  checksum: 28ec00d2e190778ba37ccb30b1d1d2b6de314066c612fc19e409cb4c4098010e266050324ff8dd54c7e5e6022215318eeaef1e98280211eb56cbd9a37421539a
   languageName: node
   linkType: hard
 
@@ -1682,12 +1682,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.10.4, @babel/runtime@npm:^7.10.5, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.18.9, @babel/runtime@npm:^7.2.0, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.10.4, @babel/runtime@npm:^7.10.5, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.18.9, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2":
   version: 7.20.13
   resolution: "@babel/runtime@npm:7.20.13"
   dependencies:
     regenerator-runtime: ^0.13.11
   checksum: 09b7a97a05c80540db6c9e4ddf8c5d2ebb06cae5caf3a87e33c33f27f8c4d49d9c67a2d72f1570e796045288fad569f98a26ceba0c4f5fad2af84b6ad855c4fb
+  languageName: node
+  linkType: hard
+
+"@babel/runtime@npm:^7.2.0":
+  version: 7.24.7
+  resolution: "@babel/runtime@npm:7.24.7"
+  dependencies:
+    regenerator-runtime: ^0.14.0
+  checksum: d17f29eed6f848ac15cdf4202a910b741facfb0419a9d79e5c7fa37df6362fc3227f1cc2e248cc6db5e53ddffb4caa6686c488e6e80ce3d29c36a4e74c8734ea
   languageName: node
   linkType: hard
 
@@ -9696,8 +9705,8 @@ __metadata:
   resolution: "mosaic-frontend-samples@workspace:."
   dependencies:
     "@apollo/client": ^3.2.5
-    "@axinom/mosaic-fe-samples-host": 0.20.0
-    "@axinom/mosaic-user-auth": 0.11.0
+    "@axinom/mosaic-fe-samples-host": 0.24.0
+    "@axinom/mosaic-user-auth": 0.15.0
     "@babel/plugin-proposal-private-property-in-object": ^7.21.11
     "@paypal/paypal-js": ^5.1.4
     "@testing-library/jest-dom": ^5.16.5
@@ -11815,6 +11824,13 @@ __metadata:
   version: 0.13.11
   resolution: "regenerator-runtime@npm:0.13.11"
   checksum: 27481628d22a1c4e3ff551096a683b424242a216fee44685467307f14d58020af1e19660bf2e26064de946bad7eff28950eae9f8209d55723e2d9351e632bbb4
+  languageName: node
+  linkType: hard
+
+"regenerator-runtime@npm:^0.14.0":
+  version: 0.14.1
+  resolution: "regenerator-runtime@npm:0.14.1"
+  checksum: 9f57c93277b5585d3c83b0cf76be47b473ae8c6d9142a46ce8b0291a04bb2cf902059f0f8445dcabb3fb7378e5fe4bb4ea1e008876343d42e46d3b484534ce38
   languageName: node
   linkType: hard
 
