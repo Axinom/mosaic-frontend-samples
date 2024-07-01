@@ -35,6 +35,14 @@ export const getAllItemsQuery = gql`
         description
         dashStreamUrl
         hlsStreamUrl
+        keyId
+        playlists {
+          nodes {
+            id
+            startDateTime
+            endDateTime
+          }
+        }
       }
     }
   }
@@ -85,6 +93,28 @@ export const getAllChannelsQuery = gql`
         description
         dashStreamUrl
         hlsStreamUrl
+        keyId
+        playlists {
+          nodes {
+            id
+            startDateTime
+            endDateTime
+            programs(orderBy: SORT_INDEX_ASC) {
+              nodes {
+                id
+                sortIndex
+                title
+                movie {
+                  title
+                }
+                episode {
+                  title
+                }
+                id
+              }
+            }
+          }
+        }
       }
     }
   }
