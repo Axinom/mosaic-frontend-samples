@@ -5,6 +5,9 @@ pr:
     include:
       - main
 
+variables:
+  - group: github-automation
+
 jobs:
   - job: VerifyPrName
     pool:
@@ -31,7 +34,7 @@ jobs:
 
           # load pull request title from Github API
           url="https://api.github.com/repos/$orgRepo/pulls/$prNumber"
-          curl -s -H "Authorization: token $GITHUB_TOKEN" $url > $prDetailsFile
+          curl -s -H "Authorization: token $(GH_TOKEN)" $url > $prDetailsFile
           cat $prDetailsFile
           prTitle=$(cat $prDetailsFile | jq -r '.title')
           prUser=$(cat $prDetailsFile | jq -r '.user.login')
