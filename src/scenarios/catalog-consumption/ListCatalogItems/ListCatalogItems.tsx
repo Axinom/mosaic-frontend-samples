@@ -20,7 +20,7 @@ import { useState } from 'react';
 
 export const ListCatalogItems: React.FC = () => {
   const { activeProfile, logger } = useScenarioHost();
-  const [language, setLanguage] = useState<string>('');
+  const [locale, setLocale] = useState<string>('');
 
   const fetchAndLogCatalogItems = async (
     gqlDocument: DocumentNode,
@@ -33,9 +33,9 @@ export const ListCatalogItems: React.FC = () => {
       const result = await apolloClient.query({
         context: {
           headers:
-            language !== ''
+            locale !== ''
               ? {
-                  'mosaic-locale': language,
+                  'mosaic-locale': locale,
                 }
               : undefined,
         },
@@ -89,10 +89,10 @@ export const ListCatalogItems: React.FC = () => {
               width={4}
               icon="globe"
               iconPosition="left"
-              label="Language"
-              value={language}
+              label="Locale"
+              value={locale}
               onChange={(event) => {
-                setLanguage(event.target.value);
+                setLocale(event.target.value);
               }}
             />
           </Form.Group>

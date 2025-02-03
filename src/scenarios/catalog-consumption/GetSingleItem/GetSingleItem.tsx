@@ -18,7 +18,7 @@ import { getAllItemsQuery } from './graphql-documents';
 export const GetSingleItem: React.FC = () => {
   const { activeProfile, logger } = useScenarioHost();
   const [entityId, setEntityId] = useState<string>('');
-  const [language, setLanguage] = useState<string>('');
+  const [locale, setLocale] = useState<string>('');
 
   const fetchAndLogCatalogItems = async (): Promise<void> => {
     try {
@@ -27,12 +27,12 @@ export const GetSingleItem: React.FC = () => {
       );
 
       const result = await apolloClient.query({
-        // set the language header for the request
+        // set the locale header for the request
         context: {
           headers:
-            language !== ''
+            locale !== ''
               ? {
-                  'mosaic-locale': language,
+                  'mosaic-locale': locale,
                 }
               : undefined,
         },
@@ -100,10 +100,10 @@ export const GetSingleItem: React.FC = () => {
               width={4}
               icon="globe"
               iconPosition="left"
-              label="Language"
-              value={language}
+              label="Locale"
+              value={locale}
               onChange={(event) => {
-                setLanguage(event.target.value);
+                setLocale(event.target.value);
               }}
             />
           </Form.Group>
