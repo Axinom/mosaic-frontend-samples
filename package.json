@@ -10,8 +10,8 @@
     "test:ci": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
     "util:load-vars": "env-cmd -f ./.env",
-    "util:update-mosaic-packages": "ts-node ./scripts/update-mosaic-packages.ts",
-    "util:start-proxy": "yarn util:load-vars ts-node ./scripts/proxy-server.ts"
+    "util:update-mosaic-packages": "ts-node ./ax-scripts/update-mosaic-packages.ts",
+    "util:start-proxy": "yarn util:load-vars ts-node ./ax-scripts/proxy-server.ts"
   },
   "dependencies": {
     "@apollo/client": "^3.2.5",
