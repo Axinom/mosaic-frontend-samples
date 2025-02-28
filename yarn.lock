@@ -81,9 +81,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@axinom/mosaic-fe-samples-host@npm:0.24.0":
-  version: 0.24.0
-  resolution: "@axinom/mosaic-fe-samples-host@npm:0.24.0"
+"@axinom/mosaic-fe-samples-host@npm:0.32.0":
+  version: 0.32.0
+  resolution: "@axinom/mosaic-fe-samples-host@npm:0.32.0"
   dependencies:
     "@geoffcox/react-splitter": ^2.1.1
     react-error-boundary: ^3.1.4
@@ -93,28 +93,28 @@ __metadata:
     react-router-dom: ">=5.2.0"
     semantic-ui-css: ">=2.4.1"
     semantic-ui-react: ">=2.0.3"
-  checksum: 7e93b421b72ff68fb4565e5e1be043e0210737cac8cd2ab3c80ddc1028b8bf92599ba2491af6da14438a375f87949c4a74ad10abe623ae2ba89e2ef49e85b6b3
+  checksum: c5efedfc8584ac67691dc4b03226f9a8f3cbeb39543fc57cfd1ff2e9b70947f5b7c16955cd3f173a00346208d0678035ad5fb8009bd8c14c7d9e67f90247f193
   languageName: node
   linkType: hard
 
-"@axinom/mosaic-user-auth-utils@npm:^0.8.19":
-  version: 0.8.19
-  resolution: "@axinom/mosaic-user-auth-utils@npm:0.8.19"
-  checksum: 011bb6e6b136dcce73725c8b38ba422f51d043179c06000f2ab59bd21762b766185fd4060336c04d6bd1318ae9b1b086142f7573306c1401c110671f59600e4e
+"@axinom/mosaic-user-auth-utils@npm:^0.8.27":
+  version: 0.8.27
+  resolution: "@axinom/mosaic-user-auth-utils@npm:0.8.27"
+  checksum: 697e8461a1ec28696cf64b912093393307d6b4a080571a5ffd4daa3669999eed678235f72059701f91fa15c39e2f8a0e35499588612321dfc8209b8253f76a7d
   languageName: node
   linkType: hard
 
-"@axinom/mosaic-user-auth@npm:0.15.0":
-  version: 0.15.0
-  resolution: "@axinom/mosaic-user-auth@npm:0.15.0"
+"@axinom/mosaic-user-auth@npm:0.23.0":
+  version: 0.23.0
+  resolution: "@axinom/mosaic-user-auth@npm:0.23.0"
   dependencies:
-    "@axinom/mosaic-user-auth-utils": ^0.8.19
+    "@axinom/mosaic-user-auth-utils": ^0.8.27
     graphql-tag: ^2.11.0
   peerDependencies:
     react: ^17.0.2
     react-dom: ^17.0.2
     react-router-dom: ^5.1.2
-  checksum: 28ec00d2e190778ba37ccb30b1d1d2b6de314066c612fc19e409cb4c4098010e266050324ff8dd54c7e5e6022215318eeaef1e98280211eb56cbd9a37421539a
+  checksum: 9c5c778202b80ef0eeabe9c06773d1ff2f43a296aeaaa99e2194cd48bf2803ad48f486dadd514529bd424c03266abdae3f890229feca184ff3a1e4b2d11f738f
   languageName: node
   linkType: hard
 
@@ -10417,8 +10417,8 @@ __metadata:
   resolution: "mosaic-frontend-samples@workspace:."
   dependencies:
     "@apollo/client": ^3.2.5
-    "@axinom/mosaic-fe-samples-host": 0.24.0
-    "@axinom/mosaic-user-auth": 0.15.0
+    "@axinom/mosaic-fe-samples-host": 0.32.0
+    "@axinom/mosaic-user-auth": 0.23.0
     "@babel/core": ^7.16.0
     "@babel/plugin-proposal-private-property-in-object": ^7.21.11
     "@paypal/paypal-js": ^5.1.4
