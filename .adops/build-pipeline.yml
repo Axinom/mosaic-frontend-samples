@@ -1,7 +1,7 @@
 trigger: none
 pr: none
 
-name: "$(Date:yyyyMMdd).$(Rev:r)"
+name: '$(Date:yyyyMMdd).$(Rev:r)'
 
 pool:
   vmImage: ubuntu-latest
@@ -23,21 +23,21 @@ steps:
 
   - task: NodeTool@0
     inputs:
-      versionSpec: "18.x"
-    displayName: "Install Node.js"
+      versionSpec: '22.x'
+    displayName: 'Install Node.js'
 
   - script: yarn install --immutable
-    displayName: "Install dependencies"
+    displayName: 'Install dependencies'
 
   - script: yarn build
-    displayName: "Build the App"
+    displayName: 'Build the App'
 
   - task: Docker@2
     displayName: Docker Image Build and Push
     inputs:
-      containerRegistry: "$(containerRegistry)"
-      repository: "$(containerRepository)"
-      command: "buildAndPush"
-      Dockerfile: "./Dockerfile"
-      buildContext: "."
-      tags: "$(Build.BuildNumber)"
+      containerRegistry: '$(containerRegistry)'
+      repository: '$(containerRepository)'
+      command: 'buildAndPush'
+      Dockerfile: './Dockerfile'
+      buildContext: '.'
+      tags: '$(Build.BuildNumber)'
