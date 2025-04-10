@@ -2,12 +2,12 @@ trigger: none
 pr: none
 
 pool:
-  vmImage: "ubuntu-latest"
+  vmImage: 'ubuntu-latest'
 
 resources:
   pipelines:
     - pipeline: packageRelease
-      source: "release-managed-libraries"
+      source: 'release-managed-libraries'
       trigger:
         branches:
           include:
@@ -23,8 +23,8 @@ variables:
 
 steps:
   - checkout: self
-    clean: "true"
-    persistCredentials: "true"
+    clean: 'true'
+    persistCredentials: 'true'
 
   - script: |
       git config user.email "no-email@axinom.com"
@@ -33,8 +33,8 @@ steps:
 
   - task: NodeTool@0
     inputs:
-      versionSpec: "18.x"
-    displayName: "Install Node.js"
+      versionSpec: '22.x'
+    displayName: 'Install Node.js'
 
   - task: Cache@2
     inputs:
@@ -56,7 +56,7 @@ steps:
       targetType: inline
       script: yarn util:update-mosaic-packages latest
     env:
-      YARN_ENABLE_IMMUTABLE_INSTALLS: "false"
+      YARN_ENABLE_IMMUTABLE_INSTALLS: 'false'
     displayName: Update Mosaic libs
 
   - task: Bash@3
@@ -79,11 +79,11 @@ steps:
 
   - task: PublishTestResults@2
     inputs:
-      testResultsFormat: "JUnit"
-      testResultsFiles: "**/junit.xml"
-      testRunTitle: "Navy Unit Tests"
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '**/junit.xml'
+      testRunTitle: 'Navy Unit Tests'
     condition: always()
-    displayName: "Publish test results"
+    displayName: 'Publish test results'
 
   - script: |
       git fetch
