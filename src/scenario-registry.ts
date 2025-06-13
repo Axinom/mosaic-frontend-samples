@@ -24,15 +24,6 @@ import {
 } from './scenarios/video-playback';
 import { ImagePreview } from './scenarios/image';
 import {
-  ListSubscriptionPlansForUser,
-  ListSubscriptionPlansAnonymouslyContainer,
-  ListUserSubscriptions,
-  UnsubscribeFromSubscriptionPlanPayPal,
-  ListUserPaymentHistory,
-  UnsubscribeFromSubscriptionPlanStripe,
-  SubscribeToSubscriptionPlan,
-} from './scenarios/billing';
-import {
   ArrayGetFavorites,
   ArrayAddFavorites,
   ArrayRemoveFavorites,
@@ -181,59 +172,6 @@ export const scenarios = [
     displayName: 'Image Preview',
     displayOrder: 1,
     rootComponent: ImagePreview,
-  },
-
-  /**
-   * Billing & Monetization related scenarios
-   */
-  {
-    groupName: 'Billing & Monetization',
-    shortId: 'list-subscription-plans-anonymously',
-    displayName: 'List Subscription Plans Anonymously',
-    displayOrder: 1,
-    rootComponent: ListSubscriptionPlansAnonymouslyContainer,
-  },
-  {
-    groupName: 'Billing & Monetization',
-    shortId: 'list-user-subscriptions',
-    displayName: 'List User Subscriptions',
-    displayOrder: 2,
-    rootComponent: ListUserSubscriptions,
-  },
-  {
-    groupName: 'Billing & Monetization',
-    shortId: 'list-subscription-plans-for-user',
-    displayName: 'List Subscription Plans for User',
-    displayOrder: 3,
-    rootComponent: ListSubscriptionPlansForUser,
-  },
-  {
-    groupName: 'Billing & Monetization',
-    shortId: 'subscribe-to-subscription-plan',
-    displayName: 'Subscribe to a Subscription Plan',
-    displayOrder: 4,
-    rootComponent: SubscribeToSubscriptionPlan,
-  },
-  {
-    groupName: 'Billing & Monetization',
-    shortId: 'unsubscribe-from-subscription-plan-paypal',
-    displayName: 'Unsubscribe from a Subscription Plan (with PayPal)',
-    displayOrder: 5,
-    rootComponent: UnsubscribeFromSubscriptionPlanPayPal,
-  },
-  {
-    groupName: 'Billing & Monetization',
-    shortId: 'unsubscribe-from-subscription-plan-stripe',
-    displayName: 'Unsubscribe from a Subscription Plan (with Stripe)',
-    displayOrder: 6,
-    rootComponent: UnsubscribeFromSubscriptionPlanStripe,
-  },
-  {
-    groupName: 'Billing & Monetization',
-    shortId: 'list-user-payment-history',
-    displayName: 'List User Payment History',
-    displayOrder: 7,
-    rootComponent: ListUserPaymentHistory,
   },
 
   /**
