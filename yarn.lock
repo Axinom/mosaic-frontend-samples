@@ -81,9 +81,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@axinom/mosaic-fe-samples-host@npm:0.32.0":
-  version: 0.32.0
-  resolution: "@axinom/mosaic-fe-samples-host@npm:0.32.0"
+"@axinom/mosaic-fe-samples-host@npm:0.33.0":
+  version: 0.33.0
+  resolution: "@axinom/mosaic-fe-samples-host@npm:0.33.0"
   dependencies:
     "@geoffcox/react-splitter": ^2.1.1
     react-error-boundary: ^3.1.4
@@ -93,7 +93,7 @@ __metadata:
     react-router-dom: ">=5.2.0"
     semantic-ui-css: ">=2.4.1"
     semantic-ui-react: ">=2.0.3"
-  checksum: c5efedfc8584ac67691dc4b03226f9a8f3cbeb39543fc57cfd1ff2e9b70947f5b7c16955cd3f173a00346208d0678035ad5fb8009bd8c14c7d9e67f90247f193
+  checksum: 271d23c55aa5db4156515f51b4372fc5ba09c9332c132b1ebe0bfa50e1858973641d18f37d72e8cf867eb02225c6b93073ffc0738930637f2317c3572d6fe332
   languageName: node
   linkType: hard
 
@@ -10436,7 +10436,7 @@ __metadata:
   resolution: "mosaic-frontend-samples@workspace:."
   dependencies:
     "@apollo/client": ^3.2.5
-    "@axinom/mosaic-fe-samples-host": 0.32.0
+    "@axinom/mosaic-fe-samples-host": 0.33.0
     "@axinom/mosaic-user-auth": 0.23.0
     "@babel/core": ^7.16.0
     "@babel/plugin-proposal-private-property-in-object": ^7.21.11
