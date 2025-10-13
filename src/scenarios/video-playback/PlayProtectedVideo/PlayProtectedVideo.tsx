@@ -317,7 +317,6 @@ export const PlayProtectedVideo: React.FC = () => {
       <Header size="small">
         Required Services:
         <Label>user-service</Label>
-        <Label>billing-service & monetization-service</Label>
         <Label>catalog-service</Label>
         <Label>entitlement-service</Label>
       </Header>
