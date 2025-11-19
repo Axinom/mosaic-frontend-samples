@@ -11,33 +11,37 @@ variables:
   yarnCacheFolder: /home/vsts/.yarn/berry/cache
   NODE_OPTIONS: --max-old-space-size=8192
 
-steps:
-  - task: Cache@2
-    inputs:
-      key: 'yarn | "$(Agent.OS)" | yarn.lock'
-      restoreKeys: |
-        yarn | "$(Agent.OS)"
-        yarn
-      path: $(yarnCacheFolder)
-    displayName: Cache Yarn packages
+jobs:
+  - job: build
+    workspace:
+      clean: all
+    steps:
+      - task: Cache@2
+        inputs:
+          key: 'yarn | "$(Agent.OS)" | yarn.lock'
+          restoreKeys: |
+            yarn | "$(Agent.OS)"
+            yarn
+          path: $(yarnCacheFolder)
+        displayName: Cache Yarn packages
 
-  - task: NodeTool@0
-    inputs:
-      versionSpec: '22.x'
-    displayName: 'Install Node.js'
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '22.x'
+        displayName: 'Install Node.js'
 
-  - script: yarn install --immutable
-    displayName: 'Install dependencies'
+      - script: yarn install --immutable
+        displayName: 'Install dependencies'
 
-  - script: yarn build
-    displayName: 'Build the App'
+      - script: yarn build
+        displayName: 'Build the App'
 
-  - task: Docker@2
-    displayName: Docker Image Build and Push
-    inputs:
-      containerRegistry: '$(containerRegistry)'
-      repository: '$(containerRepository)'
-      command: 'buildAndPush'
-      Dockerfile: './Dockerfile'
-      buildContext: '.'
-      tags: '$(Build.BuildNumber)'
+      - task: Docker@2
+        displayName: Docker Image Build and Push
+        inputs:
+          containerRegistry: '$(containerRegistry)'
+          repository: '$(containerRepository)'
+          command: 'buildAndPush'
+          Dockerfile: './Dockerfile'
+          buildContext: '.'
+          tags: '$(Build.BuildNumber)'
