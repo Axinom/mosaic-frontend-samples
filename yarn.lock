@@ -81,9 +81,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@axinom/mosaic-fe-samples-host@npm:0.38.0":
-  version: 0.38.0
-  resolution: "@axinom/mosaic-fe-samples-host@npm:0.38.0"
+"@axinom/mosaic-fe-samples-host@npm:0.39.0":
+  version: 0.39.0
+  resolution: "@axinom/mosaic-fe-samples-host@npm:0.39.0"
   dependencies:
     "@geoffcox/react-splitter": ^2.1.1
     react-error-boundary: ^3.1.4
@@ -93,7 +93,7 @@ __metadata:
     react-router-dom: ">=5.2.0"
     semantic-ui-css: ">=2.4.1"
     semantic-ui-react: ">=2.0.3"
-  checksum: 51e6d53818e7c51eed0726c024bfda53d4abba9c2f9127a16077a9080c1b11142cc880642f10d33e4b9902cd60a899850a5defc852f34e713fa879b907ce31f6
+  checksum: 4110ec85a8a03dcf23452bfd7675bca8f15d3c857185b487007b76b25acd6df3176517b97294c621810b2a78d726e66162a1aabf5a0fb01c1b1aca6e331b32f6
   languageName: node
   linkType: hard
 
@@ -104,9 +104,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@axinom/mosaic-user-auth@npm:0.24.0":
-  version: 0.24.0
-  resolution: "@axinom/mosaic-user-auth@npm:0.24.0"
+"@axinom/mosaic-user-auth@npm:0.25.0":
+  version: 0.25.0
+  resolution: "@axinom/mosaic-user-auth@npm:0.25.0"
   dependencies:
     "@axinom/mosaic-user-auth-utils": ^0.8.27
     graphql-tag: ^2.11.0
@@ -114,7 +114,7 @@ __metadata:
     react: ^17.0.2
     react-dom: ^17.0.2
     react-router-dom: ^5.1.2
-  checksum: a9e82fbeaafe755a729a1e803346dd3019b0fb3c034b65f484601e3ea309719bafa2baed6830ae5e08d5d4b59b14431456b5e0fd6c982bfee93e210ffabb1f62
+  checksum: 81c8e417cda77fda8bff098f99bb96f78ccbe9e6b344ad4ad996c3af86b322253ee78a029f4c51a8681d90bfb8c297bb67d26e76bbc6f9093a0c9db41cdca972
   languageName: node
   linkType: hard
 
@@ -11034,8 +11034,8 @@ __metadata:
   resolution: "mosaic-frontend-samples@workspace:."
   dependencies:
     "@apollo/client": ^3.2.5
-    "@axinom/mosaic-fe-samples-host": 0.38.0
-    "@axinom/mosaic-user-auth": 0.24.0
+    "@axinom/mosaic-fe-samples-host": 0.39.0
+    "@axinom/mosaic-user-auth": 0.25.0
     "@babel/core": ^7.16.0
     "@babel/plugin-proposal-private-property-in-object": ^7.21.11
     "@paypal/paypal-js": ^5.1.4
