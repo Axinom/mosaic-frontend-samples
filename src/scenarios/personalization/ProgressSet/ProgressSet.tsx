@@ -14,6 +14,7 @@ import {
   Grid,
   Header,
   Label,
+  Message,
   Segment,
 } from 'semantic-ui-react';
 import {
@@ -36,6 +37,11 @@ export const ProgressSet: React.FC = () => {
   const [key, setKey] = useState<string>();
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const { activeProfile, logger } = useScenarioHost();
+
+  const MIN_FREQUENCY_MS = 1000;
+  const isFrequencyTooLow =
+    frequencyOfProgressSaving !== undefined &&
+    frequencyOfProgressSaving < MIN_FREQUENCY_MS;
 
   let intervalMutationCall: ReturnType<typeof setInterval> | undefined;
 
@@ -164,6 +170,13 @@ export const ProgressSet: React.FC = () => {
                 value={frequencyOfProgressSaving}
                 setStateValue={setFrequencyOfProgressSaving}
               />
+              {isFrequencyTooLow && (
+                <Message
+                  negative
+                  size="small"
+                  content={`For demo purposes, the minimum interval is ${MIN_FREQUENCY_MS}ms to prevent excessive API calls.`}
+                />
+              )}
 
               <Form.Input
                 control={VariableSearch}
@@ -178,7 +191,7 @@ export const ProgressSet: React.FC = () => {
                 onClick={async () => {
                   setIsRunning((prevIsRunning) => !prevIsRunning);
                 }}
-                disabled={!frequencyOfProgressSaving}
+                disabled={!frequencyOfProgressSaving || isFrequencyTooLow}
               >
                 {isRunning === false ? 'Run' : 'Pause'}
               </Button>
