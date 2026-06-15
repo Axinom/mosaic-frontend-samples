@@ -90,20 +90,50 @@ jobs:
 
       - name: Re-tag image with environment-latest
         run: |
-          IMAGE_REPO="harbor.axinom.com/mosaic/customizable-services-dev/${{ inputs.image-name }}"
-          SOURCE_TAG="${IMAGE_REPO}:${{ inputs.image-tag }}"
-          LATEST_TAG="${IMAGE_REPO}:${{ inputs.environment-overlay }}-latest"
+          HARBOR_URL="https://harbor.axinom.com"
+          PROJECT="mosaic"
+          REPOSITORY="managed-services/${{ inputs.image-name }}"
+          # Double url-encode repository name to be compatiable with habor API
+          REPOSITORY_URL_ENCODED=$(printf %s $(printf %s "$REPOSITORY" |jq -sRr @uri) | jq -sRr @uri)
+          SOURCE_TAG="${{ inputs.image-tag }}"
+          NEW_TAG="${{ inputs.environment-overlay }}-latest"
 
-          echo "::notice::Logging into Docker registry..."
-          echo "${{ secrets.docker-registry-password }}" | docker login harbor.axinom.com -u "${{ secrets.docker-registry-username }}" --password-stdin
+          echo "::notice::Adding tag '$NEW_TAG' to artifact with tag '$SOURCE_TAG' via Harbor API"
 
-          echo "::notice::Re-tagging $SOURCE_TAG -> $LATEST_TAG"
-          docker pull "$SOURCE_TAG"
-          docker tag "$SOURCE_TAG" "$LATEST_TAG"
-          docker push "$LATEST_TAG"
+          HTTP_STATUS=$(curl -s -o /tmp/response.json -w "%{http_code}" \
+            -X POST \
+            "${HARBOR_URL}/api/v2.0/projects/${PROJECT}/repositories/${REPOSITORY_URL_ENCODED}/artifacts/${SOURCE_TAG}/tags" \
+            -H "Content-Type: application/json" \
+            -u "${{ secrets.docker-registry-username }}:${{ secrets.docker-registry-password }}" \
+            -d "{\"name\": \"${NEW_TAG}\"}")
 
-          docker logout harbor.axinom.com
-          echo "::notice::Image re-tagged as $LATEST_TAG"
+          if [[ "$HTTP_STATUS" == "201" ]]; then
+            echo "::notice::Successfully tagged image as ${NEW_TAG}"
+          elif [[ "$HTTP_STATUS" == "409" ]]; then
+            echo "::notice::Tag ${NEW_TAG} already exists, deleting and re-creating..."
+            # Delete existing tag
+            curl -s -X DELETE \
+              "${HARBOR_URL}/api/v2.0/projects/${PROJECT}/repositories/${REPOSITORY_URL_ENCODED}/artifacts/${NEW_TAG}/tags/${NEW_TAG}" \
+              -u "${{ secrets.docker-registry-username }}:${{ secrets.docker-registry-password }}"
+            # Re-create tag
+            HTTP_STATUS=$(curl -s -o /tmp/response.json -w "%{http_code}" \
+              -X POST \
+              "${HARBOR_URL}/api/v2.0/projects/${PROJECT}/repositories/${REPOSITORY_URL_ENCODED}/artifacts/${SOURCE_TAG}/tags" \
+              -H "Content-Type: application/json" \
+              -u "${{ secrets.docker-registry-username }}:${{ secrets.docker-registry-password }}" \
+              -d "{\"name\": \"${NEW_TAG}\"}")
+            if [[ "$HTTP_STATUS" == "201" ]]; then
+              echo "::notice::Successfully re-tagged image as ${NEW_TAG}"
+            else
+              echo "::error::Failed to re-tag image. HTTP status: ${HTTP_STATUS}"
+              cat /tmp/response.json
+              exit 1
+            fi
+          else
+            echo "::error::Failed to tag image. HTTP status: ${HTTP_STATUS}"
+            cat /tmp/response.json
+            exit 1
+          fi
 
       - name: Cleanup kubectl config
         if: always()
