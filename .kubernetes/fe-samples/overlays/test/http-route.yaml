@@ -1,0 +1,19 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: fe-samples-app
+spec:
+  hostnames:
+    - mosaic-frontend-samples-test.axinom.net
+  parentRefs:
+    - name: mosaic
+      namespace: gateway
+  rules:
+    - backendRefs:
+        - name: fe-samples
+          port: 80
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
