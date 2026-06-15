@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fe-samples
+spec:
+  template:
+    spec:
+      containers:
+      - name: app
+        resources:
+          limits:
+            cpu: 400m
+            memory: 500Mi
+          requests:
+            cpu: 200m
+            memory: 250Mi

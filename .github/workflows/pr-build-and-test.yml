@@ -1,0 +1,91 @@
+name: PR Build and Test
+
+#
+# Why paths are not defined in .on.pull_request.include attribute.
+#
+# We will make this workflow an essential check for PRs to merge, within master branch protection ruleset.
+# However, this workflow will not trigger if the changes within the PR do not belong to one of those
+# file paths defined under on.pull_request.include attribute.
+# This will result in PR not being able to merge.
+#
+# To avoid such incidents, this workflow will run for any and all PRs. The first job will then determine changes
+# come from a predefined list of paths and if so the pipeline will continue to run.
+#
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
+env:
+  NODE_OPTIONS: --max-old-space-size=16384
+  CI: false # to avoid lint-warning becoming a build failure.
+
+jobs:
+  pre-check:
+    if: github.event.pull_request.draft == false
+    runs-on: ubicloud-standard-2
+    outputs:
+      run-checks: ${{ steps.determine.outputs.run-checks }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - id: paths-filter
+        name: Check for affected directory paths
+        uses: dorny/paths-filter@v4
+        with:
+          filters: |
+            relevant:
+              - '!.adops/**'
+              - '!.github/**'
+              - '!.claude/**'
+              - '!infra/**'
+      - id: determine
+        name: Determine if affected directory paths require checking
+        run: |
+          if [[ "${{ github.head_ref }}" == releases/* ]]; then
+            echo "::notice::Source Branch: ${{ github.head_ref }}"
+            echo "::notice::Release PRs are not built and tested"
+            echo "run-checks=false" >> $GITHUB_OUTPUT
+          elif [[ "${{ steps.paths-filter.outputs.relevant }}" == "false" ]]; then
+            echo "::notice::No changes detected in paths that require build and test"
+            echo "::notice::Skipping build and test validation"
+            echo "run-checks=false" >> $GITHUB_OUTPUT
+          else
+            echo "run-checks=true" >> $GITHUB_OUTPUT
+          fi
+
+  build-and-test:
+    needs: pre-check
+    if: needs.pre-check.outputs.run-checks == 'true'
+    runs-on: ubicloud-standard-4
+    timeout-minutes: 60
+    steps:
+      - name: Setup nodejs
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+      - name: Clone repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: '0'
+          fetch-tags: 'true'
+          clean: 'true'
+
+      - name: Install dependencies
+        run: yarn install --immutable
+      - name: Build service
+        run: yarn build
+      - name: Run tests
+        run: yarn test:ci

@@ -1,0 +1,58 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fe-samples
+  annotations:
+    deployment.kubernetes.io/revision: '1'
+    kubectl.kubernetes.io/default-container: 'app'
+spec:
+  selector:
+    matchLabels:
+      app: fe-samples
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: fe-samples
+    spec:
+      nodeSelector:
+        mosaic.axinom.com/workload_type: general
+      # Try to schedule pods in separate nodes.
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: fe-samples
+      imagePullSecrets:
+        - name: axinom-registry-managed-services-pull
+      containers:
+        - name: app
+          image: harbor.axinom.com/mosaic/managed-services/fe-samples:latest
+          env:
+            - name: SECURE_LOGGING_MODE
+              value: UNSAFE_DEBUG_UNSAFE
+          ports:
+            - containerPort: 8080
+              name: app
+              protocol: TCP
+          livenessProbe:
+            failureThreshold: 3
+            successThreshold: 1
+            periodSeconds: 30
+            tcpSocket:
+              port: 8080
+          readinessProbe:
+            failureThreshold: 3
+            successThreshold: 1
+            periodSeconds: 30
+            tcpSocket:
+              port: 8080
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000

@@ -1,0 +1,10 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fe-samples
+spec:
+  template:
+    spec:
+      containers:
+        - image: harbor.axinom.com/mosaic/managed-services/fe-samples:latest
+          name: app
