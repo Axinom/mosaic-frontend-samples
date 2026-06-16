@@ -4,7 +4,6 @@ name: Deploy FE Prerelease (CB)
 # - Deployment
 
 on:
-  push:
   workflow_dispatch:
     inputs:
       deploy-fe-samples:
@@ -58,7 +57,7 @@ jobs:
       runs-on: ubicloud-standard-2
       environment: Prerelease
       service-name: ${{ matrix.service }}
-      image-name: ${{ matrix.image-name || matrix.service }}-service
+      image-name: ${{ matrix.image-name || matrix.service }}
       kubernetes-namespace: managed-cb
       environment-overlay: cb
       image-tag: ${{ fromJSON(needs.resolve_build.outputs.tags)[matrix.service] }}

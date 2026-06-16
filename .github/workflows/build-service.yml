@@ -14,7 +14,7 @@ on:
 
 env:
   DOCKER_REGISTRY_URL: harbor.axinom.com
-  DOCKER_REPOSITORY: harbor.axinom.com/mosaic/managed-services/fe-samples-service
+  DOCKER_REPOSITORY: harbor.axinom.com/mosaic/managed-services/fe-samples
   NODE_OPTIONS: --max-old-space-size=8192
   CI: false # to avoid lint-warning becoming a build failure.
 jobs:
