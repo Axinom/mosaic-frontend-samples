@@ -11091,6 +11091,7 @@ __metadata:
     react-app-polyfill: ^3.0.0
     react-dev-utils: ^12.0.1
     react-dom: ^17.0.1
+    react-qr-code: ^2.0.15
     react-refresh: ^0.11.0
     react-router: ^5.3.4
     react-router-dom: ^5.3.4
@@ -12876,6 +12877,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"qrcode-generator@npm:^2.0.4":
+  version: 2.0.4
+  resolution: "qrcode-generator@npm:2.0.4"
+  checksum: d0a212e5126f0fe8f7238cc944f74eed57a8deadf7ec75cf5b052e254ae1fb4487732b0f2e856f3dfbb47e7482b31a9e5cbf3658bbf7fb85624f0dae6a6143e9
+  languageName: node
+  linkType: hard
+
 "qs@npm:~6.14.0":
   version: 6.14.2
   resolution: "qs@npm:6.14.2"
@@ -13074,6 +13082,18 @@ __metadata:
     react: ^16.8.0 || ^17 || ^18
     react-dom: ^16.8.0 || ^17 || ^18
   checksum: 837111c98738011c69b3069a464ea5bdcbf487105b6148e8faf90cb7337e134edb1b98b8824322941c378756cca30a15c18c25f558e53b85ed5762fa0dc8e6b2
+  languageName: node
+  linkType: hard
+
+"react-qr-code@npm:^2.0.15":
+  version: 2.2.0
+  resolution: "react-qr-code@npm:2.2.0"
+  dependencies:
+    prop-types: ^15.8.1
+    qrcode-generator: ^2.0.4
+  peerDependencies:
+    react: "*"
+  checksum: 6bf640c65996d8d12b80c378120ffe5f248919323b3f0a46bbea0d33ffd540748cdd3c822b479ec8b603f36274d52996fc77e83f607bd763a9b4ac66dfa43373
   languageName: node
   linkType: hard
 
