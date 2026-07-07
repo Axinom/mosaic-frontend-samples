@@ -3,6 +3,7 @@ import {
   ListCatalogItems,
 } from './scenarios/catalog-consumption';
 import {
+  DeviceAuthorizationContainer,
   RenewUserTokenContainer,
   ResetPasswordWithAxAuthContainer,
   ShowUserInfoContainer,
@@ -82,9 +83,16 @@ export const scenarios = [
   },
   {
     groupName: 'User Authentication',
+    shortId: 'device-authorization',
+    displayName: 'Device Authorization (Smart-TV Sign-In)',
+    displayOrder: 7,
+    rootComponent: DeviceAuthorizationContainer,
+  },
+  {
+    groupName: 'User Authentication',
     shortId: 'sign-out-user',
     displayName: 'Sign-Out User',
-    displayOrder: 7,
+    displayOrder: 8,
     rootComponent: SignOutUserContainer,
   },
 
