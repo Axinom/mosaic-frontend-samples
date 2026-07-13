@@ -1,3 +1,4 @@
+export * from './DeviceAuthorization/DeviceAuthorization';
 export * from './RenewUserToken/RenewUserToken';
 export * from './ResetPasswordWithAxAuth/ResetPasswordWithAxAuth';
 export * from './ShowUserInfo/ShowUserInfo';
