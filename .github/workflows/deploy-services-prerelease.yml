@@ -4,7 +4,6 @@ name: Deploy FE Prerelease (CB)
 # - Deployment
 
 on:
-  push:
   workflow_dispatch:
     inputs:
       deploy-fe-samples:
