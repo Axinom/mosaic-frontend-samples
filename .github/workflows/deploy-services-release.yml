@@ -100,7 +100,7 @@ jobs:
       runs-on: ubicloud-standard-2
       environment: Test
       service-name: ${{ matrix.service }}
-      image-name: ${{ matrix.image-name || matrix.service }}-service
+      image-name: ${{ matrix.image-name || matrix.service }}
       kubernetes-namespace: managed-test
       environment-overlay: test
       image-tag: ${{ fromJSON(needs.resolve_build_test.outputs.tags)[matrix.service] }}
