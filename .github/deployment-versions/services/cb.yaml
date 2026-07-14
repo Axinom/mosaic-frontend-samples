@@ -1,3 +1,2 @@
 # -------------------------------- Docker image versions/tags for CB K8s Deployments -------------------------------- #
-fe-samples: 2026.06.15-10.52.22_27541261865_prerelease
-
+fe-samples: 2026.07.14-04.33.26_29306255776_prerelease
