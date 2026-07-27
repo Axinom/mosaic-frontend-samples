@@ -225,4 +225,5 @@ jobs:
       matrix:
         include:
           - service: fe-samples
+            image-name: fe-samples
             deploy: ${{ inputs.deploy-fe-samples }}
