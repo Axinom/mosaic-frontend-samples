@@ -216,7 +216,7 @@ jobs:
       runs-on: ubicloud-standard-2
       environment: Production
       service-name: ${{ matrix.service }}
-      image-name: ${{ matrix.image-name || matrix.service }}-service
+      image-name: ${{ matrix.image-name || matrix.service }}
       kubernetes-namespace: managed-prod
       environment-overlay: prod
       image-tag: ${{ fromJSON(needs.resolve_build_prod.outputs.tags)[matrix.service] }}
