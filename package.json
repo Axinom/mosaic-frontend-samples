@@ -14,13 +14,13 @@
   },
   "dependencies": {
     "@apollo/client": "^3.2.5",
-    "@axinom/mosaic-fe-samples-host": "0.44.0",
-    "@axinom/mosaic-user-auth": "0.30.0",
-    "@axinom/mosaic-user-auth-utils": "0.10.0",
+    "@axinom/mosaic-fe-samples-host": "0.45.0",
+    "@axinom/mosaic-user-auth": "0.31.0",
+    "@axinom/mosaic-user-auth-utils": "0.11.0",
     "@babel/core": "^7.16.0",
     "@paypal/paypal-js": "^5.1.4",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
-    "@svgr/webpack": "^5.5.0",
+    "@svgr/webpack": "^8.1.0",
     "babel-jest": "^27.4.2",
     "babel-loader": "^8.2.3",
     "babel-plugin-named-asset-import": "^0.3.8",
@@ -73,7 +73,6 @@
     "workbox-webpack-plugin": "^7.3.0"
   },
   "resolutions": {
-    "qs": "6.15.2",
     "serialize-javascript": "7.0.5",
     "uuid": "11.1.1"
   },

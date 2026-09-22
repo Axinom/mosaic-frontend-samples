@@ -5,15 +5,6 @@ The goal is to minimize resolutions and remove them when no longer needed.
 
 ## Active Resolutions
 
-### qs
-
-- **Forced version**: `6.15.2`
-- **Reason**: Medium-severity DoS in `qs` `stringify` (GHSA / Dependabot alert). Patched in 6.15.2.
-- **Parent packages**: `express` and `body-parser` (both pulled in via `webpack-dev-server`) — dev/build-time only, not shipped in the production browser bundle.
-- **Original selector**: `~6.14.0` (caps at 6.14.x, so the 6.15.2 patch is out of range)
-- **Date added**: 2026-07-13
-- **Can be removed when**: `express` / `body-parser` widen their `qs` range to admit `>=6.15.2` (e.g. `~6.15.0` or `^6.15.0`).
-
 ### serialize-javascript
 
 - **Forced version**: `7.0.5`
@@ -21,7 +12,7 @@ The goal is to minimize resolutions and remove them when no longer needed.
 - **Parent packages**: `terser-webpack-plugin`, `css-minimizer-webpack-plugin`, `@rollup/plugin-terser` — all build-time only.
 - **Original selector**: `^6.0.0` / `^6.0.1` / `^6.0.2` (caps at 6.x, patch is the 7.x major)
 - **Date added**: 2026-07-13
-- **Can be removed when**: the terser/css-minimizer/rollup plugins update their `serialize-javascript` range to `^7`.
+- **Can be removed when**: `css-minimizer-webpack-plugin` (direct dep, 3.x still `^6.0.0`; 8.x uses `^7.0.3` but needs Node >= 20.9) and `@rollup/plugin-terser` (0.4.x via `shaka-player-react`, 1.0.0 uses `^7.0.3`) both admit `^7`. `terser-webpack-plugin` 5.6.x no longer depends on `serialize-javascript` at all (checked 2026-09-22).
 
 ### uuid
 
