@@ -10,6 +10,16 @@ GitHub Dependabot is the **source of truth** for vulnerabilities. It uses the Gi
 
 ## Procedure
 
+### 0. Start from the latest `main`
+
+Make sure the working tree is clean and up to date before doing anything else. A stale local checkout leads to fixing an old lockfile and missing existing resolutions:
+
+```bash
+git fetch origin main && git status --short && git rev-list --count HEAD..origin/main   # must be 0
+```
+
+If it is not 0, `git pull --ff-only origin main` first.
+
 ### 1. Check existing resolutions for removal opportunities
 
 Before scanning for new vulnerabilities, check if any existing resolutions in `RESOLUTIONS.md` can be removed:
@@ -55,7 +65,7 @@ Look for patterns: if multiple vulnerable packages (e.g., `qs`, `on-headers`, `c
 
 ### 5. Update lockfile entries
 
-**This project uses Yarn Berry (v3).** Yarn Berry uses a different lockfile format than Yarn Classic (v1): it uses `checksum:` (not `integrity:`), `resolution:` (not `resolved:`), and quoted keys with `@npm:` specifiers. Do NOT try to manually patch checksums — the correct approach is:
+**This project uses Yarn Berry (v4, pinned via `yarnPath` in `.yarnrc.yml`).** Yarn Berry uses a different lockfile format than Yarn Classic (v1): it uses `checksum:` (not `integrity:`), `resolution:` (not `resolved:`), and quoted keys with `@npm:` specifiers. Do NOT try to manually patch checksums — the correct approach is:
 
 1. **Delete the lockfile entry** for the vulnerable package using a Python script (to handle multi-line blocks cleanly):
 
@@ -186,6 +196,13 @@ The goal is to minimize resolutions and remove them when no longer needed.
 ```
 
 This documentation enables step 1 to check whether resolutions can be removed.
+
+## Known pitfalls (learned from previous runs)
+
+- Re-resolving `@babel/core` to 7.29+ while an old `@babel/helper-compilation-targets` (7.20.x) stays in the lockfile breaks the build with `'opera_mobile' is not a valid target`. Delete the `@babel/helper-compilation-targets` entries as well so they merge onto the latest 7.x.
+- After fixing the Dependabot list, also run `yarn npm audit --all`; it occasionally reports items Dependabot has not picked up yet (e.g. `webpack-dev-server`, `@babel/core`) that are fixable in-range the same way.
+- `qs`/`body-parser` come from `express` (via `webpack-dev-server`). Deleting the `express` lockfile entry re-resolves to the latest 4.x, which carries the patched `qs`; no resolution needed.
+- `svgo@1.x` comes from `@svgr/webpack@5`. The fix was bumping the direct dependency `@svgr/webpack` to `^8.1.0` (svgo is disabled in `config/webpack.config.js`, and the default-import-as-URL pattern still works). Verified with build + tests on 2026-09-22.
 
 ## Do NOT
 
