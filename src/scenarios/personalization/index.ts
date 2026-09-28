@@ -6,3 +6,8 @@ export * from './DataRemove/DataRemove';
 export * from './ArrayGetFavorites/ArrayGetFavorites';
 export * from './ArrayAddFavorites/ArrayAddFavorites';
 export * from './ArrayRemoveFavorites/ArrayRemoveFavorites';
+export * from './ArrayListFavorites/ArrayListFavorites';
+export * from './ArrayLookupFavorites/ArrayLookupFavorites';
+export * from './ArrayUpsertFavorite/ArrayUpsertFavorite';
+export * from './ArrayReplaceFavorites/ArrayReplaceFavorites';
+export * from './ArrayDeleteFavorites/ArrayDeleteFavorites';

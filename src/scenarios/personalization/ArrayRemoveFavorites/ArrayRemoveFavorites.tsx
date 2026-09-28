@@ -13,6 +13,10 @@ import {
   Segment,
 } from 'semantic-ui-react';
 import { getApolloClient } from '../../../apollo-client';
+import {
+  DeprecatedApiNotice,
+  ScenarioLink,
+} from '../ArrayCommon/ArrayApiNotice';
 import { getArrayQuery, deleteArrayItemMutation } from './graphql-documents';
 
 interface Favorite {
@@ -143,6 +147,19 @@ export const ArrayRemoveFavorites: React.FC = () => {
         <Label>user-service</Label>
         <Label>personalization-service</Label>
       </Header>
+
+      <DeprecatedApiNotice>
+        <p>
+          This scenario reads the array with the deprecated{' '}
+          <code>getArray</code> query. The <code>deleteArrayItem</code> mutation
+          itself is still supported for deleting a single item by its
+          service-generated <code>id</code>. To delete selected items by their
+          customer-owned <code>itemId</code> in a single request, use{' '}
+          <code>deleteArrayItems</code> (see{' '}
+          <ScenarioLink shortId="array-delete-favorites" />
+          ).
+        </p>
+      </DeprecatedApiNotice>
 
       <Divider />
 
