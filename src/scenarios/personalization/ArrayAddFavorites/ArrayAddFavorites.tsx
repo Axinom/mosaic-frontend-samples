@@ -14,6 +14,10 @@ import {
 } from 'semantic-ui-react';
 import { getApolloClient } from '../../../apollo-client';
 import {
+  DeprecatedApiNotice,
+  ScenarioLink,
+} from '../ArrayCommon/ArrayApiNotice';
+import {
   getArrayQuery,
   getCatalogItemsQuery,
   setArrayItemMutation,
@@ -209,6 +213,24 @@ export const ArrayAddFavorites: React.FC = () => {
         <Label>catalog-service</Label>
         <Label>personalization-service</Label>
       </Header>
+
+      <DeprecatedApiNotice>
+        <p>
+          <code>setArrayItem</code> is deprecated. Use{' '}
+          <code>upsertArrayItem</code> with a customer-owned <code>itemId</code>
+          , which inserts or updates without a preliminary read (see{' '}
+          <ScenarioLink shortId="array-upsert-favorite" />
+          ). This scenario also reads the whole array with the deprecated{' '}
+          <code>getArray</code> query to filter existing favorites on the
+          client; use <code>lookupArrayItems</code> instead (see{' '}
+          <ScenarioLink shortId="array-lookup-favorites" />
+          ).
+        </p>
+        <p>
+          Items inserted with <code>setArrayItem</code> have no stored{' '}
+          <code>itemId</code> and can introduce duplicates.
+        </p>
+      </DeprecatedApiNotice>
 
       <Divider />
 

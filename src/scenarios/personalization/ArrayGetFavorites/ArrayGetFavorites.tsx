@@ -13,6 +13,10 @@ import {
   Segment,
 } from 'semantic-ui-react';
 import { getApolloClient } from '../../../apollo-client';
+import {
+  DeprecatedApiNotice,
+  ScenarioLink,
+} from '../ArrayCommon/ArrayApiNotice';
 import { getArrayQuery } from './graphql-documents';
 
 export const ArrayGetFavorites: React.FC = () => {
@@ -75,6 +79,17 @@ export const ArrayGetFavorites: React.FC = () => {
         <Label>user-service</Label>
         <Label>personalization-service</Label>
       </Header>
+
+      <DeprecatedApiNotice>
+        <p>
+          <code>getArray</code> is deprecated. Use <code>listArrayItems</code>{' '}
+          with cursor pagination to traverse all items (see{' '}
+          <ScenarioLink shortId="array-list-favorites" />) and{' '}
+          <code>lookupArrayItems</code> to find selected items (see{' '}
+          <ScenarioLink shortId="array-lookup-favorites" />
+          ).
+        </p>
+      </DeprecatedApiNotice>
 
       <Divider />
 
