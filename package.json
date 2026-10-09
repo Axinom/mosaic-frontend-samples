@@ -14,9 +14,9 @@
   },
   "dependencies": {
     "@apollo/client": "^3.2.5",
-    "@axinom/mosaic-fe-samples-host": "0.45.0",
-    "@axinom/mosaic-user-auth": "0.31.0",
-    "@axinom/mosaic-user-auth-utils": "0.11.0",
+    "@axinom/mosaic-fe-samples-host": "0.48.0",
+    "@axinom/mosaic-user-auth": "0.33.0",
+    "@axinom/mosaic-user-auth-utils": "0.14.0",
     "@babel/core": "^7.16.0",
     "@paypal/paypal-js": "^5.1.4",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
