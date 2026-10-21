@@ -141,7 +141,7 @@ export const ArrayRemoveFavorites: React.FC = () => {
 
   return (
     <Segment basic>
-      <Header size="huge">Array: Remove Favorite(s)</Header>
+      <Header size="huge">Array: Remove Favorite(s) (Deprecated)</Header>
       <Header size="small">
         Required Services:
         <Label>user-service</Label>

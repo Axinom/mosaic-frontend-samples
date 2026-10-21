@@ -263,27 +263,27 @@ export const scenarios = [
 
   /**
    * Personalization scenarios using deprecated Array APIs.
-   * Kept for integrators that still use them. Registered last, so the group is listed last.
+   * Kept for integrators that still use them, after the supported Personalization scenarios.
    */
   {
-    groupName: 'Personalization (Deprecated)',
+    groupName: 'Personalization',
     shortId: 'array-get-favorites',
-    displayName: 'Array: Get Favorites',
-    displayOrder: 1,
+    displayName: 'Array: Get Favorites (Deprecated)',
+    displayOrder: 11,
     rootComponent: ArrayGetFavorites,
   },
   {
-    groupName: 'Personalization (Deprecated)',
+    groupName: 'Personalization',
     shortId: 'array-add-favorites',
-    displayName: 'Array: Add Favorite(s)',
-    displayOrder: 2,
+    displayName: 'Array: Add Favorite(s) (Deprecated)',
+    displayOrder: 12,
     rootComponent: ArrayAddFavorites,
   },
   {
-    groupName: 'Personalization (Deprecated)',
+    groupName: 'Personalization',
     shortId: 'array-remove-favorites',
-    displayName: 'Array: Remove Favorite(s)',
-    displayOrder: 3,
+    displayName: 'Array: Remove Favorite(s) (Deprecated)',
+    displayOrder: 13,
     rootComponent: ArrayRemoveFavorites,
   },
 ] as const;

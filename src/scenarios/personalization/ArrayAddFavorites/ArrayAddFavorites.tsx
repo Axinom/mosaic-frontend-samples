@@ -206,7 +206,7 @@ export const ArrayAddFavorites: React.FC = () => {
 
   return (
     <Segment basic>
-      <Header size="huge">Array: Add Favorite(s)</Header>
+      <Header size="huge">Array: Add Favorite(s) (Deprecated)</Header>
       <Header size="small">
         Required Services:
         <Label>user-service</Label>
