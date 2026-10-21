@@ -73,7 +73,7 @@ export const ArrayGetFavorites: React.FC = () => {
 
   return (
     <Segment basic>
-      <Header size="huge">Array: Get Favorite(s)</Header>
+      <Header size="huge">Array: Get Favorites (Deprecated)</Header>
       <Header size="small">
         Required Services:
         <Label>user-service</Label>
