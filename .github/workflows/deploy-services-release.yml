@@ -1,13 +1,13 @@
-name: Deploy FE Release (Test -> Production)
+name: Deploy FE Release (Test -> Hetzner -> Azure)
 # Stages:
 # - Pre-check
 # - Approval: TEST
 # - Deployment: TEST (all services in parallel)
-# - Update Hosting: TEST
 # - Post-check: TEST
-# - Approval: PRODUCTION
-# - Deployment: PRODUCTION (all services in parallel)
-# - Update Hosting: PRODUCTION
+# - Approval: PRODUCTION HETZNER
+# - Deployment: PROD-HETZNER (all services in parallel)
+# - Approval: PRODUCTION AZURE
+# - Deployment: PROD-AZURE (all services in parallel)
 
 on:
   workflow_dispatch:
@@ -173,21 +173,22 @@ jobs:
             echo "::notice::$key: $value"
           done
 
-  # ------------------------------------ Approval: PRODUCTION ----------------------------------- #
-  approve_prod_deploy:
-    name: Approve Production Deployment
+  # -------------------------------- Approval: PRODUCTION HETZNER ------------------------------- #
+  approve_prod_hetzner_deploy:
+    name: Approve Production Hetzner Deployment
     needs: [ resolve_build_prod, test_stage_complete ]
     runs-on: ubicloud-standard-2
     permissions:
       issues: write
     steps:
-      - name: Request approval for Production deployment
+      - name: Request approval for Production Hetzner deployment
         uses: trstringer/manual-approval@v1
+        timeout-minutes: 5
         with:
           secret: ${{ github.TOKEN }}
           approvers: yohanAnushka,EmperorRXF,BenjaminSchwendner
           minimum-approvals: 1
-          issue-title: Manual Approval for Production Services Deployment
+          issue-title: Manual Approval for Production Hetzner Services Deployment
           issue-body: |
             Type `approve` to approve or `denied` to reject the workflow ${{ github.run_name }}
 
@@ -200,12 +201,66 @@ jobs:
             > Ref: `${{ github.ref_name }}`
             > By: @${{ github.actor }}
 
-  # ----------------------------------- Deployment: PRODUCTION ---------------------------------- #
-  # All services are deployed in parallel using a matrix strategy.
+  # ------------------------------ Deployment: PROD-HETZNER SERVICES ---------------------------- #
+  # Both production clusters use the shared prod overlay and production image versions.
   # --------------------------------------------------------------------------------------------- #
-  prod_deploy:
-    name: Deploy Services (Prod)
-    needs: [ resolve_build_prod, approve_prod_deploy ]
+  prod_hetzner_deploy:
+    name: Deploy Services (Production Hetzner)
+    needs: [ resolve_build_prod, approve_prod_hetzner_deploy ]
+    uses: ./.github/workflows/templates-deploy-service.yml
+    secrets:
+      kube-config: ${{ secrets.KUBECONFIG_PRODUCTION_HETZNER }}
+      docker-registry-username: ${{ secrets.HARBOR_PUSH_USERNAME }}
+      docker-registry-password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
+    with:
+      deploy: ${{ matrix.deploy }}
+      runs-on: ubicloud-standard-2
+      environment: Production Hetzner
+      service-name: ${{ matrix.service }}
+      image-name: ${{ matrix.image-name || matrix.service }}
+      kubernetes-namespace: managed-prod
+      environment-overlay: prod
+      image-tag: ${{ fromJSON(needs.resolve_build_prod.outputs.tags)[matrix.service] }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - service: fe-samples
+            image-name: fe-samples
+            deploy: ${{ inputs.deploy-fe-samples }}
+
+  # --------------------------------- Approval: PRODUCTION AZURE -------------------------------- #
+  approve_prod_azure_deploy:
+    name: Approve Production Azure Deployment
+    needs: [ resolve_build_prod, test_stage_complete ]
+    runs-on: ubicloud-standard-2
+    permissions:
+      issues: write
+    steps:
+      - name: Request approval for Production Azure deployment
+        uses: trstringer/manual-approval@v1
+        timeout-minutes: 5
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: yohanAnushka,EmperorRXF,BenjaminSchwendner
+          minimum-approvals: 1
+          issue-title: Manual Approval for Production Azure Services Deployment
+          issue-body: |
+            Type `approve` to approve or `denied` to reject the workflow ${{ github.run_name }}
+
+            > [!TIP]
+            > ### Deployment Versions
+            > `Version File`: `.github/deployment-versions/services/prod.yaml`
+
+            >[!NOTE]
+            > ### Execution Details
+            > Ref: `${{ github.ref_name }}`
+            > By: @${{ github.actor }}
+
+  # ------------------------------- Deployment: PROD-AZURE SERVICES ----------------------------- #
+  prod_azure_deploy:
+    name: Deploy Services (Production Azure)
+    needs: [ resolve_build_prod, approve_prod_azure_deploy ]
     uses: ./.github/workflows/templates-deploy-service.yml
     secrets:
       kube-config: ${{ secrets.KUBECONFIG_PRODUCTION_AZURE }}
@@ -214,7 +269,7 @@ jobs:
     with:
       deploy: ${{ matrix.deploy }}
       runs-on: ubicloud-standard-2
-      environment: Production
+      environment: Production Azure
       service-name: ${{ matrix.service }}
       image-name: ${{ matrix.image-name || matrix.service }}
       kubernetes-namespace: managed-prod
