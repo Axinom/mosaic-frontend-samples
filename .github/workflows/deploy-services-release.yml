@@ -219,7 +219,7 @@ jobs:
       service-name: ${{ matrix.service }}
       image-name: ${{ matrix.image-name || matrix.service }}
       kubernetes-namespace: managed-prod
-      environment-overlay: prod
+      environment-overlay: prod-hetzner
       image-tag: ${{ fromJSON(needs.resolve_build_prod.outputs.tags)[matrix.service] }}
     strategy:
       fail-fast: false
@@ -273,7 +273,7 @@ jobs:
       service-name: ${{ matrix.service }}
       image-name: ${{ matrix.image-name || matrix.service }}
       kubernetes-namespace: managed-prod
-      environment-overlay: prod
+      environment-overlay: prod-azure
       image-tag: ${{ fromJSON(needs.resolve_build_prod.outputs.tags)[matrix.service] }}
     strategy:
       fail-fast: false
