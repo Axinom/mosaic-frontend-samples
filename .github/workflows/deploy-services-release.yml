@@ -104,6 +104,7 @@ jobs:
       image-name: ${{ matrix.image-name || matrix.service }}
       kubernetes-namespace: managed-test
       environment-overlay: test
+      deployment-environment: test
       image-tag: ${{ fromJSON(needs.resolve_build_test.outputs.tags)[matrix.service] }}
     strategy:
       fail-fast: false
@@ -220,7 +221,8 @@ jobs:
       service-name: ${{ matrix.service }}
       image-name: ${{ matrix.image-name || matrix.service }}
       kubernetes-namespace: managed-prod
-      environment-overlay: prod-hetzner
+      environment-overlay: prod
+      deployment-environment: prod-hetzner
       image-tag: ${{ fromJSON(needs.resolve_build_prod.outputs.tags)[matrix.service] }}
     strategy:
       fail-fast: false
@@ -274,7 +276,8 @@ jobs:
       service-name: ${{ matrix.service }}
       image-name: ${{ matrix.image-name || matrix.service }}
       kubernetes-namespace: managed-prod
-      environment-overlay: prod-azure
+      environment-overlay: prod
+      deployment-environment: prod-azure
       image-tag: ${{ fromJSON(needs.resolve_build_prod.outputs.tags)[matrix.service] }}
     strategy:
       fail-fast: false

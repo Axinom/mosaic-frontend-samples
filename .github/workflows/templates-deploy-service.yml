@@ -40,6 +40,10 @@ on:
         required: true
         type: string
         description: Environment overlay name (e.g., cb, test, prod)
+      deployment-environment:
+        required: true
+        type: string
+        description: Environment name of the cluster (test, prod-hetzner, prod-azure, etc..)
       image-tag:
         required: true
         type: string
@@ -96,7 +100,7 @@ jobs:
           # Double url-encode repository name to be compatiable with habor API
           REPOSITORY_URL_ENCODED=$(printf %s $(printf %s "$REPOSITORY" |jq -sRr @uri) | jq -sRr @uri)
           SOURCE_TAG="${{ inputs.image-tag }}"
-          NEW_TAG="${{ inputs.environment-overlay }}-latest"
+          NEW_TAG="${{ inputs.deployment-environment }}-latest"
 
           echo "::notice::Adding tag '$NEW_TAG' to artifact with tag '$SOURCE_TAG' via Harbor API"
 

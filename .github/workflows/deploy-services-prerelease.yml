@@ -60,6 +60,7 @@ jobs:
       image-name: ${{ matrix.image-name || matrix.service }}
       kubernetes-namespace: managed-cb
       environment-overlay: cb
+      deployment-environment: cb
       image-tag: ${{ fromJSON(needs.resolve_build.outputs.tags)[matrix.service] }}
     strategy:
       fail-fast: false
