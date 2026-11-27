@@ -1,7 +1,7 @@
 name: Deploy FE Release (Test -> Hetzner -> Azure)
 # Stages:
 # - Pre-check
-# - Approval: TEST
+# - Approval: TEST (skipped for releases/* branches)
 # - Deployment: TEST (all services in parallel)
 # - Post-check: TEST
 # - Approval: PRODUCTION HETZNER
@@ -66,6 +66,7 @@ jobs:
       issues: write
     steps:
       - name: Request approval for Test deployment
+        if: ${{ !startsWith(github.head_ref || github.ref_name, 'releases/') }}
         uses: trstringer/manual-approval@v1
         with:
           secret: ${{ github.TOKEN }}
